@@ -1,6 +1,6 @@
 package model
 
-type Rol struct {
+type Etapa struct {
 	ID     int
 	Nombre string
 }

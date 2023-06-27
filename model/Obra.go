@@ -1,6 +1,7 @@
 package model
 
-type Rol struct {
+type Obra struct {
 	ID     int
 	Nombre string
+	Pisos  []Piso
 }
