@@ -6,7 +6,7 @@ type Usuario struct {
 	ID       int
 	Username string
 	Password string
-	Role     string
+	Rol      Rol
 }
 
 type UserModel struct {
