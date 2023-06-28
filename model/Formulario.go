@@ -6,4 +6,6 @@ type Formulario struct {
 	Version     int
 	Nombre      string
 	Controles   []Control
+	Obra        Obra
+	Responsable Usuario
 }

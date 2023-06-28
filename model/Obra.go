@@ -1,7 +1,8 @@
 package model
 
 type Obra struct {
-	ID     int
-	Nombre string
-	Pisos  []Piso
+	ID      int
+	Nombre  string
+	Capataz Usuario
+	Pisos   []Piso
 }
