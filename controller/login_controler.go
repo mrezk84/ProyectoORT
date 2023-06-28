@@ -1,21 +1,23 @@
 package controller
 
 import (
+	"proyectoort/database"
 	"proyectoort/model"
-
-	"proyectoort/mysql"
 )
+
+
 
 func LoginController(username, password string) error {
     loginData := model.Usuario{
-        Username: username,
-        Password: password,
+    	Username: username,
+    	Password: password,
     }
 
-    err := mysql.InsertLoginData(loginData)
+    err := database.LoginData(loginData)
     if err != nil {
         return err
     }
 
     return nil
 }
+
