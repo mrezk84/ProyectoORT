@@ -1,11 +1,11 @@
 package model
 
 type Formulario struct {
-	ID          int
-	Informacion string
-	Version     int
-	Nombre      string
-	Controles   []Control
-	Obra        Obra
-	Responsable Usuario
+	ID            int
+	Nombre        string
+	Observaciones string
+	Version       int
+	Controles     []Control
+	Obra          Obra
+	Responsable   Usuario
 }
