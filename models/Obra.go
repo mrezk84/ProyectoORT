@@ -1,4 +1,4 @@
-package model
+package models
 
 type Obra struct {
 	ID     int

@@ -1,4 +1,4 @@
-package model
+package models
 
 type Etapa struct {
 	ID     int

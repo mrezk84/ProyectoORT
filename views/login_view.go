@@ -1,4 +1,4 @@
-package view
+package views
 
 import (
 	"fmt"
@@ -8,13 +8,13 @@ import (
 func DisplayLoginView() (string, string) {
     var username, password string
 
-    fmt.Print("Enter username: ")
+    fmt.Print("Ingrese usuario: ")
     _, err := fmt.Scan(&username)
     if err != nil {
         log.Fatal(err)
     }
 
-    fmt.Print("Enter password: ")
+    fmt.Print("Ingrese password: ")
     _, err = fmt.Scan(&password)
     if err != nil {
         log.Fatal(err)
