@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"proyectoort/encryption"
-	"proyectoort/models"
+	"proyectoort/utils/models"
 )
 
 var (

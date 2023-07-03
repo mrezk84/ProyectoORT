@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"proyectoort/models"
+	"proyectoort/utils/models"
 
 	"github.com/stretchr/testify/mock"
 )
@@ -12,8 +12,6 @@ import (
 type MockService struct {
 	mock.Mock
 }
-
-
 
 // AddUserRole provides a mock function with given fields: ctx, userID, roleID
 func (_m *MockService) AddUserRole(ctx context.Context, userID int64, roleID int64) error {

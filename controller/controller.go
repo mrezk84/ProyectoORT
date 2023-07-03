@@ -3,7 +3,7 @@ package controller
 import (
 	"fmt"
 	"net/http"
-	"proyectoort/models"
+	"proyectoort/utils/models"
 	"proyectoort/views"
 )
 
@@ -11,8 +11,6 @@ type TodoController struct {
 	model *models.UserModel
 	view  *views.TodoView
 }
-
-
 
 func NewController() *TodoController {
 	return &TodoController{

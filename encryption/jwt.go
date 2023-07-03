@@ -1,7 +1,8 @@
 package encryption
 
 import (
-	"proyectoort/models"
+	"proyectoort/utils/models"
+
 	"github.com/golang-jwt/jwt/v4"
 )
 

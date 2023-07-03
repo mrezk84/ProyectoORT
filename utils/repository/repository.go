@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"proyectoort/entity"
+	"proyectoort/utils/entity"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -17,8 +17,6 @@ type Repository interface {
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
 	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
-
-	
 }
 
 type repo struct {

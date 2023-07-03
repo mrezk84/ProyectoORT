@@ -2,9 +2,8 @@ package service
 
 import (
 	"context"
-
-	"proyectoort/models"
-	"proyectoort/repository"
+	"proyectoort/utils/models"
+	"proyectoort/utils/repository"
 )
 
 // Service is the business logic of the application.
