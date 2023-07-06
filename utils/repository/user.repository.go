@@ -8,27 +8,27 @@ import (
 
 const (
 	qryInsertUser = `
-		INSERT int USUARIOS (email, name, password)
+		INSERT INTO USUARIOS (email, username, password)
 		VALUES (?, ?, ?);`
 
 	qryGetUserByEmail = `
 		SELECT
 			id,
 			email,
-			name,
+			username,
 			password
 		FROM USUARIOS
 		WHERE email = ?;`
 
 	qryInsertUserRole = `
-		INSERT INTO USUARIOS_ROLES (user_id, role_id) VALUES (:user_id, :role_id);`
+		INSERT INTO USUARIOS_ROLES (usuario_id, rol_id) VALUES (:usuario_id, :rol_id);`
 
 	qryRemoveUserRole = `
-		DELETE FROM USUARIOS_ROLES where user_id = :user_id and role_id = :role_id;`
+		DELETE FROM USUARIOS_ROLES where usuario_id = :usuario_id and rol_id = :rol_id;`
 )
 
-func (r *repo) SaveUser(ctx context.Context, email, name, password string) error {
-	_, err := r.db.ExecContext(ctx, qryInsertUser, email, name, password)
+func (r *repo) SaveUser(ctx context.Context, email, usernamename, password string) error {
+	_, err := r.db.ExecContext(ctx, qryInsertUser, email, usernamename, password)
 	return err
 }
 
@@ -66,10 +66,11 @@ func (r *repo) RemoveUserRole(ctx context.Context, userID, roleID int64) error {
 func (r *repo) GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error) {
 	roles := []entity.UsarioRol{}
 
-	err := r.db.SelectContext(ctx, &roles, "SELECT user_id, role_id FROM USER_ROLES WHERE user_id = ?", userID)
+	err := r.db.SelectContext(ctx, &roles, "SELECT usuario_id, rol_id FROM USUARIOS_ROLES WHERE usuario_id = ?", userID)
 	if err != nil {
 		return nil, err
 	}
 
 	return roles, nil
+
 }

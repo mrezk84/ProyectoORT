@@ -28,7 +28,7 @@ func (a *API) RegisterUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterUser(ctx, params.Email, params.Name, params.Password)
+	err = a.serv.RegisterUser(ctx, params.Email, params.UserName, params.Password)
 	if err != nil {
 		if err == service.ErrUserAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El usuario ya existe"})

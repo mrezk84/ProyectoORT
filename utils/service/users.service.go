@@ -9,10 +9,10 @@ import (
 )
 
 var (
-	ErrUserAlreadyExists  = errors.New("user already exists")
-	ErrInvalidCredentials = errors.New("invalid credentials")
-	ErrRoleAlreadyAdded   = errors.New("role was already added for this user")
-	ErrRoleNotFound       = errors.New("role not found")
+	ErrUserAlreadyExists  = errors.New("El usuario ya existe")
+	ErrInvalidCredentials = errors.New("Creedenciales Inválidas")
+	ErrRoleAlreadyAdded   = errors.New("El usuario ya cuenta con el rol asignado")
+	ErrRoleNotFound       = errors.New("Error al asignar rol")
 )
 
 func (s *serv) RegisterUser(ctx context.Context, email, name, password string) error {
@@ -55,7 +55,6 @@ func (s *serv) LoginUser(ctx context.Context, email, password string) (*models.U
 		ID:       u.ID,
 		Email:    u.Email,
 		Username: u.Name,
-		Password: password,
 	}, nil
 }
 

@@ -11,7 +11,7 @@ import (
 //
 //go:generate mockery --name=Repository --output=repository --inpackage
 type Repository interface {
-	SaveUser(ctx context.Context, email, name, password string) error
+	SaveUser(ctx context.Context, email, username, password string) error
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
 
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
