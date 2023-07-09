@@ -20,6 +20,14 @@ const (
 		FROM USUARIOS
 		WHERE email = ?;`
 
+	qryAllGetUsers = `
+		SELECT
+			id,
+			email,
+			username,
+			password
+		FROM USUARIOS;`
+
 	qryInsertUserRole = `
 		INSERT INTO USUARIOS_ROLES (usuario_id, rol_id) VALUES (:usuario_id, :rol_id);`
 
@@ -73,4 +81,14 @@ func (r *repo) GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioR
 
 	return roles, nil
 
+}
+func (r *repo) GetUsers(ctx context.Context) ([]entity.Usuario, error) {
+	us := []entity.Usuario{}
+
+	err := r.db.SelectContext(ctx, &us, qryAllGetUsers)
+	if err != nil {
+		return nil, err
+	}
+
+	return us, nil
 }

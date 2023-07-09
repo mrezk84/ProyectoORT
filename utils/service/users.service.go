@@ -52,9 +52,9 @@ func (s *serv) LoginUser(ctx context.Context, email, password string) (*models.U
 	}
 
 	return &models.Usuario{
-		ID:       u.ID,
-		Email:    u.Email,
-		Username: u.Name,
+		ID:    u.ID,
+		Email: u.Email,
+		Name:  u.Name,
 	}, nil
 }
 

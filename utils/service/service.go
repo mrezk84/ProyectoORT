@@ -14,7 +14,6 @@ type Service interface {
 	LoginUser(ctx context.Context, email, password string) (*models.Usuario, error)
 	AddUserRole(ctx context.Context, userID, roleID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
-	
 }
 
 type serv struct {

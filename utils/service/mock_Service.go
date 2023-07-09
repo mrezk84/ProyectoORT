@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
 
 	"github.com/stretchr/testify/mock"
@@ -62,6 +63,29 @@ func (_m *MockService) RegisterUser(ctx context.Context, email string, name stri
 	}
 
 	return r0
+}
+
+// GetUserByEmail provides a mock function with given fields: ctx, email
+func (_m *MockService) GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error) {
+	ret := _m.Called(ctx, email)
+
+	var r0 *entity.Usuario
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Usuario); ok {
+		r0 = rf(ctx, email)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Usuario)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, email)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 // RemoveUserRole provides a mock function with given fields: ctx, userID, roleID

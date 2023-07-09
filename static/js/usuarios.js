@@ -23,7 +23,7 @@ async function cargarRoles() {
 }
 
 async function cargarUsuarios() {
-const request = await fetch('api/usuarios', {
+const request = await fetch('/usuarios', {
   method: 'GET',
   headers: getHeaders()
 });
