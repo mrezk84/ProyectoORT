@@ -102,6 +102,39 @@ func (_m *MockService) RemoveUserRole(ctx context.Context, userID int64, roleID 
 	return r0
 }
 
+func (_m *MockService) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error {
+	ret := _m.Called(ctx, informacion, nombre, version, fecha)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string) error); ok {
+		r0 = rf(ctx, informacion, nombre, version, fecha)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+func (_m *MockService) GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error) {
+	ret := _m.Called(ctx, version)
+
+	var r0 *entity.Formulario
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Formulario); ok {
+		r0 = rf(ctx, version)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Formulario)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, version)
+	} else {
+		r1 = ret.Error(1)
+	}
+	return r0, r1
+}
+
 type mockConstructorTestingTNewMockService interface {
 	mock.TestingT
 	Cleanup(func())

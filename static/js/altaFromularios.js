@@ -10,7 +10,7 @@ $(document).ready(function() {
     datos.nombre = document.getElementById('txtNombre').value;
     datos.informacion = document.getElementById('txtInformacion').value;
     console.log(datos);
-    const request = await fetch('api/v1/formulario/guardar', {
+    const request = await fetch('"http://localhost:8080/formularios/registrar"', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

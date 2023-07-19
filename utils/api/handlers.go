@@ -20,6 +20,7 @@ func (a *API) RegisterUser(c echo.Context) error {
 
 	err := c.Bind(&params)
 	if err != nil {
+		log.Println(err)
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
 	}
 
@@ -102,6 +103,31 @@ func (a *API) GetFormByDate(c echo.Context) error {
 	if err != nil {
 		if err == service.ErrFormAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulario ya existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusCreated, nil)
+}
+func (a *API) RegisterFrom(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.DocumentAudit{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.RegisterFrom(ctx, params.Informacion, params.Nombre, params.Version, params.Fecha)
+	if err != nil {
+		if err == service.ErrFormAlreadyExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulairo ya existe"})
 		}
 
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})

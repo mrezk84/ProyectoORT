@@ -14,7 +14,7 @@ var (
 	ErrFormNotFound      = errors.New("Error al asignar formulario")
 )
 
-func (s *serv) RegisterFrom(ctx context.Context, nombre, informacion string, version int, fecha *time.Time) error {
+func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha *time.Time) error {
 
 	f, _ := s.repo.GetFormByVersion(ctx, version)
 	if f != nil {

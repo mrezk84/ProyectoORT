@@ -9,5 +9,6 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	users.POST("/registrar", a.RegisterUser)
 	users.POST("/login", a.LoginUser)
 	form.POST("/auditoria", a.GetFormByDate)
+	form.POST("/registrar", a.RegisterFrom)
 
 }
