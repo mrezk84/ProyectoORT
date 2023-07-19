@@ -23,10 +23,17 @@ $(document).ready(function() {
          },
          credentials:"include",
          body: JSON.stringify(datos),
-      
+         
        });
-
-       const data = await response.json();
+       
+       const data = await response.json()
+       Swal.fire(
+        'Exito!',
+        'Se inició correctamente la sesión, bienvenido',
+        'success'
+        )
        console.log(data);
+    
+       
 }
            

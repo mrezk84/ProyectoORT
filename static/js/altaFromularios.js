@@ -19,9 +19,18 @@ $(document).ready(function() {
       body: JSON.stringify(datos)
     })
       if (request.status == 200){
-          alert("Formulario guardado correctamente")
+        Swal.fire(
+          'Exito!',
+          'Se guardo de la manera correcta el formulario',
+          'success'
+          )
       }else{
-            alert("Error al guardar el formulario")
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error al guardar el formulario',
+          icon: 'error',
+        
+        })
       }
 
 

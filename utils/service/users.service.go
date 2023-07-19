@@ -15,7 +15,7 @@ var (
 	ErrRoleNotFound       = errors.New("Error al asignar rol")
 )
 
-func (s *serv) RegisterUser(ctx context.Context, email, name, password string) error {
+func (s *serv) RegisterUser(ctx context.Context, email, username, password string) error {
 
 	u, _ := s.repo.GetUserByEmail(ctx, email)
 	if u != nil {
@@ -28,7 +28,7 @@ func (s *serv) RegisterUser(ctx context.Context, email, name, password string) e
 	}
 
 	pass := encryption.ToBase64(bb)
-	return s.repo.SaveUser(ctx, email, name, pass)
+	return s.repo.SaveUser(ctx, email, username, pass)
 }
 
 func (s *serv) LoginUser(ctx context.Context, email, password string) (*models.Usuario, error) {

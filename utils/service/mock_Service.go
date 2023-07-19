@@ -52,12 +52,12 @@ func (_m *MockService) LoginUser(ctx context.Context, email string, password str
 }
 
 // RegisterUser provides a mock function with given fields: ctx, email, name, password
-func (_m *MockService) RegisterUser(ctx context.Context, email string, name string, password string) error {
-	ret := _m.Called(ctx, email, name, password)
+func (_m *MockService) RegisterUser(ctx context.Context, email string, username string, password string) error {
+	ret := _m.Called(ctx, email, username, password)
 
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, string, string, string) error); ok {
-		r0 = rf(ctx, email, name, password)
+		r0 = rf(ctx, email, username, password)
 	} else {
 		r0 = ret.Error(0)
 	}

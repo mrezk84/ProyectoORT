@@ -6,7 +6,6 @@ $(document).ready(function() {
   
   async function enviarMail() {
    let datos = {};
-   datos.cedula = document.getElementById('txtCedula').value;
    datos.mail = document.getElementById('txtMail').value;
 
     
@@ -21,11 +20,20 @@ $(document).ready(function() {
   });
   if (respuesta.status=200){
 
-   
-    localStorage.datos= datos.cedula
     localStorage.datos= datos.mail
-    alert("Se le ha enviado un código para cambiar la contraseña")
+    Swal.fire(
+      'Exito!',
+      'Se envió correo a su casilla para cambiar la contraseña',
+      'success'
+      )
     window.location.href = 'index.html'
+  } else{
+    Swal.fire({
+      title: 'Error!',
+      text: 'Error al enviar el correo',
+      icon: 'error',
+    
+    })
   }
 
 } 

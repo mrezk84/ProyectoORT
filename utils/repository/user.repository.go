@@ -35,8 +35,8 @@ const (
 		DELETE FROM USUARIOS_ROLES where usuario_id = :usuario_id and rol_id = :rol_id;`
 )
 
-func (r *repo) SaveUser(ctx context.Context, email, usernamename, password string) error {
-	_, err := r.db.ExecContext(ctx, qryInsertUser, email, usernamename, password)
+func (r *repo) SaveUser(ctx context.Context, email, username, password string) error {
+	_, err := r.db.ExecContext(ctx, qryInsertUser, email, username, password)
 	return err
 }
 
