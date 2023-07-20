@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"proyectoort/utils/models"
-	"time"
 )
 
 var (
@@ -14,7 +13,7 @@ var (
 	ErrFormNotFound      = errors.New("Error al asignar formulario")
 )
 
-func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha *time.Time) error {
+func (s *serv) RegisterFrom(ctx context.Context, nombre string, informacion string, version string, fecha string) error {
 
 	f, _ := s.repo.GetFormByVersion(ctx, version)
 	if f != nil {
@@ -24,7 +23,7 @@ func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre stri
 	return s.repo.SaveFrom(ctx, nombre, informacion, version, fecha)
 }
 
-func (s *serv) GetFormByDate(ctx context.Context, fechaIni, fechaFin *time.Time) (*models.Formulario, error) {
+func (s *serv) GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*models.Formulario, error) {
 
 	form, err := s.repo.GetFormByDate(ctx, fechaIni, fechaFin)
 

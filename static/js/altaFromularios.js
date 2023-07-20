@@ -9,8 +9,10 @@ $(document).ready(function() {
 
     datos.nombre = document.getElementById('txtNombre').value;
     datos.informacion = document.getElementById('txtInformacion').value;
-    console.log(datos);
-    const request = await fetch('"http://localhost:8080/formularios/registrar"', {
+    datos.version = document.getElementById('txtVersion').value;
+    datos.fecha= document.getElementById('txtFecha').value;
+
+    const request = await fetch("http://localhost:8080/formularios/registrar", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -18,7 +20,7 @@ $(document).ready(function() {
       },
       body: JSON.stringify(datos)
     })
-      if (request.status == 200){
+      if (request.ok){
         Swal.fire(
           'Exito!',
           'Se guardo de la manera correcta el formulario',

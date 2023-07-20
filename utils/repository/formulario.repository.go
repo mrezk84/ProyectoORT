@@ -3,12 +3,11 @@ package repository
 import (
 	"context"
 	"proyectoort/utils/entity"
-	"time"
 )
 
 const (
 	qryInsertFrom = `
-		INSERT INTO  FORMULARIO (informacion,nombre, version, fecha)
+		INSERT INTO  FORMULARIO (nombre,informacion, version, fecha)
 		VALUES (?, ?, ?, ?);`
 
 	qryGetUserByDate = `
@@ -41,12 +40,12 @@ const (
 		FROM FORMULARIO;`
 )
 
-func (r *repo) SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha *time.Time) error {
+func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string, version string, fecha string) error {
 	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, nombre, version, fecha)
 	return err
 }
 
-func (r *repo) GetFormByDate(ctx context.Context, fechaIni, fechaFin *time.Time) (*entity.Formulario, error) {
+func (r *repo) GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*entity.Formulario, error) {
 	f := &entity.Formulario{}
 	err := r.db.GetContext(ctx, f, qryGetUserByDate, fechaIni, fechaFin)
 	if err != nil {

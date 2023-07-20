@@ -14,13 +14,16 @@ async function getFormularios() {
 
   let response = await request.json()
   console.log(response)
-  if (request.status == 200) {
+  if (request.ok) {
             let text = ``
             response.forEach(formulario => {
                 text +=
                     `
                      <tr>
                         <th>${formulario.nombre}</th>
+                        <th>${formulario.informacion}</th>
+                        <th>${formulario.version}</th>
+                        <th>${formulario.fecha}</th>
                         <th><button onclick="redirectControles('${encodeURIComponent(JSON.stringify(formulario))}')">Editar Controles</button></th>
                     </tr>
                     `

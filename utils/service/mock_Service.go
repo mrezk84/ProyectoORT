@@ -102,7 +102,7 @@ func (_m *MockService) RemoveUserRole(ctx context.Context, userID int64, roleID 
 	return r0
 }
 
-func (_m *MockService) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error {
+func (_m *MockService) RegisterFrom(ctx context.Context, nombre string, informacion string, version string, fecha string) error {
 	ret := _m.Called(ctx, informacion, nombre, version, fecha)
 
 	var r0 error

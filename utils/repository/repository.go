@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"proyectoort/utils/entity"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -19,8 +18,8 @@ type Repository interface {
 	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
 	GetFrom(ctx context.Context) ([]entity.Formulario, error)
-	SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha *time.Time) error
-	GetFormByDate(ctx context.Context, fechaIni, fechaFin *time.Time) (*entity.Formulario, error)
+	SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error
+	GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 }
 
