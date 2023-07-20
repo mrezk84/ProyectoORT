@@ -5,7 +5,7 @@ type Formulario struct {
 	Nombre        string
 	Observaciones string
 	Version       int
-	Controles     []Control
+	Etapas        []Etapa
 	Obra          Obra
 	Responsable   Usuario
 }
