@@ -10,7 +10,7 @@ const (
 		INSERT INTO  FORMULARIO (nombre,informacion, version, fecha)
 		VALUES (?, ?, ?, ?);`
 
-	qryGetUserByDate = `
+	qryGetFormByDate = `
 		SELECT
 			id,
 			nombre,
@@ -20,7 +20,7 @@ const (
 		FROM FORMULARIO
 		WHERE fecha = ?;`
 
-	qryGetUserByVersion = `
+	qryGetFormByVersion = `
 		SELECT
 			id,
 			nombre,
@@ -47,7 +47,7 @@ func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string, version
 
 func (r *repo) GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*entity.Formulario, error) {
 	f := &entity.Formulario{}
-	err := r.db.GetContext(ctx, f, qryGetUserByDate, fechaIni, fechaFin)
+	err := r.db.GetContext(ctx, f, qryGetFormByDate, fechaIni, fechaFin)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (r *repo) GetFrom(ctx context.Context) ([]entity.Formulario, error) {
 
 func (r *repo) GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error) {
 	f := &entity.Formulario{}
-	err := r.db.GetContext(ctx, f, qryGetUserByVersion, version)
+	err := r.db.GetContext(ctx, f, qryGetFormByVersion, version)
 	if err != nil {
 		return nil, err
 	}
