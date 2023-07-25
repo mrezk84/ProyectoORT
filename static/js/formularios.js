@@ -6,7 +6,6 @@ $(document).ready(function() {
 
 
 
-
 async function getFormularios() {
   const request = await fetch("http://localhost:8080/formularios", {
     method: 'GET',

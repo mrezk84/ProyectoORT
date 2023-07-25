@@ -6,11 +6,14 @@ $(document).ready(function() {
 
 
 async function getObrasByUser() {
-    const request = await fetch('obra', {
+    const request = await fetch("http://localhost:8080/obras", {
         method: 'GET',
     })
+
+
     let response = await request.json()
-    if (request.status == 200) {
+    console.log(response)
+    if (request.ok) {
         let text = ``;
         response.forEach(obra => {
             text +=
