@@ -17,9 +17,9 @@ type Repository interface {
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
 	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
-	GetFrom(ctx context.Context) ([]entity.Formulario, error)
+	GetForm(ctx context.Context) ([]entity.Formulario, error)
 	SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error
-	GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*entity.Formulario, error)
+	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 }
 

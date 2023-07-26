@@ -18,9 +18,8 @@ $(document).ready(function() {
      },
      body: JSON.stringify(datos)
   });
-  if (respuesta.status=200){
+  if (respuesta.ok){
 
-    localStorage.datos= datos.mail
     Swal.fire(
       'Exito!',
       'Se envió correo a su casilla para cambiar la contraseña',

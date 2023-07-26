@@ -8,7 +8,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	form := e.Group("/formularios")
 	users.POST("/registrar", a.RegisterUser)
 	users.POST("/login", a.LoginUser)
-	form.GET("/auditoria", a.GetFormByDate)
 	form.POST("/registrar", a.RegisterFrom)
+	form.GET("", a.GetForms)
 
 }

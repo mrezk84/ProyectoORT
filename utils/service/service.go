@@ -15,7 +15,8 @@ type Service interface {
 	AddUserRole(ctx context.Context, userID, roleID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
 	RegisterFrom(ctx context.Context, nombre string, informacion string, version string, fecha string) error
-	GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*models.Formulario, error)
+	GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error)
+	GetForms(ctx context.Context) ([]models.Formulario, error)
 }
 
 type serv struct {

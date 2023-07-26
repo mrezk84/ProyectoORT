@@ -83,33 +83,6 @@ func (a *API) LoginUser(c echo.Context) error {
 
 }
 
-func (a *API) GetFormByDate(c echo.Context) error {
-
-	ctx := c.Request().Context()
-	params := dtos.DocumentAudit{}
-	err := c.Bind(&params)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
-	}
-
-	err = a.dataValidator.Struct(params)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
-	}
-
-	err = a.serv.RegisterFrom(ctx, params.Nombre, params.Informacion, params.Version, params.Fecha)
-	if err != nil {
-		if err == service.ErrFormAlreadyExists {
-			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulario ya existe"})
-		}
-
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
-	}
-
-	return c.JSON(http.StatusCreated, nil)
-}
 func (a *API) RegisterFrom(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.DocumentAudit{}
@@ -134,4 +107,30 @@ func (a *API) RegisterFrom(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, nil)
+}
+
+func (a *API) GetForms(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := []dtos.DocumentAudit{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	_, err = a.serv.GetForms(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusOK, nil)
+
 }

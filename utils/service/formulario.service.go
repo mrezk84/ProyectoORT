@@ -23,9 +23,9 @@ func (s *serv) RegisterFrom(ctx context.Context, nombre string, informacion stri
 	return s.repo.SaveFrom(ctx, nombre, informacion, version, fecha)
 }
 
-func (s *serv) GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*models.Formulario, error) {
+func (s *serv) GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error) {
 
-	form, err := s.repo.GetFormByDate(ctx, fechaIni, fechaFin)
+	form, err := s.repo.GetFormByDate(ctx, fecha)
 
 	if form != nil {
 		return nil, err
@@ -39,4 +39,25 @@ func (s *serv) GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*m
 		Controles:   []models.Control{},
 	}
 	return formulario, nil
+}
+
+func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
+	ff, err := s.repo.GetForm(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	formularios := []models.Formulario{}
+
+	for _, f := range ff {
+		formularios = append(formularios, models.Formulario{
+			ID:          f.ID,
+			Informacion: f.Informacion,
+			Version:     f.Version,
+			Nombre:      f.Nombre,
+		})
+
+	}
+
+	return formularios, nil
 }

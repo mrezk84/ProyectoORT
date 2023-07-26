@@ -30,11 +30,11 @@ const (
 		FROM FORMULARIO
 		WHERE version = ?;`
 
-	qryAllGetForms = `
+	qryGetAllForms = `
 		SELECT
 		id,
 		nombre,
-		infromacion,
+		informacion,
 		version,
 		fecha
 		FROM FORMULARIO;`
@@ -45,24 +45,24 @@ func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string, version
 	return err
 }
 
-func (r *repo) GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*entity.Formulario, error) {
+func (r *repo) GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error) {
 	f := &entity.Formulario{}
-	err := r.db.GetContext(ctx, f, qryGetFormByDate, fechaIni, fechaFin)
+	err := r.db.GetContext(ctx, f, qryGetFormByDate, fecha)
 	if err != nil {
 		return nil, err
 	}
 
 	return f, nil
 }
-func (r *repo) GetFrom(ctx context.Context) ([]entity.Formulario, error) {
-	form := []entity.Formulario{}
+func (r *repo) GetForm(ctx context.Context) ([]entity.Formulario, error) {
+	ff := []entity.Formulario{}
 
-	err := r.db.SelectContext(ctx, &form, qryAllGetForms)
+	err := r.db.SelectContext(ctx, &ff, qryGetAllForms)
 	if err != nil {
 		return nil, err
 	}
 
-	return form, nil
+	return ff, nil
 }
 
 func (r *repo) GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error) {
