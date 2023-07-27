@@ -106,12 +106,13 @@ func (a *API) RegisterFrom(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, nil)
+	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo el formulario"})
 }
 
 func (a *API) GetForms(c echo.Context) error {
+
 	ctx := c.Request().Context()
-	params := []dtos.DocumentAudit{}
+	params := dtos.DocumentAudit{}
 
 	err := c.Bind(&params)
 	if err != nil {
@@ -125,12 +126,10 @@ func (a *API) GetForms(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	_, err = a.serv.GetForms(ctx)
+	forms, err := a.serv.GetForms(ctx)
 	if err != nil {
 		log.Println(err)
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})
 	}
-
-	return c.JSON(http.StatusOK, nil)
-
+	return c.JSON(http.StatusOK, forms)
 }

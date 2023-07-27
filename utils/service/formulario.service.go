@@ -36,7 +36,6 @@ func (s *serv) GetFormByDate(ctx context.Context, fecha string) (*models.Formula
 		Informacion: form.Informacion,
 		Version:     form.Version,
 		Nombre:      form.Nombre,
-		Controles:   []models.Control{},
 	}
 	return formulario, nil
 }
@@ -56,7 +55,6 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 			Version:     f.Version,
 			Nombre:      f.Nombre,
 		})
-
 	}
 
 	return formularios, nil
