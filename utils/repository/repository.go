@@ -21,6 +21,8 @@ type Repository interface {
 	SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error
 	GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
+	SaveObra(ctx context.Context, nombre string) error
+	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)
 }
 
 type repo struct {
