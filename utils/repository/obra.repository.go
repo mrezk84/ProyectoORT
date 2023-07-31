@@ -8,7 +8,7 @@ import (
 const (
 	qryInsertObra = `
 		INSERT INTO Obra (nombre)
-		VALUES (?, ?, ?, ?);`
+		VALUES (?);`
 
 	qryGetObrabyName = `
 		SELECT

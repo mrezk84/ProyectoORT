@@ -23,6 +23,8 @@ type Repository interface {
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 	SaveObra(ctx context.Context, nombre string) error
 	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)
+	SaveEtapa(ctx context.Context, nombre string) error
+	GetEtapabyName(ctx context.Context, name string) (*entity.Etapa, error)
 }
 
 type repo struct {
