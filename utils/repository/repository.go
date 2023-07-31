@@ -25,6 +25,10 @@ type Repository interface {
 	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)
 	SaveEtapa(ctx context.Context, nombre string) error
 	GetEtapabyName(ctx context.Context, name string) (*entity.Etapa, error)
+	SavePiso(ctx context.Context, number int64) error
+	GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error)
+	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
+	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
 }
 
 type repo struct {
