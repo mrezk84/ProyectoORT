@@ -38,6 +38,12 @@ const (
 		version,
 		fecha
 		FROM FORMULARIO;`
+
+	qryGetFormCategories = `
+		SELECT f.id,f.nombre,f.informacion,f.fecha, c.descripcion as controles
+		FROM FORMULARIO f INNER JOIN CONTROLES c
+		ON f.id=c.id
+		WHERE f.id=c.id`
 )
 
 func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string, version string, fecha string) error {
@@ -73,4 +79,16 @@ func (r *repo) GetFormByVersion(ctx context.Context, version string) (*entity.Fo
 	}
 
 	return f, nil
+}
+
+func (r *repo) GetFromControles(ctx context.Context, controles string) (*entity.Formulario, error) {
+
+	f := &entity.Formulario{}
+	err := r.db.GetContext(ctx, f, qryGetFormCategories, controles)
+	if err != nil {
+		return nil, err
+	}
+
+	return f, nil
+
 }

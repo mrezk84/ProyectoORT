@@ -153,7 +153,48 @@ func (_m *MockService) GetForms(ctx context.Context) (*models.Formulario, error)
 	} else {
 		r1 = ret.Error(1)
 	}
+	return r0, r1
+}
+func (_m *MockService) GetControls(ctx context.Context) (*models.Control, error) {
+	ret := _m.Called(ctx)
 
+	var r0 *models.Control
+	if rf, ok := ret.Get(0).(func(context.Context) *models.Control); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*models.Control)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+func (_m *MockService) GetControlById(ctx context.Context, id int) (*entity.Control, error) {
+	ret := _m.Called(ctx, id)
+
+	var r0 *entity.Control
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Control); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Control)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
 	return r0, r1
 }
 

@@ -15,7 +15,7 @@ var (
 
 func (s *serv) RegisterFrom(ctx context.Context, nombre string, informacion string, version string, fecha string) error {
 
-	f, _ := s.repo.GetFormByVersion(ctx, version)
+	f, _ := s.repo.GetForm(ctx)
 	if f != nil {
 		return ErrFormAlreadyExists
 	}
@@ -36,6 +36,7 @@ func (s *serv) GetFormByDate(ctx context.Context, fecha string) (*models.Formula
 		Informacion: form.Informacion,
 		Version:     form.Version,
 		Nombre:      form.Nombre,
+		Controles:   []models.Control{},
 	}
 	return formulario, nil
 }
@@ -45,8 +46,21 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 	if err != nil {
 		return nil, err
 	}
+	cc, err := s.repo.GetControls(ctx)
+	if err != nil {
+		return nil, err
+	}
 
 	formularios := []models.Formulario{}
+	controles := []models.Control{}
+
+	for _, c := range cc {
+		controles = append(controles, models.Control{
+			ID:          c.ID,
+			Descripcion: c.Descripcion,
+			Tipo:        c.Tipo,
+		})
+	}
 
 	for _, f := range ff {
 		formularios = append(formularios, models.Formulario{
@@ -54,7 +68,9 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 			Informacion: f.Informacion,
 			Version:     f.Version,
 			Nombre:      f.Nombre,
+			Controles:   controles,
 		})
+
 	}
 
 	return formularios, nil
