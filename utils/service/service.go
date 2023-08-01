@@ -19,6 +19,7 @@ type Service interface {
 	GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error)
 	GetForms(ctx context.Context) ([]models.Formulario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
+	GetUsers(ctc context.Context) ([]models.Usuario, error)
 }
 
 type serv struct {

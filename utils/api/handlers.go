@@ -89,7 +89,7 @@ func (a *API) RegisterControl(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, responseMessage{Message: "Se a creado el conrol"})
+	return c.JSON(http.StatusCreated, responseMessage{Message: "Se a creado el control"})
 }
 
 func (a *API) LoginUser(c echo.Context) error {
@@ -132,6 +132,27 @@ func (a *API) LoginUser(c echo.Context) error {
 	c.SetCookie(cookie)
 	return c.JSON(http.StatusOK, map[string]string{"usuario logueado": "true"})
 
+}
+
+func (a *API) GetUsers(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.Usuarios{}
+	err := c.Bind(&params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	u, err := a.serv.GetUsers(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los usuarios"})
+	}
+	return c.JSON(http.StatusOK, u)
 }
 
 func (a *API) GetForms(c echo.Context) error {

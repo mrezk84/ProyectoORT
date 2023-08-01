@@ -94,3 +94,19 @@ func (s *serv) RemoveUserRole(ctx context.Context, userID, roleID int64) error {
 
 	return s.repo.RemoveUserRole(ctx, userID, roleID)
 }
+func (s *serv) GetUsers(ctx context.Context) ([]models.Usuario, error) {
+	us, err := s.repo.GetUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+	usuarios := []models.Usuario{}
+	for _, u := range us {
+		usuarios = append(usuarios, models.Usuario{
+			ID:    u.ID,
+			Email: u.Email,
+			Name:  u.Name,
+		})
+	}
+
+	return usuarios, nil
+}
