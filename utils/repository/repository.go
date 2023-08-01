@@ -29,6 +29,8 @@ type Repository interface {
 	GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error)
 	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
+	SaveCheck(ctx context.Context, estado, fecha, observaciones string, version int) error
+	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
 }
 
 type repo struct {

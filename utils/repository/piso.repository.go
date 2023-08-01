@@ -8,7 +8,7 @@ import (
 const (
 	qryInsertPiso = `
 		INSERT INTO Piso (number)
-		VALUES ();`
+		VALUES (?);`
 
 	qryGetPisobyNumber = `
 		SELECT
@@ -28,7 +28,7 @@ func (r *repo) SavePiso(ctx context.Context, number int64) error {
 
 func (r *repo) GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error) {
 	p := &entity.Piso{}
-	err := r.db.GetContext(ctx, p, qryGetPisobyNumber)
+	err := r.db.GetContext(ctx, p, qryGetPisobyNumber, number)
 	if err != nil {
 		return nil, err
 	}
