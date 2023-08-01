@@ -31,6 +31,8 @@ type Repository interface {
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
 	SaveCheck(ctx context.Context, estado, fecha, observaciones string, version int) error
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
+	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
+	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 }
 
 type repo struct {

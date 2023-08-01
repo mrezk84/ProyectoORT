@@ -20,8 +20,8 @@ const (
 		FROM CHECKS
 		WHERE version = ?;`
 
-	// qryInsert = `
-	// 	INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`
+	qryInsertCheckForm = `
+		INSERT INTO CHECK_FORMULARIO (check_id, formulario_id) VALUES (:check_id, :formulario_id);`
 )
 
 func (r *repo) SaveCheck(ctx context.Context, estado, fecha, observaciones string, version int) error {
@@ -37,4 +37,26 @@ func (r *repo) GetCheckByVersion(ctx context.Context, version int) (*entity.Chec
 	}
 
 	return c, nil
+}
+
+func (r *repo) GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error) {
+	checkf := []entity.CheckFormulario{}
+
+	err := r.db.SelectContext(ctx, &checkf, "SELECT check_id, formulario_id FROM CHECK_FORMULARIO WHERE formulario_id = ?", FormularioID)
+	if err != nil {
+		return nil, err
+	}
+
+	return checkf, nil
+
+}
+
+func (r *repo) SaveCheckForm(ctx context.Context, checkID, formularioID int64) error {
+	data := entity.CheckFormulario{
+		CheckID:      checkID,
+		FormularioID: formularioID,
+	}
+
+	_, err := r.db.NamedExecContext(ctx, qryInsertCheckForm, data)
+	return err
 }
