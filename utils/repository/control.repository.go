@@ -12,17 +12,18 @@ const (
 
 	qryGetContById = `
 		SELECT
+		id,
 			descripcion,
 			tipo,
 		FROM CONTROL
 		WHERE id = ?;`
 
 	qryGetAllControls = `
-		SELECT
-			id,
-			descripcion,
-			tipo,
-		FROM CONTROL`
+		SELECT 
+		id,
+		descripcion,
+		tipo
+		FROM CONTROL;`
 )
 
 func (r *repo) SaveControl(ctx context.Context, descripcion, tipo string) error {

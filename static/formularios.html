@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tabla de Usuarios</title>
+    <title>Formularios</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -80,35 +80,12 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Menu Login
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Navegacion</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Iniciar Sesion:</h6>
-                        <a class="collapse-item" href="index.html">Iniciar Sesión </a>
-                        <a class="collapse-item" href="registrar.html">Registrarse</a>
-                        <a class="collapse-item" href="olvidoContrasena.html">Olvidó su Contraseña </a>
-                        <div class="collapse-divider"></div>
-        
-                        
-                    </div>
-                </div>
-            </li>
-
+      
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Segimiento avance Obra</span></a>
+                    <span>Seguimiento avance Obra</span></a>
             </li>
 
 
@@ -186,24 +163,30 @@
                 <div class="container-fluid">
                     <p class="mb-4"></p>
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Gestion de Fromularios</h1>
+                    <h1 class="h3 mb-2 text-gray-800"> Formularios</h1>
 
-                    <br>
-                    <button onclick="redirectAltaFormulario()"   class="btn btn-primary btn-user" >Agregar formulario</button>
-
-
+                    
                     <!-- DataTales Example -->
-<div class="card shadow mb-4">
+                    <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Listado de Fromularios</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Listado de Formularios</h6>
+                            <hr class="sidebar-divider">
+                            <button onclick="redirectAltaFormulario()" class="btn btn-primary btn-user" >Agregar formulario</button>
+                          
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
+
+                                
                                 <table class="table table-bordered" id="fromularios" width="100%" cellspacing="0">
                                     <thead>
-                                        <tr>
-                                            <th>Formulario</th>
-                                            <th>Acciones</th>
+                        
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Informacion</th>
+                                                    <th>Version</th>
+                                                    <th>Fecha</th>
+                                                    <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="formulariosTBody">

@@ -178,7 +178,7 @@ func (a *API) GetContorls(c echo.Context) error {
 	control, err := a.serv.GetControls(ctx)
 	if err != nil {
 		log.Println(err)
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los controles"})
 	}
 	return c.JSON(http.StatusOK, control)
 
