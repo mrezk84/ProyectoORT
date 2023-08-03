@@ -7,7 +7,7 @@ import (
 
 const (
 	qryInsertObra = `
-		INSERT INTO Obra (nombre)
+		INSERT INTO OBRA (Nombre)
 		VALUES (?);`
 
 	qryGetObrabyName = `
