@@ -7,15 +7,15 @@ import (
 
 const (
 	qryInsertEtapa = `
-		INSERT INTO Etapa (nombre)
+		INSERT INTO ETAPA (nombre)
 		VALUES (?);`
 
 	qryGetEtapabyName = `
 		SELECT
 			ID,
-			Nombre
+			nombre
 		FROM ETAPAS
-		WHERE Nombre = ?;`
+		WHERE nombre = ?;`
 )
 
 func (r *repo) SaveEtapa(ctx context.Context, nombre string) error {
@@ -23,9 +23,9 @@ func (r *repo) SaveEtapa(ctx context.Context, nombre string) error {
 	return err
 }
 
-func (r *repo) GetEtapabyName(ctx context.Context, name string) (*entity.Etapa, error) {
+func (r *repo) GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa, error) {
 	e := &entity.Etapa{}
-	err := r.db.GetContext(ctx, e, qryGetEtapabyName, name)
+	err := r.db.GetContext(ctx, e, qryGetEtapabyName, nombre)
 	if err != nil {
 		return nil, err
 	}

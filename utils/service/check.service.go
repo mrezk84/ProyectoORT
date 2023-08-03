@@ -17,7 +17,7 @@ func (s *serv) RegisterCheck(ctx context.Context, estado string, fecha string, o
 		return ErrCheckAlreadyExists
 	}
 
-	return s.repo.SaveCheck(ctx, estado, fecha, observaciones, version)
+	return s.repo.SaveCheck(ctx, estado, observaciones, version, fecha)
 }
 
 func (s *serv) AddCheckForm(ctx context.Context, checkID, formularioID int64) error {

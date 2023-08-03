@@ -7,25 +7,25 @@ import (
 
 const (
 	qryInsertCheck = `
-		INSERT INTO Check (estado, fecha_control, observaciones, version)
+		INSERT INTO CHECK (estado, observaciones, version, fecha_control)
 		VALUES (?,?,?,?);`
 
 	qryGetCheckByVersion = `
 		SELECT
-			ID
+			id
 			estado
-			fecha_control
 			observaciones
 			version
-		FROM CHECKS
+			fecha_control
+		FROM CHECK
 		WHERE version = ?;`
 
 	qryInsertCheckForm = `
 		INSERT INTO CHECK_FORMULARIO (check_id, formulario_id) VALUES (:check_id, :formulario_id);`
 )
 
-func (r *repo) SaveCheck(ctx context.Context, estado, fecha, observaciones string, version int) error {
-	_, err := r.db.ExecContext(ctx, qryInsertCheck, estado, fecha, observaciones, version)
+func (r *repo) SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error {
+	_, err := r.db.ExecContext(ctx, qryInsertCheck, estado, observaciones, version, fecha)
 	return err
 }
 

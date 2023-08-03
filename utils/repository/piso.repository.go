@@ -7,15 +7,15 @@ import (
 
 const (
 	qryInsertPiso = `
-		INSERT INTO Piso (number)
+		INSERT INTO PISO (Numero)
 		VALUES (?);`
 
 	qryGetPisobyNumber = `
 		SELECT
 			ID
-			numero
-		FROM PISOS
-		WHERE numero = ?;`
+			Numero
+		FROM PISO
+		WHERE Numero = ?;`
 
 	qryInsertPisoObra = `
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`

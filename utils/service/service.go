@@ -17,7 +17,7 @@ type Service interface {
 	RegisterFrom(ctx context.Context, nombre string, informacion string, version string, fecha string) error
 	GetFormByDate(ctx context.Context, fechaIni, fechaFin string) (*models.Formulario, error)
 	RegisterObra(ctx context.Context, name string) error
-	RegisterEtapa(ctx context.Context, name string) error
+	RegisterEtapa(ctx context.Context, nombre string) error
 	RegisterPiso(ctx context.Context, number int64) error
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
 	RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error
