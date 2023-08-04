@@ -1,7 +1,7 @@
-
-
 $(document).ready(function() {
   getFormularios()
+ 
+  $('#fromularios').DataTable();
 });
 
 
@@ -30,6 +30,7 @@ async function getFormularios() {
             });
             document.getElementById("formulariosTBody").innerHTML = text;
   }
+  
 }
 
 function redirectAltaFormulario(){
