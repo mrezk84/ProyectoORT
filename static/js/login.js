@@ -37,7 +37,7 @@ $(document).ready(function() {
        if (response.ok){
         Swal.fire(
           'Exito!',
-          'Se guardo de la manera correcta el formulario',
+          'Se inicio correctamente la sesión',
           'success'
           )
       }else{

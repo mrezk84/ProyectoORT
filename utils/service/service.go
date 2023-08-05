@@ -20,6 +20,12 @@ type Service interface {
 	GetForms(ctx context.Context) ([]models.Formulario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
+	RegisterObra(ctx context.Context, name string) error
+	RegisterEtapa(ctx context.Context, nombre string) error
+	RegisterPiso(ctx context.Context, number int64) error
+	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
+	RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error
+	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 }
 
 type serv struct {

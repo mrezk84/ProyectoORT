@@ -7,6 +7,10 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	users := e.Group("/usuarios")
 	form := e.Group("/formularios")
 	controls := e.Group("/controles")
+	obra := e.Group("/obras")
+	etapa := e.Group("/etapas")
+	piso := e.Group("/pisos")
+	check := e.Group("/checks")
 	controls.POST("/registrar", a.RegisterControl)
 	users.GET("", a.GetUsers)
 	users.POST("/registrar", a.RegisterUser)
@@ -14,5 +18,11 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	form.POST("/registrar", a.RegisterFrom)
 	controls.GET("", a.GetContorls)
 	form.GET("", a.GetForms)
+	obra.POST("/registrar", a.RegisterObra)
+	etapa.POST("/registrar", a.RegisterEtapa)
+	piso.POST("/registrar", a.RegisterPiso)
+	piso.POST("/addObra", a.RegisterObraPiso)
+	check.POST("/registrar", a.RegisterCheck)
+	check.POST("/addForm", a.RegisterCheckForm)
 
 }

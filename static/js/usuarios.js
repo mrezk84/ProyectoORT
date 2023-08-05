@@ -74,7 +74,7 @@ async function editarUsuario(id) {
     return;
   }
   
-  const request = await fetch('api/usuarios/' + id, {
+  const request = await fetch('http://localhost:8080/usuarios' + id, {
     method: 'POST',
     headers: getHeaders()
   });
