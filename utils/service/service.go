@@ -11,6 +11,7 @@ import (
 //go:generate mockery --name=Service --output=service --inpackage
 type Service interface {
 	RegisterUser(ctx context.Context, email, name, password string) error
+	RegisterControl(ctx context.Context, descripcion, tipo string) error
 	LoginUser(ctx context.Context, email, password string) (*models.Usuario, error)
 	AddUserRole(ctx context.Context, userID, roleID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
@@ -18,6 +19,13 @@ type Service interface {
 	GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error)
 	GetForms(ctx context.Context) ([]models.Formulario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
+	GetUsers(ctc context.Context) ([]models.Usuario, error)
+	RegisterObra(ctx context.Context, name string) error
+	RegisterEtapa(ctx context.Context, nombre string) error
+	RegisterPiso(ctx context.Context, number int64) error
+	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
+	RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error
+	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 }
 
 type serv struct {

@@ -2,8 +2,9 @@
   async function registrarControl() {
    let datos = {};
      datos.descripcion = document.getElementById('txtDescripcion').value;
+     datos.tipo = document.getElementById('txtTipo').value;
 
-          const request = await fetch('control', {
+          const request = await fetch('http://localhost:8080/controles/registrar', {
               method: 'POST',
               body: JSON.stringify(datos),
               headers: {
@@ -11,7 +12,20 @@
                   'Content-Type': 'application/json'
               },
           })
-        if (request.status == 200) {
-            alert("Control registrado correctamente");
-        }
+          if (request.ok){
+            Swal.fire(
+              'Exito!',
+              'Se guardo de la manera correcta el control',
+              'success'
+              )
+              
+          }else{
+            Swal.fire({
+              title: 'Error!',
+              text: 'Error al guardar el control',
+              icon: 'error',
+            
+            })
+          }
+    
   }

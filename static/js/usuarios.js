@@ -1,18 +1,17 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
   cargarUsuarios();
-  cargarRoles();
-  actualizarCedulaDelUsuario();
+
 $('#usuarios').DataTable();
 
 
 });
 
 function actualizarCedulaDelUsuario() {
-  document.getElementById('txt-cedula-usuario').outerHTML = localStorage.cedula
+  document.getElementById('txt-nombre-usuario').outerHTML = localStorage.nombre
 }
 async function cargarRoles() {
-  const request = await fetch('api/roles', {
+  const request = await fetch('http://localhost:8080/usuarios', {
     method: 'GET',
     headers: getHeaders()
   });
@@ -23,27 +22,28 @@ async function cargarRoles() {
 }
 
 async function cargarUsuarios() {
-const request = await fetch('/usuarios', {
-  method: 'GET',
-  headers: getHeaders()
-});
-const usuarios = await request.json();
-
-
-let listadoHtml = '';
-for (let usuario of usuarios) {
+  const request = await fetch("http://localhost:8080/usuarios", {
+    method: 'GET',
+  })
+  const usuarios = await request.json();
+  console.log(usuarios)
+  if (request.ok) {
+            
+            let listadoHtml = '';
+            for (let usuario of usuarios) {
   
-  let botonEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')"  class="btn btn-danger btn-circle"><i class="fas fa-trash"></i></a>' ;
-  let botonEditar = '<a href="#" onclick="editarUsuario(' + usuario.id +')" class="btn btn-info btn-circle"><i class="fas fa-info-circle"></i></a> |';  
- let botonAsignarRol=botonRol 
-  let usuarioHtml = '<tr><td>'+ usuario.id+'</td><td>' + usuario.nombre + '</td><td>' + usuario.apellido + '</td><td>'
-                  + usuario.cedula +'</td><td>'+ botonAsignarRol+'</td><td>'+ botonEditar 
-                   + botonEliminar +  '</td></tr>';
-  listadoHtml += usuarioHtml;
-  }
-
-
-document.querySelector('#usuarios tbody').outerHTML = listadoHtml;
+              let botonEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>' ;
+              let botonEditar = '<a href="#" onclick="editarUsuario(' + usuario.id +')" btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>  | ' ;
+              let usuarioHtml = '<tr><td>'+ usuario.id+'</td><td>' + usuario.email + '</td><td>' + usuario.name + '</td><td>'
+                             +'</td><td>'+ botonEditar 
+                               + botonEliminar + '</td></tr>';
+              listadoHtml += usuarioHtml;
+              }
+            
+            
+            document.querySelector('#usuariosTBody').outerHTML = listadoHtml;
+            
+            }
 
 }
 
@@ -51,8 +51,8 @@ document.querySelector('#usuarios tbody').outerHTML = listadoHtml;
 function getHeaders() {
   return {
    'Accept': 'application/json',
-   'Content-Type': 'application/json',
-     'Authorization': localStorage.token  
+   'Content-Type': 'application/json'
+     
  };
 }
 
@@ -62,7 +62,7 @@ if (!confirm('¿Desea eliminar este usuario?')) {
   return;
 }
 
-const request = await fetch('api/usuarios/' + id, {
+const request = await fetch('http://localhost:8080/usuarios' + id, {
   method: 'DELETE',
   headers: getHeaders()
 });
@@ -74,11 +74,11 @@ async function editarUsuario(id) {
     return;
   }
   
-  const request = await fetch('api/usuarios/' + id, {
+  const request = await fetch('http://localhost:8080/usuarios' + id, {
     method: 'POST',
     headers: getHeaders()
   });
-  location.reload();
+  
 }
 
 async function asignaroRol(nombre) {
@@ -86,13 +86,13 @@ async function asignaroRol(nombre) {
   if (!confirm('¿Desea asingar este rol al usuario?')) {
      return;
    }
- const request = await fetch('api/roles' + nombre, {
+ const request = await fetch('http://localhost:8080/usuarios' + nombre, {
    method: 'POST',
    headers: getHeaders()
  });
 
  
  
- location.reload();
+ 
 } 
 

@@ -26,6 +26,7 @@ $(document).ready(function() {
           'Se guardo de la manera correcta el formulario',
           'success'
           )
+          
       }else{
         Swal.fire({
           title: 'Error!',

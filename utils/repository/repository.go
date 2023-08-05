@@ -25,6 +25,18 @@ type Repository interface {
 	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 	GetFromControles(ctx context.Context, controles string) (*entity.Formulario, error)
+	SaveObra(ctx context.Context, nombre string) error
+	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)
+	SaveEtapa(ctx context.Context, nombre string) error
+	GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa, error)
+	SavePiso(ctx context.Context, number int64) error
+	GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error)
+	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
+	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
+	SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error
+	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
+	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
+	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 }
 
 type repo struct {
