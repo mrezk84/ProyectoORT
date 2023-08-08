@@ -16,6 +16,8 @@ const (
 			Nombre
 		FROM OBRAS
 		WHERE Nombre = ?;`
+
+	qryEliminateObra = `DELETE * FROM OBRA WHERE Nombre = ?;`
 )
 
 func (r *repo) SaveObra(ctx context.Context, nombre string) error {
@@ -31,4 +33,9 @@ func (r *repo) GetObrabyName(ctx context.Context, name string) (*entity.Obra, er
 	}
 
 	return o, nil
+}
+
+func (r *repo) DeleteObra(ctx context.Context, nombre string) error {
+	_, err := r.db.ExecContext(ctx, qryEliminateObra, nombre)
+	return err
 }

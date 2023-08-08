@@ -26,6 +26,7 @@ type Service interface {
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
 	RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
+	DeleteObra(ctx context.Context, name string) error
 }
 
 type serv struct {

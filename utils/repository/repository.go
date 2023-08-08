@@ -37,6 +37,7 @@ type Repository interface {
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
+	DeleteObra(ctx context.Context, nombre string) error
 }
 
 type repo struct {
