@@ -224,12 +224,64 @@ func (_m *MockService) RegisterEtapa(ctx context.Context, nombre string) error {
 	return r0
 }
 
-func (_m *MockService) RegisterPiso(ctx context.Context, number int) error {
+func (_m *MockService) RegisterPiso(ctx context.Context, number int64) error {
 	ret := _m.Called(ctx, number)
 
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, int) error); ok {
-		r0 = rf(ctx, number)
+		r0 = rf(ctx, int(number))
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+func (_m *MockService) AddObraPiso(ctx context.Context, obraID, pisoID int64) error {
+	ret := _m.Called(ctx, obraID, pisoID)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
+		r0 = rf(ctx, int(obraID), int(pisoID))
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+func (_m *MockService) RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error {
+	ret := _m.Called(ctx, estado, fecha, observaciones, version)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, int) error); ok {
+		r0 = rf(ctx, estado, fecha, observaciones, version)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+func (_m *MockService) AddCheckForm(ctx context.Context, checkID, formularioID int64) error {
+	ret := _m.Called(ctx, checkID, formularioID)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
+		r0 = rf(ctx, int(checkID), int(formularioID))
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+func (_m *MockService) DeleteObra(ctx context.Context, name string) error {
+	ret := _m.Called(ctx, name)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, name)
 	} else {
 		r0 = ret.Error(0)
 	}
