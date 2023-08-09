@@ -198,6 +198,45 @@ func (_m *MockService) GetControlById(ctx context.Context, id int) (*entity.Cont
 	return r0, r1
 }
 
+func (_m *MockService) RegisterObra(ctx context.Context, name string) error {
+	ret := _m.Called(ctx, name)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, name)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+func (_m *MockService) RegisterEtapa(ctx context.Context, nombre string) error {
+	ret := _m.Called(ctx, nombre)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, nombre)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+func (_m *MockService) RegisterPiso(ctx context.Context, number int) error {
+	ret := _m.Called(ctx, number)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) error); ok {
+		r0 = rf(ctx, number)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 type mockConstructorTestingTNewMockService interface {
 	mock.TestingT
 	Cleanup(func())
