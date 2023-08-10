@@ -22,9 +22,18 @@ const (
 
 	qryInsertCheckForm = `
 		INSERT INTO CHECK_FORMULARIO (check_id, formulario_id) VALUES (:check_id, :formulario_id);`
+
+	qryGetChecks = `
+		SELECT
+			id
+			estado
+			observaciones
+			version
+			fecha_control
+		FROM CHECK`
 )
 
-func (r *repo) SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error {
+func (r *repo) SaveCheck(ctx context.Context, estado, observaciones, version, fecha string) error {
 	_, err := r.db.ExecContext(ctx, qryInsertCheck, estado, observaciones, version, fecha)
 	return err
 }
@@ -59,4 +68,13 @@ func (r *repo) SaveCheckForm(ctx context.Context, checkID, formularioID int64) e
 
 	_, err := r.db.NamedExecContext(ctx, qryInsertCheckForm, data)
 	return err
+}
+func (r *repo) GetChecks(ctx context.Context) ([]entity.Check, error) {
+	cc := []entity.Check{}
+	err := r.db.SelectContext(ctx, &cc, qryGetChecks)
+	if err != nil {
+		return nil, err
+	}
+
+	return cc, nil
 }

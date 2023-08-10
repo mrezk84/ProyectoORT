@@ -15,8 +15,10 @@ type Repository interface {
 	SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
 	SaveControl(ctx context.Context, descripcion, tipo string) error
+	SaveCheck(ctx context.Context, estado, observaciones, version, fecha string) error
+	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
-
+	GetChecks(ctx context.Context) ([]entity.Check, error)
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
 	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
@@ -33,10 +35,8 @@ type Repository interface {
 	GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error)
 	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
-	SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
-	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 }
 
 type repo struct {

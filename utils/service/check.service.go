@@ -10,10 +10,10 @@ var (
 	ErrCheckFormAlreadyExists = errors.New("La Conexion ya Existe")
 )
 
-func (s *serv) RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error {
+func (s *serv) RegisterCheck(ctx context.Context, estado string, observaciones string, version string, fecha string) error {
 
-	f, _ := s.repo.GetCheckByVersion(ctx, version)
-	if f != nil {
+	c, _ := s.repo.GetChecks(ctx)
+	if c != nil {
 		return ErrCheckAlreadyExists
 	}
 

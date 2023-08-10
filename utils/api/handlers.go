@@ -327,16 +327,16 @@ func (a *API) RegisterCheck(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterCheck(ctx, params.Estado, params.Fecha, params.Observaciones, params.Version)
+	err = a.serv.RegisterCheck(ctx, params.Estado, params.Observaciones, params.Version, params.Fecha)
 	if err != nil {
-		if err == service.ErrCheckAlreadyExists {
-			return c.JSON(http.StatusConflict, responseMessage{Message: "El Check ya existe"})
+		if err == service.ErrFormAlreadyExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El check ya existe"})
 		}
 
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, nil)
+	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo el check"})
 }
 
 func (a *API) RegisterCheckForm(c echo.Context) error {
@@ -363,5 +363,5 @@ func (a *API) RegisterCheckForm(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, nil)
+	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo el checkqueo para el formulario"})
 }
