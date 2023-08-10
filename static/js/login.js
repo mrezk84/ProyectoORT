@@ -40,6 +40,7 @@ $(document).ready(function() {
           'Se inicio correctamente la sesión',
           'success'
           )
+          window.location.href = 'inicio.html'
       }else{
         Swal.fire({
           title: 'Error!',
