@@ -1,8 +1,8 @@
 package models
 
 type Control struct {
-	ID          int
-	Descripcion string
+	ID          int    `json:"id"`
+	Descripcion string `json:"descripcion"`
 	// todo control type deberia ser un enum
-	Tipo string
+	Tipo string `json:"tipo"`
 }
