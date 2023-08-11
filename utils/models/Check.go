@@ -1,18 +1,15 @@
 package models
 
-import "time"
-
 type Check struct {
-	ID int
-	// todo estado deberia ser un enum
-	Estado        string
-	FechaControl  *time.Time
-	Responsable   Usuario
-	Obra          Obra
-	Piso          Piso
-	Formulario    Formulario
-	Etapa         Etapa
-	Control       Control
-	Observaciones string
-	Version       int
+	ID            int    `db:"id_check"`
+	Estado        string `db:"estado"`
+	FechaControl  string `db:"fecha_control"`
+	Observaciones string `db:"observaciones"`
+	Version       int    `db:"version"`
+	// Responsable   Usuario
+	// Obra          Obra
+	// Piso          Piso
+	// Formulario    Formulario
+	// Etapa         Etapa
+	// Control       Control
 }

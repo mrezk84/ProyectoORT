@@ -15,7 +15,7 @@ var (
 
 func (s *serv) RegisterControl(ctx context.Context, descripcion, tipo string) error {
 
-	c, _ := s.repo.GetControls(ctx)
+	c, _ := s.repo.GetConByDes(ctx, descripcion)
 	if c != nil {
 		return ErrFormAlreadyExists
 	}

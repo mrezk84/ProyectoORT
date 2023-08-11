@@ -10,13 +10,13 @@ const (
 		INSERT INTO CONTROL(descripcion, tipo)
 		VALUES (?, ?);`
 
-	qryGetContById = `
+	qryGetContBydescripcion = `
 		SELECT
 		id,
 			descripcion,
 			tipo,
 		FROM CONTROL
-		WHERE id = ?;`
+		WHERE descripcion = ?;`
 
 	qryGetAllControls = `
 		SELECT 
@@ -40,9 +40,9 @@ func (r *repo) GetControls(ctx context.Context) ([]entity.Control, error) {
 
 	return cc, nil
 }
-func (r *repo) GetFormById(ctx context.Context, id int) (*entity.Control, error) {
+func (r *repo) GetConByDes(ctx context.Context, des string) (*entity.Control, error) {
 	c := &entity.Control{}
-	err := r.db.GetContext(ctx, c, qryGetContById, id)
+	err := r.db.GetContext(ctx, c, qryGetContBydescripcion, des)
 	if err != nil {
 		return nil, err
 	}
