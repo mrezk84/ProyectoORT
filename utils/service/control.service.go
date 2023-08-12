@@ -41,3 +41,13 @@ func (s *serv) GetControls(ctx context.Context) ([]models.Control, error) {
 
 	return controles, nil
 }
+
+func (s *serv) AddControlForm(ctx context.Context, controlID, formularioID int64) error {
+
+	_, err := s.repo.GetControlForm(ctx, controlID)
+	if err != nil {
+		return err
+	}
+
+	return s.repo.SaveControlForm(ctx, controlID, formularioID)
+}

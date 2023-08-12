@@ -19,6 +19,7 @@ type Service interface {
 	GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error)
 	GetForms(ctx context.Context) ([]models.Formulario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
+	AddControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
 	RegisterObra(ctx context.Context, name string) error
 	RegisterEtapa(ctx context.Context, nombre string) error

@@ -205,6 +205,33 @@ func (a *API) GetContorls(c echo.Context) error {
 
 }
 
+func (a *API) AddControlForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.ConexionControlForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.AddControlForm(ctx, int64(params.ControlID), int64(params.FormularioID))
+	if err != nil {
+		if err == service.ErrContAlreadyAdded {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "La conexion ya existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusCreated, nil)
+}
+
 func (a *API) RegisterObra(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.RegisterObra{}

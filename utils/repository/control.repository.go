@@ -24,6 +24,8 @@ const (
 		descripcion,
 		tipo
 		FROM CONTROL;`
+
+	qryInsertControlForm = `INSERT INTO CONTROL_FORMULARIO (control_id, formulario_id) VALUES (:control_id, :formulario_id);`
 )
 
 func (r *repo) SaveControl(ctx context.Context, descripcion, tipo string) error {
@@ -48,4 +50,26 @@ func (r *repo) GetConByDes(ctx context.Context, des string) (*entity.Control, er
 	}
 
 	return c, nil
+}
+
+func (r *repo) GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error) {
+	controlf := []entity.ControlForm{}
+
+	err := r.db.SelectContext(ctx, &controlf, "SELECT control_id, formulario_id FROM CONTROL_FORMULARIO WHERE control_id = ?", controlID)
+	if err != nil {
+		return nil, err
+	}
+
+	return controlf, nil
+
+}
+
+func (r *repo) SaveControlForm(ctx context.Context, controlID, formularioID int64) error {
+	data := entity.ControlForm{
+		ControlID:    controlID,
+		FormularioID: formularioID,
+	}
+
+	_, err := r.db.NamedExecContext(ctx, qryInsertControlForm, data)
+	return err
 }

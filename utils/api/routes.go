@@ -12,6 +12,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	piso := e.Group("/pisos")
 	check := e.Group("/checks")
 	controls.POST("/registrar", a.RegisterControl)
+	controls.POST("/addForm", a.AddControlForm)
 	users.GET("", a.GetUsers)
 	users.POST("/registrar", a.RegisterUser)
 	users.POST("/login", a.LoginUser)
