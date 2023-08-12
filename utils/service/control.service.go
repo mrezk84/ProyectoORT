@@ -51,3 +51,28 @@ func (s *serv) AddControlForm(ctx context.Context, controlID, formularioID int64
 
 	return s.repo.SaveControlForm(ctx, controlID, formularioID)
 }
+
+func (s *serv) GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error) {
+
+	cont, err := s.repo.GetControlForm(ctx, controlID)
+
+	if cont != nil {
+		return nil, err
+	}
+
+	for _, r := range cont {
+		id := r.FormularioID
+
+		form, _ := s.repo.GetFormByID(ctx, id)
+
+		formulario := &models.Formulario{
+			ID:          form.ID,
+			Informacion: form.Informacion,
+			Version:     form.Version,
+			Nombre:      form.Nombre,
+		}
+		return formulario, nil
+	}
+
+	return nil, err
+}

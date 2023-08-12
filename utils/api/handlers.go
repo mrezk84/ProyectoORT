@@ -180,6 +180,31 @@ func (a *API) GetForms(c echo.Context) error {
 	return c.JSON(http.StatusOK, forms)
 }
 
+func (a *API) GetForm(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.RegisterControl{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	form, err := a.serv.GetFormdeControl(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})
+	}
+	return c.JSON(http.StatusOK, form)
+}
+
 func (a *API) GetContorls(c echo.Context) error {
 
 	ctx := c.Request().Context()
