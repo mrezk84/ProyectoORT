@@ -23,9 +23,11 @@ type Service interface {
 	GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error)
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
 	RegisterObra(ctx context.Context, name string) error
+	GetObras(ctx context.Context) ([]models.Obra, error)
 	RegisterEtapa(ctx context.Context, nombre string) error
 	RegisterPiso(ctx context.Context, number int64) error
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
+	GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, error)
 	RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	DeleteObra(ctx context.Context, name string) error

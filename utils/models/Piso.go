@@ -1,6 +1,7 @@
 package models
 
 type Piso struct {
-	ID   int
-	Obra Obra
+	ID     int
+	Numero int
+	Obra   Obra
 }

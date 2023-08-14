@@ -284,6 +284,31 @@ func (a *API) RegisterObra(c echo.Context) error {
 	return c.JSON(http.StatusCreated, nil)
 }
 
+func (a *API) GetObras(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.RegisterObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	obras, err := a.serv.GetObras(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener las obras"})
+	}
+	return c.JSON(http.StatusOK, obras)
+}
+
 func (a *API) DeleteObra(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.EliminarObra{}
@@ -390,6 +415,31 @@ func (a *API) RegisterObraPiso(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, nil)
+}
+
+func (a *API) GetObrasPiso(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.ConexionObraPiso{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	pisos, err := a.serv.GetPisosObra(ctx, int64(params.ObraID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los pisos de la obra"})
+	}
+	return c.JSON(http.StatusOK, pisos)
 }
 
 func (a *API) RegisterCheck(c echo.Context) error {
