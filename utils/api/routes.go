@@ -18,6 +18,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	users.POST("/login", a.LoginUser)
 	form.POST("/registrar", a.RegisterFrom)
 	form.GET("/getByid", a.GetForm)
+	form.POST("/addUser", a.RegisterUserForm)
 	controls.GET("", a.GetContorls)
 	form.GET("", a.GetForms)
 	obra.POST("/registrar", a.RegisterObra)

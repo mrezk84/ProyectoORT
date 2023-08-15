@@ -75,3 +75,19 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 
 	return formularios, nil
 }
+
+func (s *serv) AddUserForm(ctx context.Context, formID, usuarioID int64) error {
+
+	usuariosf, err := s.repo.GetUsuarioForm(ctx, usuarioID)
+	if err != nil {
+		return err
+	}
+
+	for _, r := range usuariosf {
+		if r.FormularioID == formID {
+			return ErrFomeAlreadyAdded
+		}
+	}
+
+	return s.repo.SaveUserForm(ctx, formID, usuarioID)
+}

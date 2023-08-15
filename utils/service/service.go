@@ -18,6 +18,7 @@ type Service interface {
 	RegisterFrom(ctx context.Context, nombre string, informacion string, version string, fecha string) error
 	GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error)
 	GetForms(ctx context.Context) ([]models.Formulario, error)
+	AddUserForm(ctx context.Context, formID, usuarioID int64) error
 	GetControls(ctx context.Context) ([]models.Control, error)
 	AddControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error)

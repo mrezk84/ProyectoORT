@@ -60,6 +60,9 @@ const (
 		FROM FORMULARIO f INNER JOIN CONTROLES c
 		ON f.id=c.id
 		WHERE f.id=c.id`
+
+	qryInsertUserForm = `
+		INSERT INTO FORMULARIO_RESPONSABLE (formulario_id, usuario_id) VALUES (:formulario_id, :usuario_id);`
 )
 
 func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string, version string, fecha string) error {
@@ -116,4 +119,26 @@ func (r *repo) GetFromControles(ctx context.Context, controles string) (*entity.
 
 	return f, nil
 
+}
+
+func (r *repo) GetUsuarioForm(ctx context.Context, usuarioID int64) ([]entity.UsuarioForm, error) {
+	usuariosf := []entity.UsuarioForm{}
+
+	err := r.db.SelectContext(ctx, &usuariosf, "SELECT formulario_id, usuario_id FROM FORMULARIO_RESPONSABLE WHERE usuario_id = ?", usuarioID)
+	if err != nil {
+		return nil, err
+	}
+
+	return usuariosf, nil
+
+}
+
+func (r *repo) SaveUserForm(ctx context.Context, formID, usuarioID int64) error {
+	data := entity.UsuarioForm{
+		FormularioID: formID,
+		UsuarioID:    usuarioID,
+	}
+
+	_, err := r.db.NamedExecContext(ctx, qryInsertUserForm, data)
+	return err
 }

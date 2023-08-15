@@ -13,10 +13,11 @@ import (
 type Repository interface {
 	SaveUser(ctx context.Context, email, username, password string) error
 	SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error
+	GetUsuarioForm(ctx context.Context, usuarioID int64) ([]entity.UsuarioForm, error)
+	SaveUserForm(ctx context.Context, formID, usuarioID int64) error
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
 	SaveControl(ctx context.Context, descripcion, tipo string) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
-
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
 	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
