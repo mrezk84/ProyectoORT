@@ -25,6 +25,7 @@ type Service interface {
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
 	RegisterObra(ctx context.Context, name string) error
 	GetObras(ctx context.Context) ([]models.Obra, error)
+	GetObra(ctx context.Context, obraID int64) (*models.Obra, error)
 	RegisterEtapa(ctx context.Context, nombre string) error
 	RegisterPiso(ctx context.Context, number int64) error
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error

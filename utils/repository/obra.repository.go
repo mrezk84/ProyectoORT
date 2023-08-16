@@ -10,6 +10,13 @@ const (
 		INSERT INTO OBRA (Nombre)
 		VALUES (?);`
 
+	qryGetObrabyID = `
+		SELECT
+			ID,
+			Nombre
+		FROM OBRA
+		WHERE ID = ?;`
+
 	qryGetObrabyName = `
 		SELECT
 			ID,
@@ -45,6 +52,16 @@ func (r *repo) GetObras(ctx context.Context) ([]entity.Obra, error) {
 func (r *repo) GetObrabyName(ctx context.Context, name string) (*entity.Obra, error) {
 	o := &entity.Obra{}
 	err := r.db.GetContext(ctx, o, qryGetObrabyName, name)
+	if err != nil {
+		return nil, err
+	}
+
+	return o, nil
+}
+
+func (r *repo) GetObrabyID(ctx context.Context, obraID int64) (*entity.Obra, error) {
+	o := &entity.Obra{}
+	err := r.db.GetContext(ctx, o, qryGetObrabyID, obraID)
 	if err != nil {
 		return nil, err
 	}

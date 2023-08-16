@@ -1,3 +1,24 @@
+$(document).ready(function(obra_id) {
+  cargarObra(obra_id)
+
+  // getFormularios()
+  // $('#pisos').DataTable();
+});
+
+
+async function cargarObra(obra_id){
+  const request = await fetch("http://localhost:8080/obras/Byid", {
+        method: 'GET',
+        body: JSON.stringify(obra_id),
+    })
+
+    const obra = await request.json();
+    let listadoHtml = '';
+    listadoHtml += `<h6 class="m-0 font-weight-bold text-primary">${obra.Nombre}</h6>`
+    document.querySelector('#nombre').outerHTML = listadoHtml;
+}
+
+
 async function registrarSeguimiento() {
     let datos = {};
       datos.pendiente = document.getElementById('txt').value;

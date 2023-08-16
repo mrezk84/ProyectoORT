@@ -20,7 +20,7 @@ async function getObrasByUser() {
                  <tr>
                     <th>${obra.ID}</th>s
                     <th>${obra.Nombre}</th>
-                    <th><button onclick="redirectPisos(${obra.ID})">Ver pisos</button></th>
+                    <th><button onclick="redirectPisos(${obra.ID})">Ver seguimiento</button></th>
                 </tr>
                 `
         };
@@ -31,7 +31,7 @@ async function getObrasByUser() {
 }
 
 function redirectPisos(id) {
-    window.location.href = `pisos.html?obra_id=${id}`;
+    window.location.href = `altaSeguimiento.html?obra_id=${id}`;
 }
 
 function redirectAltaObra() {

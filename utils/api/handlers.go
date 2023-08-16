@@ -336,6 +336,31 @@ func (a *API) GetObras(c echo.Context) error {
 	return c.JSON(http.StatusOK, obras)
 }
 
+func (a *API) GetObra(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.RegisterObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	obra, err := a.serv.GetObra(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})
+	}
+	return c.JSON(http.StatusOK, obra)
+}
+
 func (a *API) DeleteObra(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.EliminarObra{}

@@ -40,6 +40,20 @@ func (s *serv) GetObras(ctx context.Context) ([]models.Obra, error) {
 	return obras, nil
 }
 
+func (s *serv) GetObra(ctx context.Context, obraID int64) (*models.Obra, error) {
+	oo, err := s.repo.GetObrabyID(ctx, obraID)
+	if err != nil {
+		return nil, err
+	}
+
+	obra := &models.Obra{
+		ID:     oo.ID,
+		Nombre: oo.Nombre,
+	}
+
+	return obra, nil
+}
+
 func (s *serv) GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, error) {
 	po, err := s.repo.GetObraPisos(ctx, ObraID)
 	if err != nil {

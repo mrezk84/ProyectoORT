@@ -33,6 +33,7 @@ type Repository interface {
 	SaveObra(ctx context.Context, nombre string) error
 	GetObras(ctx context.Context) ([]entity.Obra, error)
 	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)
+	GetObrabyID(ctx context.Context, obraID int64) (*entity.Obra, error)
 	SaveEtapa(ctx context.Context, nombre string) error
 	GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa, error)
 	SavePiso(ctx context.Context, number int64) error
