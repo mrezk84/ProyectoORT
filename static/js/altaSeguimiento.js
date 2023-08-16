@@ -13,9 +13,13 @@ async function cargarObra(obra_id){
     })
 
     const obra = await request.json();
-    let listadoHtml = '';
-    listadoHtml += `<h6 class="m-0 font-weight-bold text-primary">${obra.Nombre}</h6>`
-    document.querySelector('#nombre').outerHTML = listadoHtml;
+    console.log(obra)
+    // let listadoHtml = '';
+    // listadoHtml += 
+    if(request.ok){
+      document.querySelector('#nombre').outerHTML = `<h6 class="m-0 font-weight-bold text-primary">${obra}</h6>`;
+    }
+    
 }
 
 
