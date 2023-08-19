@@ -6,5 +6,4 @@ type Formulario struct {
 	Informacion string `db:"informacion"`
 	Version     string `db:"version"`
 	Fecha       string `db:"fecha"`
-	IdControl   int    `db:"id_contol"`
 }

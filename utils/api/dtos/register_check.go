@@ -4,6 +4,6 @@ type RegisterCheck struct {
 	ID            int    `json:"id_check" `
 	Estado        string `json:"estado" `
 	Observaciones string `json:"observaciones"`
-	Version       string `json:"version"`
+	Version       int    `json:"version"`
 	Fecha         string `json:"fecha_control"`
 }

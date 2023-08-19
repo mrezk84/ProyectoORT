@@ -15,14 +15,15 @@ type Repository interface {
 	SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
 	SaveControl(ctx context.Context, descripcion, tipo string) error
-	SaveCheck(ctx context.Context, estado, observaciones, version, fecha string) error
+	SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
 	GetChecks(ctx context.Context) ([]entity.Check, error)
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
 	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
-	GetForm(ctx context.Context) ([]entity.Formulario, error)
+	GetForms(ctx context.Context) ([]entity.Formulario, error)
+	GetForm(ctx context.Context, id int64) (*entity.Formulario, error)
 	GetControls(ctx context.Context) ([]entity.Control, error)
 	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
@@ -37,6 +38,7 @@ type Repository interface {
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
+	GetFormByName(ctx context.Context, nombre string) (*entity.Formulario, error)
 }
 
 type repo struct {

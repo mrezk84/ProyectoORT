@@ -54,7 +54,7 @@ func (a *API) RegisterFrom(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterFrom(ctx, params.Informacion, params.Nombre, params.Version, params.Fecha)
+	err = a.serv.RegisterFrom(ctx, params.Nombre, params.Informacion, params.Version, params.Fecha)
 	if err != nil {
 		if err == service.ErrFormAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulairo ya existe"})

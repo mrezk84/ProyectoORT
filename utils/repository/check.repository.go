@@ -12,10 +12,10 @@ const (
 
 	qryGetCheckByVersion = `
 		SELECT
-			id
-			estado
-			observaciones
-			version
+			id,
+			estado,
+			observaciones,
+			version,
 			fecha_control
 		FROM CHECK
 		WHERE version = ?;`
@@ -25,17 +25,19 @@ const (
 
 	qryGetChecks = `
 		SELECT
-			id
-			estado
-			observaciones
-			version
+			id,
+			estado,
+			observaciones,
+			version,
 			fecha_control
 		FROM CHECK`
 )
 
-func (r *repo) SaveCheck(ctx context.Context, estado, observaciones, version, fecha string) error {
+func (r *repo) SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error {
 	_, err := r.db.ExecContext(ctx, qryInsertCheck, estado, observaciones, version, fecha)
+
 	return err
+
 }
 
 func (r *repo) GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error) {

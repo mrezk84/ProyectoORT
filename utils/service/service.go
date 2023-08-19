@@ -24,7 +24,7 @@ type Service interface {
 	RegisterEtapa(ctx context.Context, nombre string) error
 	RegisterPiso(ctx context.Context, number int64) error
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
-	RegisterCheck(ctx context.Context, estado string, observaciones string, version string, fecha string) error
+	RegisterCheck(ctx context.Context, estado string, observaciones string, version int, fecha string) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	sendEmail(toEmail, code string) error
 	generateRandomCode() string

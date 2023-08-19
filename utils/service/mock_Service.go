@@ -198,11 +198,11 @@ func (_m *MockService) GetControlById(ctx context.Context, id int) (*entity.Cont
 	return r0, r1
 }
 
-func (_m *MockService) RegisterCheck(ctx context.Context, estado string, observaciones string, version string, fecha string) error {
+func (_m *MockService) RegisterCheck(ctx context.Context, estado string, observaciones string, version int, fecha string) error {
 	ret := _m.Called(ctx, estado, observaciones, version, fecha)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, int, string) error); ok {
 		r0 = rf(ctx, estado, observaciones, version, fecha)
 	} else {
 		r0 = ret.Error(0)
