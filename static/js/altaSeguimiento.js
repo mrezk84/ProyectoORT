@@ -1,25 +1,26 @@
-$(document).ready(function(obra_id) {
-  cargarObra(obra_id)
+$(document).ready(function() {
+  cargarObra()
 
+  $('#obra').DataTable();
   // getFormularios()
   // $('#pisos').DataTable();
 });
 
+let id = null;
 
-async function cargarObra(obra_id){
+async function cargarObra(){
+  const url = new URL(document.URL);
+  const searchParams = url.searchParams;
+
+  id = searchParams.get('obra_id');
+
   const request = await fetch("http://localhost:8080/obras/Byid", {
         method: 'GET',
-        body: JSON.stringify(obra_id),
+        body: JSON.stringify(id),
     })
 
     const obra = await request.json();
     console.log(obra)
-    // let listadoHtml = '';
-    // listadoHtml += 
-    if(request.ok){
-      document.querySelector('#nombre').outerHTML = `<h6 class="m-0 font-weight-bold text-primary">${obra}</h6>`;
-    }
-    
 }
 
 
