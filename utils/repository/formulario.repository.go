@@ -58,7 +58,7 @@ const (
 	FROM FORMULARIO
 	WHERE name = ?;`
 
-	qryGetFormEtaps = `
+	qryGetFormEtapas = `
 		SELECT f.id,f.nombre,f.informacion,f.fecha, e.nombre as etapas
 		FROM FORMULARIO f INNER JOIN ETAPAS e
 		ON f.id=e.id
@@ -92,6 +92,15 @@ func (r *repo) GetForms(ctx context.Context) ([]entity.Formulario, error) {
 	if err != nil {
 		return nil, err
 	}
+	err1 := r.db.SelectContext(ctx, &ff, qryGetFormEtapas)
+
+	if err1 != nil {
+		return nil, err
+	}
+	err2 := r.db.SelectContext(ctx, &ff, qryGetFormUsers)
+	if err2 != nil {
+		return nil, err
+	}
 
 	return ff, nil
 }
@@ -109,7 +118,7 @@ func (r *repo) GetFormByVersion(ctx context.Context, version string) (*entity.Fo
 func (r *repo) GetFromEtapas(ctx context.Context) (*entity.Formulario, error) {
 
 	f := &entity.Formulario{}
-	err := r.db.GetContext(ctx, f, qryGetFormEtaps)
+	err := r.db.GetContext(ctx, f, qryGetFormEtapas)
 	if err != nil {
 		return nil, err
 	}

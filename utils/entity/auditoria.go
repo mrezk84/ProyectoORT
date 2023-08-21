@@ -7,5 +7,4 @@ type Auditoria struct {
 	FormularioID int       `db:"formulario_id"`
 	Version      string    `db:"version"`
 	Fecha        time.Time `db:"fecha"`
-	Accion       string
 }

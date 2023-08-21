@@ -72,6 +72,7 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 			Fecha:       time.Now(),
 			Etapa:       []models.Etapa{{ID: f.IDEtapa}},
 			Usuario:     []models.Usuario{{ID: f.IDUsuario}},
+			Auditoria:   []models.Auditoria{},
 		})
 	}
 	return formularios, nil
