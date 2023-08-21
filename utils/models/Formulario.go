@@ -1,9 +1,13 @@
 package models
 
+import "time"
+
 type Formulario struct {
 	ID          int       `json:"id"`
+	Nombre      string    `json:"nombre"`
 	Informacion string    `json:"informacion"`
 	Version     string    `json:"version"`
-	Nombre      string    `json:"nombre"`
-	Controles   []Control `json:"controles"`
+	Fecha       time.Time `json:"fecha"`
+	Etapa       []Etapa   `json:"etapa"`
+	Usuario     []Usuario `json:"usuario"`
 }

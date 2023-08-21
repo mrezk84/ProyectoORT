@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"proyectoort/encryption"
 	"proyectoort/utils/api/dtos"
+	"proyectoort/utils/models"
 	"proyectoort/utils/service"
 
 	"github.com/labstack/echo/v4"
@@ -54,7 +55,7 @@ func (a *API) RegisterFrom(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterFrom(ctx, params.Nombre, params.Informacion, params.Version, params.Fecha)
+	err = a.serv.RegisterFrom(ctx, params.Nombre, params.Informacion, params.Version, params.Fecha.GoString(), int(params.EtapaID), int(params.UsuarioID))
 	if err != nil {
 		if err == service.ErrFormAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulairo ya existe"})
@@ -172,7 +173,15 @@ func (a *API) GetForms(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	forms, err := a.serv.GetForms(ctx)
+	forms := models.Formulario{
+
+		ID:          int(params.ID),
+		Nombre:      params.Nombre,
+		Informacion: params.Informacion,
+		Version:     params.Version,
+		Fecha:       params.Fecha,
+	}
+	err = a.serv.AddForm(ctx, params.Fecha.GoString(), forms)
 	if err != nil {
 		log.Println(err)
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})

@@ -40,7 +40,7 @@ func (r *repo) GetControls(ctx context.Context) ([]entity.Control, error) {
 
 	return cc, nil
 }
-func (r *repo) GetFormById(ctx context.Context, id int) (*entity.Control, error) {
+func (r *repo) GetControlById(ctx context.Context, id int) (*entity.Control, error) {
 	c := &entity.Control{}
 	err := r.db.GetContext(ctx, c, qryGetContById, id)
 	if err != nil {

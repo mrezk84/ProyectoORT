@@ -6,4 +6,6 @@ type Formulario struct {
 	Informacion string `db:"informacion"`
 	Version     string `db:"version"`
 	Fecha       string `db:"fecha"`
+	IDEtapa     int64  `db:"etapa_id"`
+	IDUsuario   int64  `db:"usuario_id"`
 }

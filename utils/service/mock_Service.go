@@ -135,21 +135,21 @@ func (_m *MockService) GetFormByVersion(ctx context.Context, version string) (*e
 	return r0, r1
 }
 
-func (_m *MockService) GetForms(ctx context.Context) (*models.Formulario, error) {
-	ret := _m.Called(ctx)
+func (_m *MockService) GetFormsById(ctx context.Context, id int64) (*entity.Formulario, error) {
+	ret := _m.Called(ctx, id)
 
-	var r0 *models.Formulario
-	if rf, ok := ret.Get(0).(func(context.Context) *models.Formulario); ok {
-		r0 = rf(ctx)
+	var r0 *entity.Formulario
+	if rf, ok := ret.Get(0).(func(context.Context, int64) *entity.Formulario); ok {
+		r0 = rf(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*models.Formulario)
+			r0 = ret.Get(0).(*entity.Formulario)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
-		r1 = rf(ctx)
+	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+		r1 = rf(ctx, id)
 	} else {
 		r1 = ret.Error(1)
 	}

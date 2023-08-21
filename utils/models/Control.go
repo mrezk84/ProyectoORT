@@ -1,8 +1,10 @@
 package models
 
+import "time"
+
 type Control struct {
-	ID          int
-	Descripcion string
-	// todo control type deberia ser un enum
-	Tipo string
+	ID           int       `json:"id"`
+	Descripcion  string    `json:"descripcion"`
+	Tipo         string    `json:"tipo"`
+	FechaControl time.Time `json:"fechaControl"`
 }
