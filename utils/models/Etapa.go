@@ -1,7 +1,7 @@
 package models
 
 type Etapa struct {
-	ID        int
+	ID        int64
 	Nombre    string
 	Controles []Control
 }

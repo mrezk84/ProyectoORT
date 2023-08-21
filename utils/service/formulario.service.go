@@ -54,21 +54,25 @@ func (s *serv) AddForm(ctx context.Context, version string, formulario models.Fo
 	return s.repo.SaveFrom(ctx, form.Nombre, form.Informacion, form.Version, form.Fecha, form.IDEtapa, form.IDUsuario)
 }
 
-func (s *serv) GetForms(ctx context.Context, id int64) (*models.Formulario, error) {
-	f, err := s.repo.GetFormsById(ctx, id)
+func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
+
+	ff, err := s.repo.GetForms(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	formulario := &models.Formulario{
-		ID:          f.ID,
-		Nombre:      f.Nombre,
-		Informacion: f.Informacion,
-		Version:     f.Version,
-		Fecha:       time.Now(),
-		Etapa:       []models.Etapa{},
-		Usuario:     []models.Usuario{},
+	formularios := []models.Formulario{}
+	for _, f := range ff {
+		// Crear formulario
+		formularios = append(formularios, models.Formulario{
+			ID:          f.ID,
+			Nombre:      f.Nombre,
+			Informacion: f.Informacion,
+			Version:     f.Version,
+			Fecha:       time.Now(),
+			Etapa:       []models.Etapa{{ID: f.IDEtapa}},
+			Usuario:     []models.Usuario{{ID: f.IDUsuario}},
+		})
 	}
-
-	return formulario, nil
+	return formularios, nil
 }
