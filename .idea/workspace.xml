@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f5f80839-602a-4100-af6e-61429472737d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyectoort" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/proyectoort.rar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings/settings.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/settings/settings.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/altaFormulario.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/altaFormulario.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/sb-admin-2.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/sb-admin-2.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/formularios.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/formularios.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/golist.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/api/dtos/register_check.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/dtos/register_check.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/api/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/handlers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/entity/check.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/entity/check.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/entity/etapa.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/entity/etapa.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/entity/formulario.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/entity/formulario.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/entity/piso.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/entity/piso.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/repository/check.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/check.repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/repository/formulario.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/formulario.repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/service/check.service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/check.service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/service/formulario.service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/formulario.service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/service/mock_Service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/mock_Service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/service.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file://C:/Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2U2fxME3DVx6kBLumtQK8VaDQd2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Marcos",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "D:/ProyectoORT",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="ProyectoORT" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="ProyectoORT" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f5f80839-602a-4100-af6e-61429472737d" name="Changes" comment="" />
+      <created>1692142848742</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1692142848742</updated>
+      <workItem from="1692142854780" duration="780000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>
