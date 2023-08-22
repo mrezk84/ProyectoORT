@@ -24,6 +24,15 @@ const (
 			fecha_inicio AS fechaInicio,
 		FROM ETAPAS
 		WHERE nombre = ?;`
+
+
+	qryGetAllEtapas = `
+		SELECT id,
+		nombre,
+		informacion,
+		version,
+		fecha
+		FROM FORMULARIO;`
 )
 
 func (r *repo) SaveEtapa(ctx context.Context, nombre string) error {
@@ -49,4 +58,23 @@ func (r *repo) GetEtapaByName(ctx context.Context, nombre string) (*entity.Etapa
 	}
 
 	return e, nil
+}
+func (r *repo) GetEtapa(ctx context.Context) ([]entity.Etapa, error) {
+	ff := []entity.Etapa{}
+
+	err := r.db.SelectContext(ctx, &ff, qryGetAllForms)
+	if err != nil {
+		return nil, err
+	}
+	err1 := r.db.SelectContext(ctx, &ff, qryGetFormEtapas)
+
+	if err1 != nil {
+		return nil, err
+	}
+	err2 := r.db.SelectContext(ctx, &ff, qryGetFormUsers)
+	if err2 != nil {
+		return nil, err
+	}
+
+	return ff, nil
 }

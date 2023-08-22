@@ -11,6 +11,7 @@ import (
 //
 //go:generate mockery --name=Repository --output=repository --inpackage
 type Repository interface {
+	SaveAudit(ctx context.Context, formulario_id int, version string, fecha string) error
 	SaveUser(ctx context.Context, email, username, password string) error
 	SaveFrom(ctx context.Context, nombre string, informacion string, version string, fecha string, etapa_id int, usuario_id int) error
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
