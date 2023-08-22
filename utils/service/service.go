@@ -15,10 +15,10 @@ type Service interface {
 	LoginUser(ctx context.Context, email, password string) (*models.Usuario, error)
 	AddUserRole(ctx context.Context, userID, roleID int64) error
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
-	AddForm(ctx context.Context, version string, formulario models.Formulario) error
+	AddForm(ctx context.Context, id int, formulario models.Formulario) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
-	RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id, usuairo_id int) error
+	RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id int, usuario_id int) error
 	GetForms(ctx context.Context) ([]models.Formulario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
@@ -33,8 +33,6 @@ type Service interface {
 type serv struct {
 	repo repository.Repository
 }
-
-// GetFrom implements Service.
 
 func New(repo repository.Repository) Service {
 	return &serv{

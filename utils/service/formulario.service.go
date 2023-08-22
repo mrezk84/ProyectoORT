@@ -15,43 +15,43 @@ var (
 	ErrFomEtapaAlreadyAdded = errors.New("la etapa ya se encuentra realizada")
 )
 
-func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id, usuairo_id int) error {
+func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id int, usuario_id int) error {
 
 	f, _ := s.repo.GetForms(ctx)
 	if f != nil {
 		return ErrFormAlreadyExists
 	}
 
-	u, _ := s.repo.GetUserById(ctx, usuairo_id)
+	u, _ := s.repo.GetFromUsers(ctx)
 	if u != nil {
 		return ErrFomUserAlreadyAdded
 	}
 
-	e, _ := s.repo.GetEtapaById(ctx, int64(etapa_id))
-	if u != nil {
+	e, _ := s.repo.GetFromEtapas(ctx)
+	if e != nil {
 		return ErrFomEtapaAlreadyAdded
 	}
-	return s.repo.SaveFrom(ctx, informacion, nombre, version, fecha, int64(e.ID), u.ID)
+	return s.repo.SaveFrom(ctx, informacion, nombre, version, fecha, e.ID, u.ID)
 }
 
-func (s *serv) AddForm(ctx context.Context, version string, formulario models.Formulario) error {
+func (s *serv) AddForm(ctx context.Context, id int, formulario models.Formulario) error {
 
-	form, err := s.repo.GetFormByVersion(ctx, version)
-
+	form, err := s.repo.GetFormsById(ctx, int64(id))
 	if form != nil {
 		return err
 	}
 
-	etapas, err := s.repo.GetFromEtapas(ctx)
+	etapas, err := s.repo.GetEtapaById(ctx, form.IDEtapa)
 	if etapas != nil {
 		return err
 	}
 
-	usuarios, err := s.repo.GetFromUsers(ctx)
+	usuarios, err := s.repo.GetUserById(ctx, int(form.IDUsuario))
 	if usuarios != nil {
 		return err
 	}
-	return s.repo.SaveFrom(ctx, form.Nombre, form.Informacion, form.Version, form.Fecha, form.IDEtapa, form.IDUsuario)
+
+	return s.repo.SaveFrom(ctx, form.Nombre, form.Informacion, form.Version, form.Fecha, etapas.ID, int(usuarios.ID))
 }
 
 func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
@@ -63,17 +63,17 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 
 	formularios := []models.Formulario{}
 	for _, f := range ff {
-		// Crear formulario
+
 		formularios = append(formularios, models.Formulario{
 			ID:          f.ID,
 			Nombre:      f.Nombre,
 			Informacion: f.Informacion,
 			Version:     f.Version,
 			Fecha:       time.Now(),
-			Etapa:       []models.Etapa{{ID: f.IDEtapa}},
-			Usuario:     []models.Usuario{{ID: f.IDUsuario}},
-			Auditoria:   []models.Auditoria{},
+			EtapaID:     int(f.IDEtapa),
+			UsuarioID:   int(f.IDUsuario),
 		})
 	}
+
 	return formularios, nil
 }

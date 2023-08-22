@@ -8,7 +8,7 @@ import (
 const (
 	qryInsertFrom = `
 		INSERT INTO FORMULARIO (nombre,informacion,version,fecha, etapa_id, usuario_id)
-		VALUES (?, ?, ?, ?, ?);`
+		VALUES (?, ?, ?, ?, ?, ?, ?);`
 
 	qryGetFormByDate = `
 		SELECT
@@ -71,8 +71,8 @@ const (
 		WHERE f.id=u.id`
 )
 
-func (r *repo) SaveFrom(ctx context.Context, nombre string, informacion string, version string, fecha string, idEtapa, idUsuario int64) error {
-	_, err := r.db.ExecContext(ctx, qryInsertFrom, nombre, informacion, version, fecha, idEtapa, idUsuario)
+func (r *repo) SaveFrom(ctx context.Context, nombre string, informacion string, version string, fecha string, etapa_id int, usuario_id int) error {
+	_, err := r.db.ExecContext(ctx, qryInsertFrom, nombre, informacion, version, fecha, etapa_id, usuario_id)
 	return err
 }
 
@@ -90,15 +90,6 @@ func (r *repo) GetForms(ctx context.Context) ([]entity.Formulario, error) {
 
 	err := r.db.SelectContext(ctx, &ff, qryGetAllForms)
 	if err != nil {
-		return nil, err
-	}
-	err1 := r.db.SelectContext(ctx, &ff, qryGetFormEtapas)
-
-	if err1 != nil {
-		return nil, err
-	}
-	err2 := r.db.SelectContext(ctx, &ff, qryGetFormUsers)
-	if err2 != nil {
 		return nil, err
 	}
 
