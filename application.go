@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/labstack/echo/v4"
-	"go.uber.org/fx"
 	"proyectoort/database"
 	"proyectoort/settings"
 	"proyectoort/utils/api"
 	"proyectoort/utils/repository"
 	"proyectoort/utils/service"
+
+	"github.com/labstack/echo/v4"
+	"go.uber.org/fx"
 )
 
 func main() {
