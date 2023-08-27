@@ -21,7 +21,7 @@ const roles = await request.json();
 
 let listadoHtml = '';
 for (let rol of roles) {
-  let botonAsingar = '<a href="usuarios.html"  onclick =" asingarPermiso('+rol.id+')"  class="btn btn-success"><span class="icon text-white-50"></i></span><span class="text">Asignar Rol</span></a>';
+  let botonAsingar = '<a href="usuarios.html"  onclick =" asingarPermiso('+rol.id+')"  class="btn btn-primary"><span class="icon text-white-50"></i></span><span class="text">Asignar Rol</span></a>';
   let rolHtml = '<tr><td>'+ rol.id+'</td><td>' + rol.nombre +'</td><td>' + botonAsingar+ '</td></tr>';
   listadoHtml += rolHtml;
   }
@@ -43,7 +43,7 @@ function getHeaders() {
  if (!confirm('¿Desea asingar este rol al  usuario?')) {
     return;
   }
-const request = await fetch('http://localhost:5000/usuarios' + id, {
+const request = await fetch('http://localhost:5000/usuarios/roles' + id, {
   method: 'POST',
   headers: getHeaders()
 });

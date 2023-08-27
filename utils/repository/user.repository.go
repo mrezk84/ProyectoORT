@@ -38,7 +38,7 @@ const (
 		FROM USUARIOS;`
 
 	qryInsertUserRole = `
-		INSERT INTO USUARIOS_ROLES (usuario_id, rol_id) VALUES (:usuario_id, :rol_id);`
+		INSERT INTO USUARIOS_ROLES(usuario_id, rol_id) VALUES (?, ?);`
 
 	qryRemoveUserRole = `
 		DELETE FROM USUARIOS_ROLES where usuario_id = :usuario_id and rol_id = :rol_id;`
@@ -59,17 +59,13 @@ func (r *repo) GetUserByEmail(ctx context.Context, email string) (*entity.Usuari
 	return u, nil
 }
 
-func (r *repo) SaveUserRole(ctx context.Context, userID, roleID int64) error {
+func (r *repo) SaveUserRole(ctx context.Context, userID, roleID int) error {
 
-	data := entity.UsuarioRol{
-		UserID: userID,
-		RoleID: roleID,
-	}
-	_, err := r.db.NamedExecContext(ctx, qryInsertUserRole, data)
+	_, err := r.db.ExecContext(ctx, qryInsertUserRole, userID, roleID)
 	return err
 }
 
-func (r *repo) RemoveUserRole(ctx context.Context, userID, roleID int64) error {
+func (r *repo) RemoveUserRole(ctx context.Context, userID, roleID int) error {
 	data := entity.UsuarioRol{
 		UserID: userID,
 		RoleID: roleID,
@@ -80,7 +76,7 @@ func (r *repo) RemoveUserRole(ctx context.Context, userID, roleID int64) error {
 	return err
 }
 
-func (r *repo) GetUserRoles(ctx context.Context, userID int64) ([]entity.UsuarioRol, error) {
+func (r *repo) GetUserRoles(ctx context.Context, userID int) ([]entity.UsuarioRol, error) {
 	roles := []entity.UsuarioRol{}
 
 	err := r.db.SelectContext(ctx, &roles, "SELECT usuario_id, rol_id FROM USUARIOS_ROLES WHERE usuario_id = ?", userID)

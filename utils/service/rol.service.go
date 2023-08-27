@@ -10,14 +10,14 @@ var (
 	ErrRolAlreadyExists = errors.New("El rol ya existe")
 )
 
-func (s *serv) RegisterRol(ctx context.Context, nombre string) error {
+func (s *serv) RegisterRol(ctx context.Context, id int) error {
 
-	r, _ := s.repo.GetRolByName(ctx, nombre)
+	r, _ := s.repo.GetRolById(ctx, id)
 	if r != nil {
 		return ErrRolAlreadyExists
 	}
 
-	return s.repo.SaveRole(ctx, nombre)
+	return s.repo.SaveRole(ctx, id)
 }
 func (s *serv) GetAllRoles(ctx context.Context) ([]models.Rol, error) {
 	ro, err := s.repo.GetAllRoles(ctx)
@@ -27,7 +27,7 @@ func (s *serv) GetAllRoles(ctx context.Context) ([]models.Rol, error) {
 	roles := []models.Rol{}
 	for _, r := range ro {
 		roles = append(roles, models.Rol{
-			ID:     int64(r.ID),
+			ID:     r.ID,
 			Nombre: r.Nombre,
 		})
 

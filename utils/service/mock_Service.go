@@ -57,11 +57,11 @@ func (_m *MockService) AddObraPiso(ctx context.Context, obraID int64, pisoID int
 }
 
 // AddUserRole provides a mock function with given fields: ctx, userID, roleID
-func (_m *MockService) AddUserRole(ctx context.Context, userID int64, roleID int64) error {
+func (_m *MockService) AddUserRole(ctx context.Context, userID int, roleID int) error {
 	ret := _m.Called(ctx, userID, roleID)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64, int64) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
 		r0 = rf(ctx, userID, roleID)
 	} else {
 		r0 = ret.Error(0)
@@ -284,13 +284,13 @@ func (_m *MockService) RegisterPiso(ctx context.Context, number int64) error {
 	return r0
 }
 
-// RegisterRol provides a mock function with given fields: ctx, nombre
-func (_m *MockService) RegisterRol(ctx context.Context, nombre string) error {
-	ret := _m.Called(ctx, nombre)
+// RegisterRol provides a mock function with given fields: ctx, id
+func (_m *MockService) RegisterRol(ctx context.Context, id int) error {
+	ret := _m.Called(ctx, id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
-		r0 = rf(ctx, nombre)
+	if rf, ok := ret.Get(0).(func(context.Context, int) error); ok {
+		r0 = rf(ctx, id)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -313,11 +313,11 @@ func (_m *MockService) RegisterUser(ctx context.Context, email string, name stri
 }
 
 // RemoveUserRole provides a mock function with given fields: ctx, userID, roleID
-func (_m *MockService) RemoveUserRole(ctx context.Context, userID int64, roleID int64) error {
+func (_m *MockService) RemoveUserRole(ctx context.Context, userID int, roleID int) error {
 	ret := _m.Called(ctx, userID, roleID)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64, int64) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
 		r0 = rf(ctx, userID, roleID)
 	} else {
 		r0 = ret.Error(0)

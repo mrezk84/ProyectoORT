@@ -13,11 +13,11 @@ type Service interface {
 	RegisterUser(ctx context.Context, email, name, password string) error
 	RegisterControl(ctx context.Context, descripcion, tipo string) error
 	LoginUser(ctx context.Context, email, password string) (*models.Usuario, error)
-	AddUserRole(ctx context.Context, userID, roleID int64) error
+	AddUserRole(ctx context.Context, userID, roleID int) error
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
 	AddForm(ctx context.Context, id int, formulario models.Formulario) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
-	RemoveUserRole(ctx context.Context, userID, roleID int64) error
+	RemoveUserRole(ctx context.Context, userID, roleID int) error
 	RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id int, usuario_id int) error
 	GetForms(ctx context.Context) ([]models.Formulario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
@@ -28,7 +28,7 @@ type Service interface {
 	RegisterCheck(ctx context.Context, estado string, observaciones string, version int, fecha string) error
 
 	GetAllRoles(ctx context.Context) ([]models.Rol, error)
-	RegisterRol(ctx context.Context, nombre string) error
+	RegisterRol(ctx context.Context, id int) error
 }
 
 type serv struct {

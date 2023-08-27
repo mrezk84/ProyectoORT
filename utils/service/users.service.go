@@ -57,21 +57,21 @@ func (s *serv) LoginUser(ctx context.Context, email, password string) (*models.U
 	}, nil
 }
 
-func (s *serv) AddUserRole(ctx context.Context, userID, roleID int64) error {
+func (s *serv) AddUserRole(ctx context.Context, userID, roleID int) error {
 
-	roles, err := s.repo.GetUserRoles(ctx, userID)
+	roles, err := s.repo.GetRolById(ctx, roleID)
 	if err != nil {
 		return err
 	}
-	for _, r := range roles {
-		if r.RoleID == roleID {
-			return ErrRoleAlreadyAdded
-		}
+	us, err := s.repo.GetUserById(ctx, userID)
+	if err != nil {
+		return err
 	}
-	return s.repo.SaveUserRole(ctx, userID, roleID)
+
+	return s.repo.SaveUserRole(ctx, us.ID, roles.ID)
 }
 
-func (s *serv) RemoveUserRole(ctx context.Context, userID, roleID int64) error {
+func (s *serv) RemoveUserRole(ctx context.Context, userID, roleID int) error {
 	roles, err := s.repo.GetUserRoles(ctx, userID)
 	if err != nil {
 		return err

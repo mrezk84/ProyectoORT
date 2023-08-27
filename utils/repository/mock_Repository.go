@@ -482,6 +482,32 @@ func (_m *MockRepository) GetPisobyNumber(ctx context.Context, number int64) (*e
 	return r0, r1
 }
 
+// GetRolById provides a mock function with given fields: ctx, id
+func (_m *MockRepository) GetRolById(ctx context.Context, id int) (*entity.Rol, error) {
+	ret := _m.Called(ctx, id)
+
+	var r0 *entity.Rol
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*entity.Rol, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Rol); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Rol)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetRolByName provides a mock function with given fields: ctx, nombre
 func (_m *MockRepository) GetRolByName(ctx context.Context, nombre string) (*entity.Rol, error) {
 	ret := _m.Called(ctx, nombre)
@@ -561,15 +587,15 @@ func (_m *MockRepository) GetUserById(ctx context.Context, id int) (*entity.Usua
 }
 
 // GetUserRoles provides a mock function with given fields: ctx, userID
-func (_m *MockRepository) GetUserRoles(ctx context.Context, userID int64) ([]entity.UsuarioRol, error) {
+func (_m *MockRepository) GetUserRoles(ctx context.Context, userID int) ([]entity.UsuarioRol, error) {
 	ret := _m.Called(ctx, userID)
 
 	var r0 []entity.UsuarioRol
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]entity.UsuarioRol, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int) ([]entity.UsuarioRol, error)); ok {
 		return rf(ctx, userID)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) []entity.UsuarioRol); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int) []entity.UsuarioRol); ok {
 		r0 = rf(ctx, userID)
 	} else {
 		if ret.Get(0) != nil {
@@ -577,7 +603,7 @@ func (_m *MockRepository) GetUserRoles(ctx context.Context, userID int64) ([]ent
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
 		r1 = rf(ctx, userID)
 	} else {
 		r1 = ret.Error(1)
@@ -613,11 +639,11 @@ func (_m *MockRepository) GetUsers(ctx context.Context) ([]entity.Usuario, error
 }
 
 // RemoveUserRole provides a mock function with given fields: ctx, userID, roleID
-func (_m *MockRepository) RemoveUserRole(ctx context.Context, userID int64, roleID int64) error {
+func (_m *MockRepository) RemoveUserRole(ctx context.Context, userID int, roleID int) error {
 	ret := _m.Called(ctx, userID, roleID)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64, int64) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
 		r0 = rf(ctx, userID, roleID)
 	} else {
 		r0 = ret.Error(0)
@@ -738,13 +764,13 @@ func (_m *MockRepository) SavePiso(ctx context.Context, number int64) error {
 	return r0
 }
 
-// SaveRole provides a mock function with given fields: ctx, nombre
-func (_m *MockRepository) SaveRole(ctx context.Context, nombre string) error {
-	ret := _m.Called(ctx, nombre)
+// SaveRole provides a mock function with given fields: ctx, id
+func (_m *MockRepository) SaveRole(ctx context.Context, id int) error {
+	ret := _m.Called(ctx, id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
-		r0 = rf(ctx, nombre)
+	if rf, ok := ret.Get(0).(func(context.Context, int) error); ok {
+		r0 = rf(ctx, id)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -767,11 +793,11 @@ func (_m *MockRepository) SaveUser(ctx context.Context, email string, username s
 }
 
 // SaveUserRole provides a mock function with given fields: ctx, userID, roleID
-func (_m *MockRepository) SaveUserRole(ctx context.Context, userID int64, roleID int64) error {
+func (_m *MockRepository) SaveUserRole(ctx context.Context, userID int, roleID int) error {
 	ret := _m.Called(ctx, userID, roleID)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64, int64) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
 		r0 = rf(ctx, userID, roleID)
 	} else {
 		r0 = ret.Error(0)

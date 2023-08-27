@@ -1,7 +1,7 @@
 package entity
 
 type UsuarioRol struct {
-	ID     int64 `db:"id"`
-	UserID int64 `db:"user_id"`
-	RoleID int64 `db:"role_id"`
+	ID     int `db:"id"`
+	UserID int `db:"usuario_id"`
+	RoleID int `db:"rol_id"`
 }

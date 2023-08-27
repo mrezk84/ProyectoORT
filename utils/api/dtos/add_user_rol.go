@@ -1,4 +1,4 @@
-package models
+package dtos
 
 type UsuarioRol struct {
 	UserID int `json:"usuario_id"`
