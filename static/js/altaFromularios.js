@@ -12,7 +12,7 @@ $(document).ready(function() {
     datos.version = document.getElementById('txtVersion').value;
     datos.fecha= document.getElementById('txtFecha').value;
 
-    const request = await fetch("http://localhost:8080/formularios/registrar", {
+    const request = await fetch("http://localhost:5000/formularios/registrar", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -23,7 +23,7 @@ $(document).ready(function() {
       if (request.ok){
         Swal.fire(
           'Exito!',
-          'Se guardo de la manera correcta el formulario',
+          'Formulario guardado correctamente',
           'success'
           )
           

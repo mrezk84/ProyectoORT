@@ -26,8 +26,9 @@ type Service interface {
 	RegisterEtapa(ctx context.Context, nombre string) error
 	RegisterPiso(ctx context.Context, number int64) error
 	RegisterCheck(ctx context.Context, estado string, observaciones string, version int, fecha string) error
-	sendEmail(toEmail, code string) error
-	generateRandomCode() string
+
+	GetAllRoles(ctx context.Context) ([]models.Rol, error)
+	RegisterRol(ctx context.Context, nombre string) error
 }
 
 type serv struct {

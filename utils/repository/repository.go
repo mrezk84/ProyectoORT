@@ -11,7 +11,6 @@ import (
 //
 //go:generate mockery --name=Repository --output=repository --inpackage
 type Repository interface {
-	SaveAudit(ctx context.Context, formulario_id int, version string, fecha string) error
 	SaveUser(ctx context.Context, email, username, password string) error
 	SaveFrom(ctx context.Context, nombre string, informacion string, version string, fecha string, etapa_id int, usuario_id int) error
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
@@ -21,7 +20,7 @@ type Repository interface {
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
 	GetChecks(ctx context.Context) ([]entity.Check, error)
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
-	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
+	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsuarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
 	GetForms(ctx context.Context) ([]entity.Formulario, error)
 	GetFormsById(ctx context.Context, id int64) (*entity.Formulario, error)
@@ -44,6 +43,10 @@ type Repository interface {
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
 	GetFormByName(ctx context.Context, nombre string) (*entity.Formulario, error)
+
+	SaveRole(ctx context.Context, nombre string) error
+	GetRolByName(ctx context.Context, nombre string) (*entity.Rol, error)
+	GetAllRoles(ctx context.Context) ([]entity.Rol, error)
 }
 
 type repo struct {

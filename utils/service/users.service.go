@@ -3,11 +3,6 @@ package service
 import (
 	"context"
 	"errors"
-	"fmt"
-	"math/rand"
-	"net/smtp"
-	"time"
-
 	"proyectoort/encryption"
 	"proyectoort/utils/models"
 )
@@ -68,13 +63,11 @@ func (s *serv) AddUserRole(ctx context.Context, userID, roleID int64) error {
 	if err != nil {
 		return err
 	}
-
 	for _, r := range roles {
 		if r.RoleID == roleID {
 			return ErrRoleAlreadyAdded
 		}
 	}
-
 	return s.repo.SaveUserRole(ctx, userID, roleID)
 }
 
@@ -114,30 +107,4 @@ func (s *serv) GetUsers(ctx context.Context) ([]models.Usuario, error) {
 
 	return usuarios, nil
 
-}
-
-func (s *serv) generateRandomCode() string {
-	rand.Seed(time.Now().UnixNano())
-	code := rand.Intn(999999)
-	return fmt.Sprintf("%06d", code)
-}
-
-func (s *serv) sendEmail(toEmail, code string) error {
-	from := "proyectoceaosa@gmail.com"
-	password := "tu_contrasena"
-	smtpServer := "smtp.gmail.com"
-	smtpPort := "587"
-
-	auth := smtp.PlainAuth("", from, password, smtpServer)
-
-	msg := "From: " + from + "\n" +
-		"To: " + toEmail + "\n" +
-		"Subject: Código de cambio de contraseña\n\n" +
-		"Tu código de cambio de contraseña es: " + code
-
-	err := smtp.SendMail(smtpServer+":"+smtpPort, auth, from, []string{toEmail}, []byte(msg))
-	if err != nil {
-		return err
-	}
-	return nil
 }

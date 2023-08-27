@@ -14,6 +14,32 @@ type MockRepository struct {
 	mock.Mock
 }
 
+// GetAllRoles provides a mock function with given fields: ctx
+func (_m *MockRepository) GetAllRoles(ctx context.Context) ([]entity.Rol, error) {
+	ret := _m.Called(ctx)
+
+	var r0 []entity.Rol
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]entity.Rol, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []entity.Rol); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Rol)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetCheckByVersion provides a mock function with given fields: ctx, version
 func (_m *MockRepository) GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error) {
 	ret := _m.Called(ctx, version)
@@ -456,6 +482,32 @@ func (_m *MockRepository) GetPisobyNumber(ctx context.Context, number int64) (*e
 	return r0, r1
 }
 
+// GetRolByName provides a mock function with given fields: ctx, nombre
+func (_m *MockRepository) GetRolByName(ctx context.Context, nombre string) (*entity.Rol, error) {
+	ret := _m.Called(ctx, nombre)
+
+	var r0 *entity.Rol
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (*entity.Rol, error)); ok {
+		return rf(ctx, nombre)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Rol); ok {
+		r0 = rf(ctx, nombre)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Rol)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, nombre)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetUserByEmail provides a mock function with given fields: ctx, email
 func (_m *MockRepository) GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error) {
 	ret := _m.Called(ctx, email)
@@ -509,19 +561,19 @@ func (_m *MockRepository) GetUserById(ctx context.Context, id int) (*entity.Usua
 }
 
 // GetUserRoles provides a mock function with given fields: ctx, userID
-func (_m *MockRepository) GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error) {
+func (_m *MockRepository) GetUserRoles(ctx context.Context, userID int64) ([]entity.UsuarioRol, error) {
 	ret := _m.Called(ctx, userID)
 
-	var r0 []entity.UsarioRol
+	var r0 []entity.UsuarioRol
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]entity.UsarioRol, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]entity.UsuarioRol, error)); ok {
 		return rf(ctx, userID)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) []entity.UsarioRol); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) []entity.UsuarioRol); ok {
 		r0 = rf(ctx, userID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]entity.UsarioRol)
+			r0 = ret.Get(0).([]entity.UsuarioRol)
 		}
 	}
 
@@ -679,6 +731,20 @@ func (_m *MockRepository) SavePiso(ctx context.Context, number int64) error {
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, int64) error); ok {
 		r0 = rf(ctx, number)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// SaveRole provides a mock function with given fields: ctx, nombre
+func (_m *MockRepository) SaveRole(ctx context.Context, nombre string) error {
+	ret := _m.Called(ctx, nombre)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
+		r0 = rf(ctx, nombre)
 	} else {
 		r0 = ret.Error(0)
 	}

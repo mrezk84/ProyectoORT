@@ -24,7 +24,7 @@ $(document).ready(function() {
       });
     }
 
-    const response = await fetch("http://localhost:8080/usuarios/login", {
+    const response = await fetch("http://localhost:5000/usuarios/login", {
          method: 'POST',
          headers: {
           'Content-Type': 'application/json',
@@ -33,6 +33,8 @@ $(document).ready(function() {
          body: JSON.stringify(datos),
          
        });
+       const data= await response.json();
+       console.log(data); 
     
        if (response.ok){
         Swal.fire(
@@ -43,7 +45,7 @@ $(document).ready(function() {
       }else{
         Swal.fire({
           title: 'Error!',
-          text: 'Error al guardar el formulario',
+          text: 'Error al iniciar sesión',
           icon: 'error',
         
         })
