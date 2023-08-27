@@ -395,3 +395,24 @@ func (a *API) RegisterUserRol(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, responseMessage{Message: "Se asigna el rol para el usuario selecionado"})
 }
+func (a *API) GetUserRoles(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UsuarioRol{}
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	r, err := a.serv.GetUsersRole(ctx, params.UserID)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los roles"})
+	}
+	return c.JSON(http.StatusOK, r)
+
+}

@@ -20,7 +20,6 @@ type Repository interface {
 	RemoveUserRole(ctx context.Context, userID, roleID int) error
 	GetChecks(ctx context.Context) ([]entity.Check, error)
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
-	GetUserRoles(ctx context.Context, userID int) ([]entity.UsuarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
 	GetForms(ctx context.Context) ([]entity.Formulario, error)
 	GetFormsById(ctx context.Context, id int64) (*entity.Formulario, error)
@@ -48,6 +47,7 @@ type Repository interface {
 	GetRolByName(ctx context.Context, nombre string) (*entity.Rol, error)
 	GetAllRoles(ctx context.Context) ([]entity.Rol, error)
 	GetRolById(ctx context.Context, id int) (*entity.Rol, error)
+	GetUserRoles(ctx context.Context, userID int) ([]entity.UsuarioRol, error)
 }
 
 type repo struct {

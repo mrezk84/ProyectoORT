@@ -29,6 +29,7 @@ type Service interface {
 
 	GetAllRoles(ctx context.Context) ([]models.Rol, error)
 	RegisterRol(ctx context.Context, id int) error
+	GetUsersRole(ctx context.Context, userID int) ([]models.UsuarioRol, error)
 }
 
 type serv struct {
