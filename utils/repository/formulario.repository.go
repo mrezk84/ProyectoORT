@@ -40,11 +40,11 @@ const (
 		FROM FORMULARIO
 		WHERE id = ?;`
 
-	qryGetNForm = `
-		SELECT
-			nombre
-		FROM FORMULARIO
-		WHERE id = ?;`
+	// qryGetNForm = `
+	// 	SELECT
+	// 		nombre
+	// 	FROM FORMULARIO
+	// 	WHERE id = ?;`
 
 	qryGetAllForms = `
 		SELECT
@@ -125,6 +125,18 @@ func (r *repo) GetUsuarioForm(ctx context.Context, usuarioID int64) ([]entity.Us
 
 	err := r.db.SelectContext(ctx, &usuariosf, "SELECT formulario_id, usuario_id FROM FORMULARIO_RESPONSABLE WHERE usuario_id = ?", usuarioID)
 	if err != nil {
+		return nil, err
+	}
+
+	return usuariosf, nil
+
+}
+
+func (r *repo) GetFormUser(ctx context.Context, formularioID int64) (*entity.UsuarioForm, error) {
+	usuariosf := &entity.UsuarioForm{}
+
+	err := r.db.SelectContext(ctx, &usuariosf, "SELECT formulario_id, usuario_id FROM FORMULARIO_RESPONSABLE WHERE formulario_id = ?", formularioID)
+	if err == nil {
 		return nil, err
 	}
 

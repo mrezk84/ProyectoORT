@@ -183,7 +183,7 @@ func (a *API) GetForms(c echo.Context) error {
 func (a *API) GetForm(c echo.Context) error {
 
 	ctx := c.Request().Context()
-	params := dtos.RegisterControl{}
+	params := dtos.DocumentAudit{}
 
 	err := c.Bind(&params)
 	if err != nil {
@@ -203,6 +203,31 @@ func (a *API) GetForm(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})
 	}
 	return c.JSON(http.StatusOK, form)
+}
+
+func (a *API) GetFormUser(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.DocumentAudit{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	user, err := a.serv.GetUserOfForm(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener el usuario"})
+	}
+	return c.JSON(http.StatusOK, user)
 }
 
 func (a *API) RegisterUserForm(c echo.Context) error {
