@@ -365,3 +365,33 @@ func (a *API) RegisterCheckForm(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, nil)
 }
+
+func (a *API) AddFormToPlanControl(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.AddDocumentPlan{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	controles, err := a.serv.GetControlsByForm(ctx, params.FormularioID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	document, err := a.serv.InsertDocument(ctx, params.FormularioID, params.ObraID, params.PisoID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	err = a.serv.InsertChecks(ctx, controles, document, params.FormularioID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
+}

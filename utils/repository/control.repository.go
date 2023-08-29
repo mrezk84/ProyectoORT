@@ -24,6 +24,14 @@ const (
 		descripcion,
 		tipo
 		FROM CONTROL;`
+
+	qryGetControlsByForm = `
+		SELECT 
+		id,
+		descripcion,
+		tipo
+		FROM CONTROL_FORMULARIO
+		WHERE formulario_id = ?;`
 )
 
 func (r *repo) SaveControl(ctx context.Context, descripcion, tipo string) error {
@@ -34,6 +42,17 @@ func (r *repo) GetControls(ctx context.Context) ([]entity.Control, error) {
 	cc := []entity.Control{}
 
 	err := r.db.SelectContext(ctx, &cc, qryGetAllControls)
+	if err != nil {
+		return nil, err
+	}
+
+	return cc, nil
+}
+
+func (r *repo) GetControlsByForm(ctx context.Context, formID int64) ([]entity.Control, error) {
+	cc := []entity.Control{}
+
+	err := r.db.SelectContext(ctx, &cc, qryGetControlsByForm)
 	if err != nil {
 		return nil, err
 	}
