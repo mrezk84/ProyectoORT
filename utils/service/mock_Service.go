@@ -28,13 +28,13 @@ func (_m *MockService) AddCheckForm(ctx context.Context, checkID int64, formular
 	return r0
 }
 
-// AddForm provides a mock function with given fields: ctx, id, formulario
-func (_m *MockService) AddForm(ctx context.Context, id int, formulario models.Formulario) error {
-	ret := _m.Called(ctx, id, formulario)
+// AddForm provides a mock function with given fields: ctx, email, formulario
+func (_m *MockService) AddForm(ctx context.Context, email string, formulario models.Formulario) error {
+	ret := _m.Called(ctx, email, formulario)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int, models.Formulario) error); ok {
-		r0 = rf(ctx, id, formulario)
+	if rf, ok := ret.Get(0).(func(context.Context, string, models.Formulario) error); ok {
+		r0 = rf(ctx, email, formulario)
 	} else {
 		r0 = ret.Error(0)
 	}

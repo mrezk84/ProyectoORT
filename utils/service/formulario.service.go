@@ -8,11 +8,13 @@ import (
 )
 
 var (
-	ErrFormAlreadyExists    = errors.New("el fomrmulario ya existe")
-	ErrInvalidForm          = errors.New("formulario Inválido")
-	ErrFomUserAlreadyAdded  = errors.New("el usuario ya cuenta con el formulario asignado")
-	ErrFormNotFound         = errors.New("error al asignar formulario")
-	ErrFomEtapaAlreadyAdded = errors.New("la etapa ya se encuentra realizada")
+	ErrFormAlreadyExists          = errors.New("el fomrmulario ya existe")
+	ErrInvalidForm                = errors.New("formulario Inválido")
+	ErrFomUserAlreadyAdded        = errors.New("el usuario ya cuenta con el formulario asignado")
+	ErrFormNotFound               = errors.New("error al asignar formulario")
+	ErrFomEtapaAlreadyAdded       = errors.New("la etapa ya se encuentra realizada")
+	ErrInvalidPermissions         = errors.New("el usuario no tiene  permisos para agregar el formulario")
+	validRolesToAddForm     []int = []int{1, 2, 3, 4}
 )
 
 func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id int, usuario_id int) error {
@@ -34,24 +36,36 @@ func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre stri
 	return s.repo.SaveFrom(ctx, informacion, nombre, version, fecha, e.ID, u.ID)
 }
 
-func (s *serv) AddForm(ctx context.Context, id int, formulario models.Formulario) error {
+func (s *serv) AddForm(ctx context.Context, email string, formulario models.Formulario) error {
 
-	form, err := s.repo.GetFormsById(ctx, int64(id))
-	if form != nil {
+	u, err := s.repo.GetUserByEmail(ctx, email)
+	if err != nil {
+		return err
+	}
+	roles, err := s.repo.GetUserRoles(ctx, u.ID)
+	if err != nil {
 		return err
 	}
 
-	etapas, err := s.repo.GetEtapaById(ctx, form.IDEtapa)
-	if etapas != nil {
+	et, err := s.repo.GetFromEtapas(ctx)
+	if err != nil {
 		return err
 	}
+	userCanAdd := false
+	for _, r := range roles {
+		for _, vr := range validRolesToAddForm {
 
-	usuarios, err := s.repo.GetUserById(ctx, int(form.IDUsuario))
-	if usuarios != nil {
-		return err
+			if vr == r.RoleID {
+				userCanAdd = true
+			}
+		}
 	}
 
-	return s.repo.SaveFrom(ctx, form.Nombre, form.Informacion, form.Version, form.Fecha, etapas.ID, int(usuarios.ID))
+	if !userCanAdd {
+		return ErrInvalidPermissions
+	}
+
+	return s.repo.SaveFrom(ctx, formulario.Nombre, formulario.Informacion, formulario.Version, formulario.Fecha.Format("dd/mm/aaaa"), et.ID, u.ID)
 }
 
 func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {

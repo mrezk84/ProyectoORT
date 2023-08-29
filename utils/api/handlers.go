@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"proyectoort/encryption"
 	"proyectoort/utils/api/dtos"
+	"proyectoort/utils/models"
 	"proyectoort/utils/service"
 
 	"github.com/labstack/echo/v4"
@@ -371,7 +372,6 @@ func (a *API) GetRoles(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los roles"})
 	}
 	return c.JSON(http.StatusOK, r)
-
 }
 func (a *API) RegisterUserRol(c echo.Context) error {
 	ctx := c.Request().Context()
@@ -408,11 +408,63 @@ func (a *API) GetUserRoles(c echo.Context) error {
 		log.Println(err)
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
-	r, err := a.serv.GetUsersRole(ctx, params.UserID)
+	ru, err := a.serv.GetUsersRole(ctx, params.UserID)
 	if err != nil {
 		log.Println(err)
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los roles"})
 	}
-	return c.JSON(http.StatusOK, r)
+	return c.JSON(http.StatusOK, ru)
+}
+func (a *API) AddForm(c echo.Context) error {
+	cookie, err := c.Cookie("Authorization")
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "Unauthorized"})
+	}
 
+	claims, err := encryption.ParseLoginJWT(cookie.Value)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "Unauthorized"})
+	}
+
+	email := claims["email"].(string)
+
+	ctx := c.Request().Context()
+	params := dtos.DocumentAudit{}
+
+	err = c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Invalid request"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	f := models.Formulario{
+		ID:          int(params.ID),
+		Nombre:      params.Nombre,
+		Informacion: params.Informacion,
+		Version:     params.Version,
+		Fecha:       params.Fecha,
+		EtapaID:     int(params.EtapaID),
+		UsuarioID:   int(params.UsuarioID),
+	}
+
+	err = a.serv.AddForm(ctx, email, f)
+	if err != nil {
+		log.Println(err)
+
+		if err == service.ErrInvalidPermissions {
+			return c.JSON(http.StatusForbidden, responseMessage{Message: "Error de permisos"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusOK, nil)
 }

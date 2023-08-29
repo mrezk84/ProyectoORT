@@ -10,7 +10,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	users.POST("/registrar", a.RegisterUser)
 	users.POST("/login", a.LoginUser)
 	users.POST("/rol", a.RegisterUserRol)
-	users.GET("/usrol", a.GetUserRoles)
+	users.GET("/rol:id", a.GetUserRoles)
 
 	//roles
 	roles := e.Group("/roles")

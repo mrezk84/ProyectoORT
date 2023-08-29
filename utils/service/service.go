@@ -15,7 +15,7 @@ type Service interface {
 	LoginUser(ctx context.Context, email, password string) (*models.Usuario, error)
 	AddUserRole(ctx context.Context, userID, roleID int) error
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
-	AddForm(ctx context.Context, id int, formulario models.Formulario) error
+	AddForm(ctx context.Context, email string, formulario models.Formulario) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int) error
 	RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id int, usuario_id int) error
