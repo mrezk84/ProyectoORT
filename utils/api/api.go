@@ -24,13 +24,11 @@ func (a *API) Start(e *echo.Echo, address string) error {
 	a.RegisterRoutes(e)
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"http://34.192.187.56"},
+		AllowOrigins:     []string{"http://localhost:5000"},
 		AllowMethods:     []string{echo.POST, echo.GET, echo.PUT, echo.DELETE},
-		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowHeaders:     []string{echo.HeaderContentType},
 		AllowCredentials: true,
 	}))
-
-	e.Use(middleware.Static("static"))
-
+	e.Static("/", "static")
 	return e.Start(address)
 }

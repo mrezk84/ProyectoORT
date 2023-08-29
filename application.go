@@ -11,6 +11,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/fx"
+
 )
 
 func main() {
@@ -23,6 +24,7 @@ func main() {
 			service.New,
 			api.New,
 			echo.New,
+			
 		),
 
 		fx.Invoke(
