@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 
 async function getUsuarios() {
-    const request = await fetch("http://localhost:8080/usuarios", {
+    const request = await fetch("http://localhost:5000/usuarios", {
         method: 'GET',
     })
 
@@ -17,7 +17,7 @@ async function getUsuarios() {
             for (let usuario of usuarios) {
                 listadoHtml +=
                 `
-                 <option value="${usuario.ID}">${usuario.Name}</option>
+                 <option value="${usuario.ID}">${usuario.ID}</option>
                 `
         };
 
