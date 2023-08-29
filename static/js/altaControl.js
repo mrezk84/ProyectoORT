@@ -18,6 +18,7 @@
               'Se guardo de la manera correcta el control',
               'success'
               )
+              window.location.href = 'controles.html'
               
           }else{
             Swal.fire({

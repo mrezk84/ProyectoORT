@@ -10,13 +10,13 @@ const (
 		INSERT INTO CONTROL(descripcion, tipo)
 		VALUES (?, ?);`
 
-	qryGetContById = `
+	qryGetContBydescripcion = `
 		SELECT
 		id,
 			descripcion,
 			tipo,
 		FROM CONTROL
-		WHERE id = ?;`
+		WHERE descripcion = ?;`
 
 	qryGetAllControls = `
 		SELECT 
@@ -32,6 +32,8 @@ const (
 		tipo
 		FROM CONTROL_FORMULARIO
 		WHERE formulario_id = ?;`
+
+	qryInsertControlForm = `INSERT INTO CONTROL_FORMULARIO (control_id, formulario_id) VALUES (:control_id, :formulario_id);`
 )
 
 func (r *repo) SaveControl(ctx context.Context, descripcion, tipo string) error {
@@ -59,12 +61,34 @@ func (r *repo) GetControlsByForm(ctx context.Context, formID int64) ([]entity.Co
 
 	return cc, nil
 }
-func (r *repo) GetFormById(ctx context.Context, id int) (*entity.Control, error) {
+func (r *repo) GetConByDes(ctx context.Context, des string) (*entity.Control, error) {
 	c := &entity.Control{}
-	err := r.db.GetContext(ctx, c, qryGetContById, id)
+	err := r.db.GetContext(ctx, c, qryGetContBydescripcion, des)
 	if err != nil {
 		return nil, err
 	}
 
 	return c, nil
+}
+
+func (r *repo) GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error) {
+	controlf := []entity.ControlForm{}
+
+	err := r.db.SelectContext(ctx, &controlf, "SELECT control_id, formulario_id FROM CONTROL_FORMULARIO WHERE control_id = ?", controlID)
+	if err != nil {
+		return nil, err
+	}
+
+	return controlf, nil
+
+}
+
+func (r *repo) SaveControlForm(ctx context.Context, controlID, formularioID int64) error {
+	data := entity.ControlForm{
+		ControlID:    controlID,
+		FormularioID: formularioID,
+	}
+
+	_, err := r.db.NamedExecContext(ctx, qryInsertControlForm, data)
+	return err
 }

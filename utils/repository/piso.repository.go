@@ -17,6 +17,13 @@ const (
 		FROM PISO
 		WHERE Numero = ?;`
 
+	qryGetPisobyID = `
+		SELECT
+			ID
+			Numero
+		FROM PISO
+		WHERE ID = ?;`
+
 	qryInsertPisoObra = `
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`
 )
@@ -29,6 +36,16 @@ func (r *repo) SavePiso(ctx context.Context, number int64) error {
 func (r *repo) GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error) {
 	p := &entity.Piso{}
 	err := r.db.GetContext(ctx, p, qryGetPisobyNumber, number)
+	if err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}
+
+func (r *repo) GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error) {
+	p := &entity.Piso{}
+	err := r.db.GetContext(ctx, p, qryGetPisobyID, ID)
 	if err != nil {
 		return nil, err
 	}

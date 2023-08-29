@@ -25,6 +25,7 @@ async function cargarUsuarios() {
   const request = await fetch("http://localhost:8080/usuarios", {
     method: 'GET',
   })
+
   const usuarios = await request.json();
   console.log(usuarios)
   if (request.ok) {
@@ -34,7 +35,7 @@ async function cargarUsuarios() {
   
               let botonEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>' ;
               let botonEditar = '<a href="#" onclick="editarUsuario(' + usuario.id +')" btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>  | ' ;
-              let usuarioHtml = '<tr><td>'+ usuario.id+'</td><td>' + usuario.email + '</td><td>' + usuario.name + '</td><td>'
+              let usuarioHtml = '<tr><td>'+ usuario.id +'</td><td>' + usuario.email + '</td><td>' + usuario.name + '</td><td>'
                              +'</td><td>'+ botonEditar 
                                + botonEliminar + '</td></tr>';
               listadoHtml += usuarioHtml;

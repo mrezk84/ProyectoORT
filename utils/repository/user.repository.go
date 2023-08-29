@@ -20,6 +20,15 @@ const (
 		FROM USUARIOS
 		WHERE email = ?;`
 
+	qryGetUserByID = `
+		SELECT
+			id,
+			email,
+			username,
+			password
+		FROM USUARIOS
+		WHERE id = ?;`
+
 	qryAllGetUsers = `
 		SELECT
 			id,
@@ -43,6 +52,16 @@ func (r *repo) SaveUser(ctx context.Context, email, username, password string) e
 func (r *repo) GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error) {
 	u := &entity.Usuario{}
 	err := r.db.GetContext(ctx, u, qryGetUserByEmail, email)
+	if err != nil {
+		return nil, err
+	}
+
+	return u, nil
+}
+
+func (r *repo) GetUserById(ctx context.Context, id int64) (*entity.Usuario, error) {
+	u := &entity.Usuario{}
+	err := r.db.GetContext(ctx, u, qryGetUserByID, id)
 	if err != nil {
 		return nil, err
 	}

@@ -6,31 +6,32 @@ $(document).ready(function() {
 
 
 async function getObrasByUser() {
-    const request = await fetch('obra', {
+    const request = await fetch("http://localhost:8080/obras", {
         method: 'GET',
     })
-    let response = await request.json()
-    if (request.status == 200) {
-        let text = ``;
-        response.forEach(obra => {
-            text +=
+
+    const obras = await request.json();
+    console.log(obras)
+    if (request.ok) {
+        let listadoHtml = '';
+            for (let obra of obras) {
+                listadoHtml +=
                 `
                  <tr>
-                    <th>${obra.id}</th>
-                    <th>${obra.nombre}</th>
-                    <th>${obra.pisosObra.length}</th>
-                    <th><button onclick="redirectPisos(${obra.id})">Ver pisos</button></th>
+                    <th>${obra.ID}</th>s
+                    <th>${obra.Nombre}</th>
+                    <th><button onclick="redirectPisos(${obra.ID})">Ver seguimiento</button></th>
                 </tr>
                 `
-        });
+        };
 
-        document.getElementById("obrasTBody").innerHTML = text;
+        document.querySelector('#obrasTBody').outerHTML = listadoHtml;
 
     }
 }
 
 function redirectPisos(id) {
-    window.location.href = `pisos.html?obra_id=${id}`;
+    window.location.href = `altaSeguimiento.html?obra_id=${id}`;
 }
 
 function redirectAltaObra() {
