@@ -113,6 +113,12 @@ func (a *API) LoginUser(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
+	roles, err := a.serv.GetAllRoles(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
 	token, err := encryption.SignedLoginToken(u)
 	if err != nil {
 		log.Println(err)
@@ -129,7 +135,16 @@ func (a *API) LoginUser(c echo.Context) error {
 	}
 
 	c.SetCookie(cookie)
-	return c.JSON(http.StatusOK, map[string]string{"usuario logueado": "true"})
+	for _, r := range roles {
+		if r.Nombre == "administrador" {
+			return c.JSON(http.StatusOK, map[string]string{"redirect": "/admin"})
+		} else if r.Nombre == "usuario_formulario_control" {
+			return c.JSON(http.StatusOK, map[string]string{"redirect": "/user"})
+		} else if r.Nombre == "encargado_calidad_obra" {
+			return c.JSON(http.StatusOK, map[string]string{"redirect": "/manager"})
+		}
+	}
+	return c.JSON(http.StatusForbidden, responseMessage{Message: "Permiso denegado"})
 }
 func (a *API) GetUsers(c echo.Context) error {
 
