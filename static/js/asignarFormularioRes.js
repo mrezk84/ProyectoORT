@@ -17,7 +17,7 @@ async function getUsuarios() {
             for (let usuario of usuarios) {
                 listadoHtml +=
                 `
-                 <option value="${usuario.ID}">${usuario.ID}</option>
+                 <option value="${usuario.id}">${usuario.name}</option>
                 `
         };
 
