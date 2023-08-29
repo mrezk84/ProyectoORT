@@ -113,7 +113,7 @@ func (a *API) LoginUser(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	roles, err := a.serv.GetAllRoles(ctx)
+	roles, err := a.serv.GetUsersRole(ctx, u.ID)
 	if err != nil {
 		log.Println(err)
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
@@ -136,11 +136,11 @@ func (a *API) LoginUser(c echo.Context) error {
 
 	c.SetCookie(cookie)
 	for _, r := range roles {
-		if r.Nombre == "administrador" {
+		if r.RoleID == 1 {
 			return c.JSON(http.StatusOK, map[string]string{"redirect": "/admin"})
-		} else if r.Nombre == "usuario_formulario_control" {
+		} else if r.RoleID == 2 {
 			return c.JSON(http.StatusOK, map[string]string{"redirect": "/user"})
-		} else if r.Nombre == "encargado_calidad_obra" {
+		} else if r.RoleID == 3 {
 			return c.JSON(http.StatusOK, map[string]string{"redirect": "/manager"})
 		}
 	}
