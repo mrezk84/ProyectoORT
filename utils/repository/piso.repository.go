@@ -62,7 +62,7 @@ func (r *repo) GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error) 
 func (r *repo) GetPisos(ctx context.Context) ([]entity.Piso, error) {
 	p := []entity.Piso{}
 
-	err := r.db.GetContext(ctx, &p, qryGetPisos)
+	err := r.db.SelectContext(ctx, &p, qryGetPisos)
 	if err != nil {
 		return nil, err
 	}
