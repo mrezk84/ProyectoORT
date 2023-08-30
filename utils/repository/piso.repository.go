@@ -19,8 +19,8 @@ const (
 
 	qryGetPisos = `
 		SELECT
-			ID
-			Numero
+			id,
+			numero
 		FROM PISO;`
 
 	qryGetPisobyID = `
