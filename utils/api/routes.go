@@ -29,6 +29,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	obra.DELETE("/eliminar", a.DeleteObra)
 	etapa.POST("/registrar", a.RegisterEtapa)
 	piso.POST("/registrar", a.RegisterPiso)
+	piso.GET("", a.GetPisos)
 	piso.POST("/addObra", a.RegisterObraPiso)
 	check.POST("/registrar", a.RegisterCheck)
 	check.POST("/addForm", a.RegisterCheckForm)

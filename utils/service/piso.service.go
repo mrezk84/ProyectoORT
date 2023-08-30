@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"proyectoort/utils/models"
 )
 
 var (
@@ -19,6 +20,25 @@ func (s *serv) RegisterPiso(ctx context.Context, number int64) error {
 	}
 
 	return s.repo.SavePiso(ctx, number)
+}
+
+func (s *serv) GetPisos(ctx context.Context) ([]models.Piso, error) {
+	pp, err := s.repo.GetPisos(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	pisos := []models.Piso{}
+
+	for _, p := range pp {
+		pisos = append(pisos, models.Piso{
+			ID:     p.ID,
+			Numero: p.Number,
+		})
+
+	}
+
+	return pisos, nil
 }
 
 func (s *serv) AddObraPiso(ctx context.Context, obraID, pisoID int64) error {

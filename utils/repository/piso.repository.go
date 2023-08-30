@@ -17,6 +17,12 @@ const (
 		FROM PISO
 		WHERE Numero = ?;`
 
+	qryGetPisos = `
+		SELECT
+			ID
+			Numero
+		FROM PISO;`
+
 	qryGetPisobyID = `
 		SELECT
 			ID
@@ -46,6 +52,17 @@ func (r *repo) GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso,
 func (r *repo) GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error) {
 	p := &entity.Piso{}
 	err := r.db.GetContext(ctx, p, qryGetPisobyID, ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}
+
+func (r *repo) GetPisos(ctx context.Context) ([]entity.Piso, error) {
+	p := []entity.Piso{}
+
+	err := r.db.GetContext(ctx, &p, qryGetPisos)
 	if err != nil {
 		return nil, err
 	}
