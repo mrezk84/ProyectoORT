@@ -144,7 +144,7 @@ func (a *API) LoginUser(c echo.Context) error {
 			return c.JSON(http.StatusOK, map[string]string{"redirect": "/manager"})
 		}
 	}
-	return c.JSON(http.StatusForbidden, responseMessage{Message: "Permiso denegado"})
+	return c.JSON(http.StatusUnauthorized, responseMessage{Message: "No tiene permisos para iniciar sesión"})
 }
 func (a *API) GetUsers(c echo.Context) error {
 
