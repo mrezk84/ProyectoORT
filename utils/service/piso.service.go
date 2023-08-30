@@ -12,7 +12,7 @@ var (
 	ErrObraDoesNotExists     = errors.New("La Obra no Existe")
 )
 
-func (s *serv) RegisterPiso(ctx context.Context, number int64) error {
+func (s *serv) RegisterPiso(ctx context.Context, number int) error {
 
 	p, _ := s.repo.GetPisobyNumber(ctx, number)
 	if p != nil {

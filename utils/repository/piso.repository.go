@@ -34,12 +34,12 @@ const (
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`
 )
 
-func (r *repo) SavePiso(ctx context.Context, number int64) error {
+func (r *repo) SavePiso(ctx context.Context, number int) error {
 	_, err := r.db.ExecContext(ctx, qryInsertPiso, number)
 	return err
 }
 
-func (r *repo) GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error) {
+func (r *repo) GetPisobyNumber(ctx context.Context, number int) (*entity.Piso, error) {
 	p := &entity.Piso{}
 	err := r.db.GetContext(ctx, p, qryGetPisobyNumber, number)
 	if err != nil {
