@@ -24,4 +24,24 @@ async function getFormularios() {
         document.getElementById("select").innerHTML = listadoHtml;
 
     }
+
+
+    const request2 = await fetch("http://localhost:5000/pisos", {
+        method: 'GET',
+    })
+
+    const pisos = await request2.json();
+    console.log(pisos)
+    if (request.ok) {
+        let listadoHtml = '';
+            for (let piso of pisos) {
+                listadoHtml +=
+                `
+                 <option value="${piso.id}">${piso.numero}</option>
+                `
+        };
+
+        document.getElementById("select2").innerHTML = listadoHtml;
+
+    }
 }
