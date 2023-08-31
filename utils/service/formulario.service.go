@@ -76,6 +76,7 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 	}
 
 	formularios := []models.Formulario{}
+
 	for _, f := range ff {
 
 		formularios = append(formularios, models.Formulario{

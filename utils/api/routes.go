@@ -30,6 +30,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	piso := e.Group("/pisos")
 	piso.POST("/registrar", a.RegisterPiso)
 	piso.POST("/addObra", a.RegisterObraPiso)
+	piso.GET("", a.GetPisos)
 
 	//cheks
 	check := e.Group("/checks")

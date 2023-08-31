@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"proyectoort/utils/models"
 )
 
 var (
@@ -11,14 +12,14 @@ var (
 	ErrObraDoesNotExists     = errors.New("La Obra no Existe")
 )
 
-func (s *serv) RegisterPiso(ctx context.Context, number int64) error {
+func (s *serv) RegisterPiso(ctx context.Context, id, numero int) error {
 
-	p, _ := s.repo.GetPisobyNumber(ctx, number)
+	p, _ := s.repo.GetPisobyNumber(ctx, numero)
 	if p != nil {
 		return ErrPisoAlreadyExists
 	}
 
-	return s.repo.SavePiso(ctx, number)
+	return s.repo.SavePiso(ctx, id, numero)
 }
 
 func (s *serv) AddObraPiso(ctx context.Context, obraID, pisoID int64) error {
@@ -35,4 +36,22 @@ func (s *serv) AddObraPiso(ctx context.Context, obraID, pisoID int64) error {
 	}
 
 	return s.repo.SaveObraPiso(ctx, obraID, pisoID)
+}
+func (s *serv) GetPisos(ctx context.Context) ([]models.Piso, error) {
+	pp, err := s.repo.GetPisos(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	pisos := []models.Piso{}
+
+	for _, p := range pp {
+		pisos = append(pisos, models.Piso{
+			ID:     p.ID,
+			Numero: p.Numero,
+		})
+
+	}
+
+	return pisos, nil
 }

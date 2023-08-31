@@ -456,25 +456,51 @@ func (_m *MockRepository) GetObrabyName(ctx context.Context, name string) (*enti
 	return r0, r1
 }
 
-// GetPisobyNumber provides a mock function with given fields: ctx, number
-func (_m *MockRepository) GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error) {
-	ret := _m.Called(ctx, number)
+// GetPisobyNumber provides a mock function with given fields: ctx, numero
+func (_m *MockRepository) GetPisobyNumber(ctx context.Context, numero int) (*entity.Piso, error) {
+	ret := _m.Called(ctx, numero)
 
 	var r0 *entity.Piso
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) (*entity.Piso, error)); ok {
-		return rf(ctx, number)
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*entity.Piso, error)); ok {
+		return rf(ctx, numero)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) *entity.Piso); ok {
-		r0 = rf(ctx, number)
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Piso); ok {
+		r0 = rf(ctx, numero)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*entity.Piso)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
-		r1 = rf(ctx, number)
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, numero)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetPisos provides a mock function with given fields: ctx
+func (_m *MockRepository) GetPisos(ctx context.Context) ([]entity.Piso, error) {
+	ret := _m.Called(ctx)
+
+	var r0 []entity.Piso
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]entity.Piso, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []entity.Piso); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Piso)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -750,13 +776,13 @@ func (_m *MockRepository) SaveObraPiso(ctx context.Context, obraID int64, pisoID
 	return r0
 }
 
-// SavePiso provides a mock function with given fields: ctx, number
-func (_m *MockRepository) SavePiso(ctx context.Context, number int64) error {
-	ret := _m.Called(ctx, number)
+// SavePiso provides a mock function with given fields: ctx, id, numero
+func (_m *MockRepository) SavePiso(ctx context.Context, id int, numero int) error {
+	ret := _m.Called(ctx, id, numero)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) error); ok {
-		r0 = rf(ctx, number)
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
+		r0 = rf(ctx, id, numero)
 	} else {
 		r0 = ret.Error(0)
 	}

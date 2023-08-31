@@ -24,12 +24,13 @@ type Service interface {
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
 	RegisterObra(ctx context.Context, name string) error
 	RegisterEtapa(ctx context.Context, nombre string) error
-	RegisterPiso(ctx context.Context, number int64) error
+	RegisterPiso(ctx context.Context, id, numero int) error
 	RegisterCheck(ctx context.Context, estado string, observaciones string, version int, fecha string) error
 
 	GetAllRoles(ctx context.Context) ([]models.Rol, error)
 	RegisterRol(ctx context.Context, id int) error
 	GetUsersRole(ctx context.Context, userID int) ([]models.UsuarioRol, error)
+	GetPisos(ctx context.Context) ([]models.Piso, error)
 }
 
 type serv struct {

@@ -148,6 +148,32 @@ func (_m *MockService) GetForms(ctx context.Context) ([]models.Formulario, error
 	return r0, r1
 }
 
+// GetPisos provides a mock function with given fields: ctx
+func (_m *MockService) GetPisos(ctx context.Context) ([]models.Piso, error) {
+	ret := _m.Called(ctx)
+
+	var r0 []models.Piso
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]models.Piso, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []models.Piso); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]models.Piso)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetUsers provides a mock function with given fields: ctc
 func (_m *MockService) GetUsers(ctc context.Context) ([]models.Usuario, error) {
 	ret := _m.Called(ctc)
@@ -296,13 +322,13 @@ func (_m *MockService) RegisterObra(ctx context.Context, name string) error {
 	return r0
 }
 
-// RegisterPiso provides a mock function with given fields: ctx, number
-func (_m *MockService) RegisterPiso(ctx context.Context, number int64) error {
-	ret := _m.Called(ctx, number)
+// RegisterPiso provides a mock function with given fields: ctx, id, numero
+func (_m *MockService) RegisterPiso(ctx context.Context, id int, numero int) error {
+	ret := _m.Called(ctx, id, numero)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) error); ok {
-		r0 = rf(ctx, number)
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) error); ok {
+		r0 = rf(ctx, id, numero)
 	} else {
 		r0 = ret.Error(0)
 	}

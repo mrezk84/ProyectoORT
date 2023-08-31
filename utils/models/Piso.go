@@ -1,6 +1,6 @@
 package models
 
 type Piso struct {
-	ID   int
-	Obra Obra
+	ID     int `json:"id"`
+	Numero int `json:"numero"`
 }

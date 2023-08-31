@@ -30,8 +30,8 @@ const (
 		WHERE id = ?;`
 )
 
-func (r *repo) SaveRole(ctx context.Context, id int) error {
-	_, err := r.db.ExecContext(ctx, qryInsertRol, id)
+func (r *repo) SaveRole(ctx context.Context, nombre int) error {
+	_, err := r.db.ExecContext(ctx, qryInsertRol, nombre)
 
 	return err
 

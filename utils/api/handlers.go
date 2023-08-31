@@ -280,7 +280,7 @@ func (a *API) RegisterPiso(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterPiso(ctx, int64(params.Numero))
+	err = a.serv.RegisterPiso(ctx, params.ID, params.Numero)
 	if err != nil {
 		if err == service.ErrPisoAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El piso ya existe"})
@@ -289,7 +289,7 @@ func (a *API) RegisterPiso(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, nil)
+	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo el piso"})
 }
 func (a *API) RegisterObraPiso(c echo.Context) error {
 	ctx := c.Request().Context()
@@ -482,4 +482,25 @@ func (a *API) AddForm(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, nil)
+}
+func (a *API) GetPisos(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.RegisterPiso{}
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	p, err := a.serv.GetPisos(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los pisos"})
+	}
+	return c.JSON(http.StatusOK, p)
 }

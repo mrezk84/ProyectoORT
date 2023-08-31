@@ -35,8 +35,8 @@ type Repository interface {
 	SaveEtapa(ctx context.Context, nombre string) error
 	GetEtapaByName(ctx context.Context, nombre string) (*entity.Etapa, error)
 	GetEtapaById(ctx context.Context, id int64) (*entity.Etapa, error)
-	SavePiso(ctx context.Context, number int64) error
-	GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error)
+	SavePiso(ctx context.Context, id, numero int) error
+	GetPisobyNumber(ctx context.Context, numero int) (*entity.Piso, error)
 	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
@@ -48,6 +48,8 @@ type Repository interface {
 	GetAllRoles(ctx context.Context) ([]entity.Rol, error)
 	GetRolById(ctx context.Context, id int) (*entity.Rol, error)
 	GetUserRoles(ctx context.Context, userID int) ([]entity.UsuarioRol, error)
+
+	GetPisos(ctx context.Context) ([]entity.Piso, error)
 }
 
 type repo struct {
