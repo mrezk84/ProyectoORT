@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 
 async function getObrasByUser() {
-    const request = await fetch("http://localhost:8080/obras", {
+    const request = await fetch("http://localhost:5000/obras", {
         method: 'GET',
     })
 
@@ -21,6 +21,7 @@ async function getObrasByUser() {
                     <th>${obra.ID}</th>s
                     <th>${obra.Nombre}</th>
                     <th><button onclick="redirectPisos(${obra.ID})">Ver seguimiento</button></th>
+                    <th><button onclick="redirectDocumentos(${obra.ID})">Ver documentos</button></th>
                 </tr>
                 `
         };
@@ -32,6 +33,10 @@ async function getObrasByUser() {
 
 function redirectPisos(id) {
     window.location.href = `altaSeguimiento.html?obra_id=${id}`;
+}
+
+function redirectDocumentos(id) {
+    window.location.href = `documentosDeObra.html?obra_id=${id}`;
 }
 
 function redirectAltaObra() {
