@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"proyectoort/utils/entity"
+	"proyectoort/utils/models"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -25,6 +26,9 @@ type Repository interface {
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
 	GetForm(ctx context.Context) ([]entity.Formulario, error)
 	GetControls(ctx context.Context) ([]entity.Control, error)
+	GetControlsByForm(ctx context.Context, formID int64) ([]entity.Control, error)
+	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
+	InsertChecks(ctx context.Context, formularioID int64, documentID int64, controles []models.Control) error
 	GetConByDes(ctx context.Context, des string) (*entity.Control, error)
 	GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error)
 	SaveControlForm(ctx context.Context, controlID, formularioID int64) error
