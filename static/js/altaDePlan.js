@@ -1,11 +1,11 @@
 $(document).ready(function() {
-    getFormularios()
+    getFormulariosYpisos()
 });
 
 
 
 
-async function getFormularios() {
+async function getFormulariosYpisos() {
     const request = await fetch("http://localhost:5000/formularios", {
         method: 'GET',
     })
@@ -45,3 +45,29 @@ async function getFormularios() {
 
     }
 }
+
+async function registrarDocumento() {
+    let datos = {};
+    let obraid = null;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    obraid = searchParams.get('obra_id');
+    
+    datos.formulario = document.getElementById('formulario').value;
+    datos.piso = document.getElementById('piso').value;
+    datos.obra = obraid;
+           const request = await fetch('', {
+               method: 'POST',
+               body: JSON.stringify(datos),
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
+         if (request.status == 200) {
+             alert("documento registrado correctamente");
+         }else{
+             alert("Error registrando el documento");
+         }
+             window.location.href = `documentosDeObra.html`;
+   }
