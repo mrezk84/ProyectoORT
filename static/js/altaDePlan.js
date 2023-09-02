@@ -56,7 +56,7 @@ async function registrarDocumento() {
     datos.formulario = document.getElementById('formulario').value;
     datos.piso = document.getElementById('piso').value;
     datos.obra = obraid;
-           const request = await fetch('', {
+           const request = await fetch("http://localhost:5000/formularios/registrar", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {
