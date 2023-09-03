@@ -12,7 +12,7 @@ import (
 //go:generate mockery --name=Repository --output=repository --inpackage
 type Repository interface {
 	SaveUser(ctx context.Context, email, username, password string) error
-	SaveFrom(ctx context.Context, nombre string, informacion string, version string, fecha string, etapa_id int, usuario_id int) error
+	SaveFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error
 	SaveUserRole(ctx context.Context, userID, roleID int) error
 	SaveControl(ctx context.Context, descripcion, tipo string) error
 	SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error
@@ -29,7 +29,7 @@ type Repository interface {
 	GetUserById(ctx context.Context, id int) (*entity.Usuario, error)
 	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
-	GetFromEtapas(ctx context.Context) (*entity.Formulario, error)
+	GetFormControles(ctx context.Context) (*entity.Formulario, error)
 	GetFromUsers(ctx context.Context) (*entity.Formulario, error)
 	SaveObra(ctx context.Context, nombre string) error
 	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)

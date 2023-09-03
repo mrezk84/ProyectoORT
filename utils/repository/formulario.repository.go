@@ -7,8 +7,8 @@ import (
 
 const (
 	qryInsertFrom = `
-		INSERT INTO FORMULARIO (nombre,informacion,version,fecha, etapa_id, usuario_id)
-		VALUES (?, ?, ?, ?, ?, ?, ?);`
+		INSERT INTO FORMULARIO (informacion,version, nombre,control_id, usuario_id)
+		VALUES (?, ?, ?, ?, ?, ?);`
 
 	qryGetFormByDate = `
 		SELECT
@@ -58,11 +58,11 @@ const (
 	FROM FORMULARIO
 	WHERE name = ?;`
 
-	qryGetFormEtapas = `
-		SELECT f.id,f.nombre,f.informacion,f.fecha, e.nombre as etapas
-		FROM FORMULARIO f INNER JOIN ETAPAS e
-		ON f.id=e.id
-		WHERE f.id=e.id`
+	qryGetFormControles = `
+		SELECT f.id,f.nombre,f.informacion,f.fecha, c.tipo as contoles
+		FROM FORMULARIO f INNER JOIN CONTROL c
+		ON f.id=c.id
+		WHERE f.id=c.id`
 
 	qryGetFormUsers = `
 		SELECT f.id,f.nombre,f.informacion,f.fecha, u.username as usuario
@@ -71,8 +71,8 @@ const (
 		WHERE f.id=u.id`
 )
 
-func (r *repo) SaveFrom(ctx context.Context, nombre string, informacion string, version string, fecha string, etapa_id int, usuario_id int) error {
-	_, err := r.db.ExecContext(ctx, qryInsertFrom, nombre, informacion, version, fecha, etapa_id, usuario_id)
+func (r *repo) SaveFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error {
+	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, version, nombre, control_id, usuario_id)
 	return err
 }
 
@@ -106,10 +106,10 @@ func (r *repo) GetFormByVersion(ctx context.Context, version string) (*entity.Fo
 	return f, nil
 }
 
-func (r *repo) GetFromEtapas(ctx context.Context) (*entity.Formulario, error) {
+func (r *repo) GetFormControles(ctx context.Context) (*entity.Formulario, error) {
 
 	f := &entity.Formulario{}
-	err := r.db.GetContext(ctx, f, qryGetFormEtapas)
+	err := r.db.GetContext(ctx, f, qryGetFormControles)
 	if err != nil {
 		return nil, err
 	}

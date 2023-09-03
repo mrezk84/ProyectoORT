@@ -148,6 +148,32 @@ func (_m *MockService) GetForms(ctx context.Context) ([]models.Formulario, error
 	return r0, r1
 }
 
+// GetPhotos provides a mock function with given fields: ctx
+func (_m *MockService) GetPhotos(ctx context.Context) ([]models.Foto, error) {
+	ret := _m.Called(ctx)
+
+	var r0 []models.Foto
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]models.Foto, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []models.Foto); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]models.Foto)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetPisos provides a mock function with given fields: ctx
 func (_m *MockService) GetPisos(ctx context.Context) ([]models.Piso, error) {
 	ret := _m.Called(ctx)
@@ -294,13 +320,13 @@ func (_m *MockService) RegisterEtapa(ctx context.Context, nombre string) error {
 	return r0
 }
 
-// RegisterFrom provides a mock function with given fields: ctx, informacion, nombre, version, fecha, etapa_id, usuario_id
-func (_m *MockService) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id int, usuario_id int) error {
-	ret := _m.Called(ctx, informacion, nombre, version, fecha, etapa_id, usuario_id)
+// RegisterFrom provides a mock function with given fields: ctx, informacion, version, nombre, control_id, usuario_id
+func (_m *MockService) RegisterFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error {
+	ret := _m.Called(ctx, informacion, version, nombre, control_id, usuario_id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, string, int, int) error); ok {
-		r0 = rf(ctx, informacion, nombre, version, fecha, etapa_id, usuario_id)
+	if rf, ok := ret.Get(0).(func(context.Context, string, int, string, int, int) error); ok {
+		r0 = rf(ctx, informacion, version, nombre, control_id, usuario_id)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -315,6 +341,20 @@ func (_m *MockService) RegisterObra(ctx context.Context, name string) error {
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, string) error); ok {
 		r0 = rf(ctx, name)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// RegisterPhoto provides a mock function with given fields: ctx, nombre, notas, formulario_id
+func (_m *MockService) RegisterPhoto(ctx context.Context, nombre string, notas string, formulario_id int) error {
+	ret := _m.Called(ctx, nombre, notas, formulario_id)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, int) error); ok {
+		r0 = rf(ctx, nombre, notas, formulario_id)
 	} else {
 		r0 = ret.Error(0)
 	}

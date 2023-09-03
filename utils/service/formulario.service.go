@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"proyectoort/utils/models"
-	"time"
 )
 
 var (
@@ -12,12 +11,12 @@ var (
 	ErrInvalidForm                = errors.New("formulario Inválido")
 	ErrFomUserAlreadyAdded        = errors.New("el usuario ya cuenta con el formulario asignado")
 	ErrFormNotFound               = errors.New("error al asignar formulario")
-	ErrFomEtapaAlreadyAdded       = errors.New("la etapa ya se encuentra realizada")
+	ErrFomEtapaAlreadyAdded       = errors.New("el control para el fomrulario ya se encuentra realizado")
 	ErrInvalidPermissions         = errors.New("el usuario no tiene  permisos para agregar el formulario")
 	validRolesToAddForm     []int = []int{1, 2, 3, 4}
 )
 
-func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre string, version string, fecha string, etapa_id int, usuario_id int) error {
+func (s *serv) RegisterFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error {
 
 	f, _ := s.repo.GetForms(ctx)
 	if f != nil {
@@ -29,12 +28,12 @@ func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre stri
 		return ErrFomUserAlreadyAdded
 	}
 
-	e, _ := s.repo.GetFromEtapas(ctx)
-	if e != nil {
+	c, _ := s.repo.GetFormControles(ctx)
+	if c != nil {
 		return ErrFomEtapaAlreadyAdded
 	}
 
-	return s.repo.SaveFrom(ctx, informacion, nombre, version, fecha, e.ID, u.ID)
+	return s.repo.SaveFrom(ctx, informacion, version, nombre, c.ID, u.ID)
 }
 
 func (s *serv) AddForm(ctx context.Context, email string, formulario models.Formulario) error {
@@ -48,7 +47,7 @@ func (s *serv) AddForm(ctx context.Context, email string, formulario models.Form
 		return err
 	}
 
-	et, err := s.repo.GetFromEtapas(ctx)
+	co, err := s.repo.GetFormControles(ctx)
 	if err != nil {
 		return err
 	}
@@ -67,8 +66,8 @@ func (s *serv) AddForm(ctx context.Context, email string, formulario models.Form
 		return ErrInvalidPermissions
 	}
 
-	return s.repo.SaveFrom(ctx, formulario.Nombre, formulario.Informacion, formulario.Version,
-		formulario.Fecha.Format("dd/mm/aaaa"), et.ID, u.ID)
+	return s.repo.SaveFrom(ctx, formulario.Informacion, formulario.ID, formulario.Nombre,
+		co.ID, u.ID)
 }
 
 func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
@@ -78,18 +77,65 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 		return nil, err
 	}
 
+	foto, err := s.repo.GetPhotos(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	cc, err := s.repo.GetControls(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	uu, err := s.repo.GetUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	formularios := []models.Formulario{}
+	fotos := []models.Foto{}
+	controles := []models.Control{}
+	usuarios := []models.Usuario{}
+
+	for _, c := range cc {
+		controles = append(controles, models.Control{
+			ID:          c.ID,
+			Descripcion: c.Descripcion,
+			Tipo:        c.Tipo,
+		})
+	}
+
+	for _, fo := range foto {
+
+		fotos = append(fotos, models.Foto{
+			ID:     fo.ID,
+			Nombre: fo.Nombre,
+			Notas:  fo.Notas,
+		})
+
+	}
+
+	for _, u := range uu {
+
+		usuarios = append(usuarios, models.Usuario{
+
+			ID:    u.ID,
+			Email: u.Email,
+			Name:  u.Name,
+		})
+
+	}
 
 	for _, f := range ff {
 
 		formularios = append(formularios, models.Formulario{
 			ID:          f.ID,
-			Nombre:      f.Nombre,
 			Informacion: f.Informacion,
 			Version:     f.Version,
-			Fecha:       time.Now(),
-			EtapaID:     int(f.IDEtapa),
-			UsuarioID:   int(f.IDUsuario),
+			Nombre:      f.Nombre,
+			Controles:   controles,
+			Usuarios:    usuarios,
+			Foto:        fotos,
 		})
 	}
 

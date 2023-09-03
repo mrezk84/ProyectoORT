@@ -1,13 +1,10 @@
 package dtos
 
-import "time"
-
 type DocumentAudit struct {
-	ID          int64     `json:"id_formulario"`
-	Informacion string    `json:"informacion"`
-	Nombre      string    `json:"nombre"`
-	Version     string    `json:"version"`
-	Fecha       time.Time `json:"fecha"`
-	EtapaID     int64     `json:"etapa_id"`
-	UsuarioID   int64     `json:"usuario_id"`
+	ID          int    `json:"id_formulario"`
+	Informacion string `json:"informacion"`
+	Version     int    `json:"version"`
+	Nombre      string `json:"nombre"`
+	ControlID   int    `json:"control_id"`
+	UsuarioID   int    `json:"usuario_id"`
 }

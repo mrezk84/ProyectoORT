@@ -55,7 +55,7 @@ func (a *API) RegisterFrom(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterFrom(ctx, params.Nombre, params.Informacion, params.Version, params.Fecha.Format("23/12/2023"), int(params.EtapaID), int(params.UsuarioID))
+	err = a.serv.RegisterFrom(ctx, params.Informacion, params.Version, params.Nombre, params.ControlID, params.UsuarioID)
 	if err != nil {
 		if err == service.ErrFormAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulairo ya existe"})
@@ -461,13 +461,10 @@ func (a *API) AddForm(c echo.Context) error {
 	}
 
 	f := models.Formulario{
-		ID:          int(params.ID),
-		Nombre:      params.Nombre,
+		ID:          params.ID,
 		Informacion: params.Informacion,
 		Version:     params.Version,
-		Fecha:       params.Fecha,
-		EtapaID:     int(params.EtapaID),
-		UsuarioID:   int(params.UsuarioID),
+		Nombre:      params.Nombre,
 	}
 
 	err = a.serv.AddForm(ctx, email, f)

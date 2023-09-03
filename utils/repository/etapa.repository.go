@@ -25,7 +25,6 @@ const (
 		FROM ETAPAS
 		WHERE nombre = ?;`
 
-
 	qryGetAllEtapas = `
 		SELECT id,
 		nombre,
@@ -66,11 +65,7 @@ func (r *repo) GetEtapa(ctx context.Context) ([]entity.Etapa, error) {
 	if err != nil {
 		return nil, err
 	}
-	err1 := r.db.SelectContext(ctx, &ff, qryGetFormEtapas)
 
-	if err1 != nil {
-		return nil, err
-	}
 	err2 := r.db.SelectContext(ctx, &ff, qryGetFormUsers)
 	if err2 != nil {
 		return nil, err
