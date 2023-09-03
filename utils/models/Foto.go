@@ -1,7 +1,8 @@
 package models
 
 type Foto struct {
-	NombreArchivo string
-	Notas         string
-	// Otros atributos de la foto
+	ID           int
+	Nombre       string
+	Notas        string
+	FormularioID int
 }

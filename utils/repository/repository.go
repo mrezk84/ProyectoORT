@@ -16,6 +16,7 @@ type Repository interface {
 	SaveUserRole(ctx context.Context, userID, roleID int) error
 	SaveControl(ctx context.Context, descripcion, tipo string) error
 	SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error
+	SavePhoto(ctx context.Context, nombre, notas string, formulario_id int) error
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int) error
 	GetChecks(ctx context.Context) ([]entity.Check, error)
@@ -48,8 +49,10 @@ type Repository interface {
 	GetAllRoles(ctx context.Context) ([]entity.Rol, error)
 	GetRolById(ctx context.Context, id int) (*entity.Rol, error)
 	GetUserRoles(ctx context.Context, userID int) ([]entity.UsuarioRol, error)
-
+	GetPhotoByForm(ctx context.Context, formulario_id int) (*entity.Foto, error)
 	GetPisos(ctx context.Context) ([]entity.Piso, error)
+	GetPhotos(ctx context.Context) ([]entity.Foto, error)
+	GetPhotoById(ctx context.Context, id int) (*entity.Foto, error)
 }
 
 type repo struct {

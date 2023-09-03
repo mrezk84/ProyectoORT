@@ -7,4 +7,5 @@ type Control struct {
 	Descripcion  string    `json:"descripcion"`
 	Tipo         string    `json:"tipo"`
 	FechaControl time.Time `json:"fechaControl"`
+	Foto         Foto
 }

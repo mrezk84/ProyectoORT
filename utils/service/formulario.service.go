@@ -33,6 +33,7 @@ func (s *serv) RegisterFrom(ctx context.Context, informacion string, nombre stri
 	if e != nil {
 		return ErrFomEtapaAlreadyAdded
 	}
+
 	return s.repo.SaveFrom(ctx, informacion, nombre, version, fecha, e.ID, u.ID)
 }
 
@@ -51,6 +52,7 @@ func (s *serv) AddForm(ctx context.Context, email string, formulario models.Form
 	if err != nil {
 		return err
 	}
+
 	userCanAdd := false
 	for _, r := range roles {
 		for _, vr := range validRolesToAddForm {
@@ -65,7 +67,8 @@ func (s *serv) AddForm(ctx context.Context, email string, formulario models.Form
 		return ErrInvalidPermissions
 	}
 
-	return s.repo.SaveFrom(ctx, formulario.Nombre, formulario.Informacion, formulario.Version, formulario.Fecha.Format("dd/mm/aaaa"), et.ID, u.ID)
+	return s.repo.SaveFrom(ctx, formulario.Nombre, formulario.Informacion, formulario.Version,
+		formulario.Fecha.Format("dd/mm/aaaa"), et.ID, u.ID)
 }
 
 func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {

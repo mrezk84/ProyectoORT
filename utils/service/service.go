@@ -31,6 +31,9 @@ type Service interface {
 	RegisterRol(ctx context.Context, id int) error
 	GetUsersRole(ctx context.Context, userID int) ([]models.UsuarioRol, error)
 	GetPisos(ctx context.Context) ([]models.Piso, error)
+
+	RegisterPhoto(ctx context.Context, nombre, notas string, formulario_id int) error
+	GetPhotos(ctx context.Context) ([]models.Foto, error)
 }
 
 type serv struct {
