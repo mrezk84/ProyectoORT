@@ -34,6 +34,8 @@ type Service interface {
 
 	RegisterPhoto(ctx context.Context, nombre, notas string, formulario_id int) error
 	GetPhotos(ctx context.Context) ([]models.Foto, error)
+	GetPhoto(ctx context.Context, id int) (*models.Foto, error)
+	GetPhotoFilePath(ctx context.Context, fotoID int) (string, error)
 }
 
 type serv struct {

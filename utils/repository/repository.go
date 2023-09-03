@@ -54,6 +54,7 @@ type Repository interface {
 	GetPisos(ctx context.Context) ([]entity.Piso, error)
 	GetPhotos(ctx context.Context) ([]entity.Foto, error)
 	GetPhotoById(ctx context.Context, id int) (*entity.Foto, error)
+	GetPhotoFilePath(ctx context.Context, id int) (string, error)
 }
 
 type repo struct {

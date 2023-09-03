@@ -46,3 +46,27 @@ func (s *serv) GetPhotos(ctx context.Context) ([]models.Foto, error) {
 
 	return fotos, nil
 }
+func (s *serv) GetPhoto(ctx context.Context, id int) (*models.Foto, error) {
+	p, err := s.repo.GetPhotoById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	foto := &models.Foto{
+		ID:           p.ID,
+		Nombre:       p.Nombre,
+		Notas:        p.Notas,
+		FormularioID: p.FormularioID,
+	}
+
+	return foto, nil
+}
+func (s *serv) GetPhotoFilePath(ctx context.Context, fotoID int) (string, error) {
+	// Llama a la función correspondiente en el repositorio para obtener la ruta del archivo
+	filePath, err := s.repo.GetPhotoFilePath(ctx, fotoID)
+	if err != nil {
+		// Maneja el error si la foto no existe o si ocurre algún problema
+		return "", ErrFotoNotFound
+	}
+	return filePath, nil
+}

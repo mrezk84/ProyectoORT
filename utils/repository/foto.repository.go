@@ -2,6 +2,9 @@ package repository
 
 import (
 	"context"
+	"database/sql"
+	"fmt"
+	"path/filepath"
 	"proyectoort/utils/entity"
 )
 
@@ -46,7 +49,6 @@ func (r *repo) GetPhotoByForm(ctx context.Context, formulario_id int) (*entity.F
 	if err != nil {
 		return nil, err
 	}
-
 	return fo, nil
 }
 func (r *repo) GetPhotos(ctx context.Context) ([]entity.Foto, error) {
@@ -66,4 +68,20 @@ func (r *repo) GetPhotoById(ctx context.Context, id int) (*entity.Foto, error) {
 	}
 
 	return f, nil
+}
+func (r *repo) GetPhotoFilePath(ctx context.Context, id int) (string, error) {
+
+	query := "SELECT nombre FROM fotos WHERE id = ?"
+	var nombreFoto string
+	err := r.db.QueryRowContext(ctx, query, id).Scan(&nombreFoto)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			// Si no se encuentra la foto, devuelve un error
+			return "", fmt.Errorf("Foto no encontrada")
+		}
+		// Si ocurre un error diferente, maneja el error de acuerdo a tus necesidades
+		return "", fmt.Errorf("Error a obtener la foto")
+	}
+	filePath := filepath.Join("fotos", nombreFoto)
+	return filePath, nil
 }

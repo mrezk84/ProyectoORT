@@ -46,4 +46,5 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	foto := e.Group("/fotos")
 	foto.POST("/registrar", a.RegisterPhoto)
 	foto.GET("", a.GetFotosForm)
+	foto.GET("download/:id", a.DownloadPhoto)
 }
