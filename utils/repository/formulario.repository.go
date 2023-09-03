@@ -43,29 +43,29 @@ const (
 
 	qryGetFormByName = `
 	SELECT
-		id,
-		nombre,
 		informacion,
-		version,
-		fecha
+		version, 
+		nombre,
+		control_id, 
+		usuario_id
 	FROM FORMULARIO
 	WHERE name = ?;`
 
 	qryGetFormControles = `
-		SELECT f.id,f.nombre,f.informacion,f.fecha, c.tipo as contoles
+		SELECT f.id,f.informacion,f.version,f.nombre, c.tipo as contol
 		FROM FORMULARIO f INNER JOIN CONTROL c
 		ON f.id=c.id
 		WHERE f.id=c.id`
 
 	qryGetFormUsers = `
-		SELECT f.id,f.nombre,f.informacion,f.fecha, u.username as usuario
+		SELECT f.id,f.informacion,f.version,f.nombre, u.username as usuario
 		FROM FORMULARIO f INNER JOIN USUARIOS u
 		ON f.id=u.id
 		WHERE f.id=u.id`
 
 	qryGetFormPhotos = `
-		SELECT f.id,f.nombre,f.informacion,f.fecha, p.nombre, p.notas as foto
-		FROM FORMULARIO f INNER JOIN foto p
+		SELECT f.id,f.informacion,f.version,f.nombre, p.notas as foto
+		FROM FORMULARIO f INNER JOIN FOTOS p
 		ON f.id=p.id
 		WHERE f.id=p.id`
 )

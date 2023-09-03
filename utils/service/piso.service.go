@@ -55,18 +55,3 @@ func (s *serv) GetPisos(ctx context.Context) ([]models.Piso, error) {
 
 	return pisos, nil
 }
-func (s *serv) GetPhoto(ctx context.Context, id int) (*models.Foto, error) {
-	p, err := s.repo.GetPhotoById(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	foto := &models.Foto{
-		ID:           p.ID,
-		Nombre:       p.Nombre,
-		Notas:        p.Notas,
-		FormularioID: p.FormularioID,
-	}
-
-	return foto, nil
-}

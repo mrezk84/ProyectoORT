@@ -10,7 +10,7 @@ import (
 
 const (
 	qryInsertFoto = `
-		INSERT INTO foto (nombre, notas, formulario_id)
+		INSERT INTO FOTOS (nombre, notas, formulario_id)
 		VALUES (?, ?, ?);`
 
 	qryGetPhotoByForm = `
@@ -18,7 +18,7 @@ const (
 			id, 
 			nombre, 
 			notas 
-		FROM fotos 
+		FROM FOTOS
 		WHERE formulario_id = ?"`
 
 	qryGetPhotos = `
@@ -26,7 +26,7 @@ const (
 			id, 
 			nombre, 
 			notas 
-		FROM fotos 
+		FROM FOTOS
 	
 	`
 	qryGetPhotoById = `
@@ -34,7 +34,7 @@ const (
 			id, 
 			nombre, 
 			notas 
-		FROM fotos 
+		FROM FOTOS 
 		WHERE id = ?"`
 )
 
