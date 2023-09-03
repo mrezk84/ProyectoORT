@@ -33,7 +33,7 @@ func (s *serv) RegisterFrom(ctx context.Context, informacion string, version int
 		return ErrFomEtapaAlreadyAdded
 	}
 
-	return s.repo.SaveFrom(ctx, informacion, version, nombre, c.ID, u.ID)
+	return s.repo.SaveFrom(ctx, informacion, version, nombre, c.ID, u.ID, fo)
 }
 
 func (s *serv) AddForm(ctx context.Context, email string, formulario models.Formulario) error {

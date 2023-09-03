@@ -27,9 +27,10 @@ type Repository interface {
 	GetControls(ctx context.Context) ([]entity.Control, error)
 	GetControlById(ctx context.Context, id int) (*entity.Control, error)
 	GetUserById(ctx context.Context, id int) (*entity.Usuario, error)
-	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
+	GetFormById(ctx context.Context, id int) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 	GetFormControles(ctx context.Context) (*entity.Formulario, error)
+	GetFormPhotos(ctx context.Context) (*entity.Formulario, error)
 	GetFromUsers(ctx context.Context) (*entity.Formulario, error)
 	SaveObra(ctx context.Context, nombre string) error
 	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)

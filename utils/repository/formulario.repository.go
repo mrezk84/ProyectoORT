@@ -8,45 +8,38 @@ import (
 const (
 	qryInsertFrom = `
 		INSERT INTO FORMULARIO (informacion,version, nombre,control_id, usuario_id)
-		VALUES (?, ?, ?, ?, ?, ?);`
+		VALUES (?, ?, ?, ?, ?);`
 
-	qryGetFormByDate = `
+	qryGetFormById = `
 		SELECT
 			id,
-			nombre,
 			informacion,
-			version,
-			fecha
+			version, 
+			nombre,
+			control_id, 
+			usuario_id
 		FROM FORMULARIO
-		WHERE fecha = ?;`
+		WHERE id= ?;`
 
 	qryGetFormByVersion = `
 		SELECT
-			id,
-			nombre,
-			informacion,
-			version,
-			fecha
+		id,
+		informacion,
+		version, 
+		nombre,
+		control_id, 
+		usuario_id
 		FROM FORMULARIO
 		WHERE version = ?;`
 
 	qryGetAllForms = `
 		SELECT id,
-		nombre,
-		informacion,
-		version,
-		fecha
-		FROM FORMULARIO;`
-
-	qryGetFormById = `
-		SELECT
-			id,
-			nombre,
 			informacion,
-			version,
-			fecha
-		FROM FORMULARIO
-		WHERE id = ?;`
+			version, 
+		nombre,
+		control_id, 
+		usuario_id
+		FROM FORMULARIO;`
 
 	qryGetFormByName = `
 	SELECT
@@ -69,6 +62,12 @@ const (
 		FROM FORMULARIO f INNER JOIN USUARIOS u
 		ON f.id=u.id
 		WHERE f.id=u.id`
+
+	qryGetFormPhotos = `
+		SELECT f.id,f.nombre,f.informacion,f.fecha, p.nombre, p.notas as foto
+		FROM FORMULARIO f INNER JOIN foto p
+		ON f.id=p.id
+		WHERE f.id=p.id`
 )
 
 func (r *repo) SaveFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error {
@@ -76,9 +75,9 @@ func (r *repo) SaveFrom(ctx context.Context, informacion string, version int, no
 	return err
 }
 
-func (r *repo) GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error) {
+func (r *repo) GetFormById(ctx context.Context, id int) (*entity.Formulario, error) {
 	f := &entity.Formulario{}
-	err := r.db.GetContext(ctx, f, qryGetFormByDate, fecha)
+	err := r.db.GetContext(ctx, f, qryGetFormById, id)
 	if err != nil {
 		return nil, err
 	}
@@ -143,6 +142,17 @@ func (r *repo) GetFromUsers(ctx context.Context) (*entity.Formulario, error) {
 
 	f := &entity.Formulario{}
 	err := r.db.GetContext(ctx, f, qryGetFormUsers)
+	if err != nil {
+		return nil, err
+	}
+
+	return f, nil
+
+}
+
+func (r *repo) GetFormPhotos(ctx context.Context) (*entity.Formulario, error) {
+	f := &entity.Formulario{}
+	err := r.db.GetContext(ctx, f, qryGetFormPhotos)
 	if err != nil {
 		return nil, err
 	}

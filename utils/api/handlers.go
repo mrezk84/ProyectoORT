@@ -501,3 +501,48 @@ func (a *API) GetPisos(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, p)
 }
+func (a *API) RegisterPhoto(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.FotoDTO{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.RegisterPhoto(ctx, params.Nombre, params.Notas, params.FormularioID)
+	if err != nil {
+		if err == service.ErrFormAlreadyExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "la foto ya existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo la foto para el formulario"})
+}
+func (a *API) GetFotosForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.FotoDTO{}
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	fo, err := a.serv.GetPhotos(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener las fotos"})
+	}
+	return c.JSON(http.StatusOK, fo)
+}
