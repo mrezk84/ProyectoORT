@@ -6,11 +6,6 @@ $(document).ready(function() {
 
 async function getControles() {
 
-    let obraid = null;
-    const url = new URL(document.URL);
-    const searchParams = url.searchParams;
-    obraid = searchParams.get('obra_id');
-
     const request = await fetch("http://localhost:5000/documentos", {
         method: 'GET',
     })
@@ -33,5 +28,11 @@ async function getControles() {
 
 
 function redirectCrearDocumento(){
-    window.location.href = `altaDePlan.html`;
+
+    let obraid = null;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    obraid = searchParams.get('obra_id');
+
+    window.location.href = `altaDePlan.html?obra_id=${obraid}`;
 }

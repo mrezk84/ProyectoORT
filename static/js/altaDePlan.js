@@ -17,7 +17,7 @@ async function getFormulariosYpisos() {
             for (let formulario of formularios) {
                 listadoHtml +=
                 `
-                 <option value="${formulario.id_formulario}">${formulario.Nombre}</option>
+                 <option value="${formulario.id_formulario}">${formulario.nombre}</option>
                 `
         };
 
@@ -37,7 +37,7 @@ async function getFormulariosYpisos() {
             for (let piso of pisos) {
                 listadoHtml +=
                 `
-                 <option value="${piso.id}">${piso.Numero}</option>
+                 <option value="${piso.id}">${piso.numero}</option>
                 `
         };
 
