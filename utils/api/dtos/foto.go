@@ -2,7 +2,7 @@ package dtos
 
 type FotoDTO struct {
 	ID           int    `json:"id"`
-	Nombre       string `json:"nombre" validate:"required"`
-	Notas        string `json:"notas" validate:"required"`
-	FormularioID int    `json:"formulario_id" validate:"required"`
+	Nombre       string `json:"nombre" `
+	Notas        string `json:"notas" `
+	FormularioID int    `json:"formulario_id"`
 }
