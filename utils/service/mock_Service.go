@@ -148,6 +148,56 @@ func (_m *MockService) GetForms(ctx context.Context) ([]models.Formulario, error
 	return r0, r1
 }
 
+// GetPhoto provides a mock function with given fields: ctx, id
+func (_m *MockService) GetPhoto(ctx context.Context, id int) (*models.Foto, error) {
+	ret := _m.Called(ctx, id)
+
+	var r0 *models.Foto
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*models.Foto, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) *models.Foto); ok {
+		r0 = rf(ctx, id)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*models.Foto)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetPhotoFilePath provides a mock function with given fields: ctx, fotoID
+func (_m *MockService) GetPhotoFilePath(ctx context.Context, fotoID int) (string, error) {
+	ret := _m.Called(ctx, fotoID)
+
+	var r0 string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (string, error)); ok {
+		return rf(ctx, fotoID)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) string); ok {
+		r0 = rf(ctx, fotoID)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, fotoID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetPhotos provides a mock function with given fields: ctx
 func (_m *MockService) GetPhotos(ctx context.Context) ([]models.Foto, error) {
 	ret := _m.Called(ctx)
@@ -320,13 +370,13 @@ func (_m *MockService) RegisterEtapa(ctx context.Context, nombre string) error {
 	return r0
 }
 
-// RegisterFrom provides a mock function with given fields: ctx, informacion, version, nombre, control_id, usuario_id
-func (_m *MockService) RegisterFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error {
-	ret := _m.Called(ctx, informacion, version, nombre, control_id, usuario_id)
+// RegisterFrom provides a mock function with given fields: ctx, nombre, informacion, version, control_id, usuario_id
+func (_m *MockService) RegisterFrom(ctx context.Context, nombre string, informacion string, version int, control_id int, usuario_id int) error {
+	ret := _m.Called(ctx, nombre, informacion, version, control_id, usuario_id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, int, string, int, int) error); ok {
-		r0 = rf(ctx, informacion, version, nombre, control_id, usuario_id)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, int, int, int) error); ok {
+		r0 = rf(ctx, nombre, informacion, version, control_id, usuario_id)
 	} else {
 		r0 = ret.Error(0)
 	}

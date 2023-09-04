@@ -47,6 +47,7 @@ func (a *API) RegisterFrom(c echo.Context) error {
 	params := dtos.DocumentAudit{}
 	err := c.Bind(&params)
 	if err != nil {
+		log.Println(err)
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
 	}
 
@@ -55,10 +56,10 @@ func (a *API) RegisterFrom(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterFrom(ctx, params.Informacion, params.Version, params.Nombre, params.ControlID, params.UsuarioID)
+	err = a.serv.RegisterFrom(ctx, params.Nombre, params.Informacion, params.Version, params.ControlID, params.UsuarioID)
 	if err != nil {
 		if err == service.ErrFormAlreadyExists {
-			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulairo ya existe"})
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulario ya existe"})
 		}
 
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
@@ -517,7 +518,7 @@ func (a *API) RegisterPhoto(c echo.Context) error {
 
 	err = a.serv.RegisterPhoto(ctx, params.Nombre, params.Notas, params.FormularioID)
 	if err != nil {
-		if err == service.ErrFormAlreadyExists {
+		if err == service.ErrFotoAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "la foto ya existe"})
 		}
 

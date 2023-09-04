@@ -19,23 +19,22 @@ const (
 			nombre, 
 			notas 
 		FROM FOTOS
-		WHERE formulario_id = ?"`
+		WHERE formulario_id = ?;`
 
 	qryGetPhotos = `
 	 SELECT 
 			id, 
 			nombre, 
-			notas 
-		FROM FOTOS
-	
-	`
+			notas,
+			formulario_id 
+		FROM FOTOS`
 	qryGetPhotoById = `
 		SELECT 
 			id, 
 			nombre, 
 			notas 
 		FROM FOTOS 
-		WHERE id = ?"`
+		WHERE id = ?;`
 )
 
 func (r *repo) SavePhoto(ctx context.Context, nombre, notas string, formulario_id int) error {
@@ -45,7 +44,7 @@ func (r *repo) SavePhoto(ctx context.Context, nombre, notas string, formulario_i
 
 func (r *repo) GetPhotoByForm(ctx context.Context, formulario_id int) (*entity.Foto, error) {
 	fo := &entity.Foto{}
-	err := r.db.GetContext(ctx, fo, qryGetPhotoByForm, formulario_id)
+	err := r.db.SelectContext(ctx, fo, qryGetPhotoByForm, formulario_id)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +70,7 @@ func (r *repo) GetPhotoById(ctx context.Context, id int) (*entity.Foto, error) {
 }
 func (r *repo) GetPhotoFilePath(ctx context.Context, id int) (string, error) {
 
-	query := "SELECT nombre FROM fotos WHERE id = ?"
+	query := "SELECT nombre FROM FOTOS WHERE id = ?"
 	var nombreFoto string
 	err := r.db.QueryRowContext(ctx, query, id).Scan(&nombreFoto)
 	if err != nil {

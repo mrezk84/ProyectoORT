@@ -12,7 +12,7 @@ import (
 //go:generate mockery --name=Repository --output=repository --inpackage
 type Repository interface {
 	SaveUser(ctx context.Context, email, username, password string) error
-	SaveFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error
+	SaveFrom(ctx context.Context, nombre string, informacion string, version int, control_id int, usuario_id int) error
 	SaveUserRole(ctx context.Context, userID, roleID int) error
 	SaveControl(ctx context.Context, descripcion, tipo string) error
 	SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error
@@ -23,12 +23,12 @@ type Repository interface {
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
 	GetForms(ctx context.Context) ([]entity.Formulario, error)
-	GetFormsById(ctx context.Context, id int64) (*entity.Formulario, error)
+	GetFormsById(ctx context.Context, id int) (*entity.Formulario, error)
 	GetControls(ctx context.Context) ([]entity.Control, error)
 	GetControlById(ctx context.Context, id int) (*entity.Control, error)
 	GetUserById(ctx context.Context, id int) (*entity.Usuario, error)
 	GetFormById(ctx context.Context, id int) (*entity.Formulario, error)
-	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
+	GetFormByVersion(ctx context.Context, version int) (*entity.Formulario, error)
 	GetFormControles(ctx context.Context) (*entity.Formulario, error)
 	GetFormPhotos(ctx context.Context) (*entity.Formulario, error)
 	GetFromUsers(ctx context.Context) (*entity.Formulario, error)

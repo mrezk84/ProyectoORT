@@ -18,7 +18,7 @@ type Service interface {
 	AddForm(ctx context.Context, email string, formulario models.Formulario) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int) error
-	RegisterFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error
+	RegisterFrom(ctx context.Context, nombre string, informacion string, version int, control_id int, usuario_id int) error
 	GetForms(ctx context.Context) ([]models.Formulario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
 	GetUsers(ctc context.Context) ([]models.Usuario, error)

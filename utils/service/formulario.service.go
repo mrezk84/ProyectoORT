@@ -16,13 +16,12 @@ var (
 	validRolesToAddForm     []int = []int{1, 2, 3, 4}
 )
 
-func (s *serv) RegisterFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error {
+func (s *serv) RegisterFrom(ctx context.Context, nombre string, informacion string, version int, control_id int, usuario_id int) error {
 
-	f, _ := s.repo.GetForms(ctx)
+	f, _ := s.repo.GetFormByName(ctx, nombre)
 	if f != nil {
 		return ErrFormAlreadyExists
 	}
-
 	u, _ := s.repo.GetFromUsers(ctx)
 	if u != nil {
 		return ErrFomUserAlreadyAdded
@@ -33,7 +32,7 @@ func (s *serv) RegisterFrom(ctx context.Context, informacion string, version int
 		return ErrFomEtapaAlreadyAdded
 	}
 
-	return s.repo.SaveFrom(ctx, informacion, version, nombre, c.ID, u.ID)
+	return s.repo.SaveFrom(ctx, nombre, informacion, version, control_id, usuario_id)
 }
 
 func (s *serv) AddForm(ctx context.Context, email string, formulario models.Formulario) error {
@@ -66,7 +65,7 @@ func (s *serv) AddForm(ctx context.Context, email string, formulario models.Form
 		return ErrInvalidPermissions
 	}
 
-	return s.repo.SaveFrom(ctx, formulario.Informacion, formulario.ID, formulario.Nombre,
+	return s.repo.SaveFrom(ctx, formulario.Nombre, formulario.Informacion, formulario.Version,
 		co.ID, u.ID)
 }
 

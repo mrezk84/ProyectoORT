@@ -222,25 +222,25 @@ func (_m *MockRepository) GetEtapaByName(ctx context.Context, nombre string) (*e
 	return r0, r1
 }
 
-// GetFormByDate provides a mock function with given fields: ctx, fecha
-func (_m *MockRepository) GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error) {
-	ret := _m.Called(ctx, fecha)
+// GetFormById provides a mock function with given fields: ctx, id
+func (_m *MockRepository) GetFormById(ctx context.Context, id int) (*entity.Formulario, error) {
+	ret := _m.Called(ctx, id)
 
 	var r0 *entity.Formulario
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) (*entity.Formulario, error)); ok {
-		return rf(ctx, fecha)
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*entity.Formulario, error)); ok {
+		return rf(ctx, id)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Formulario); ok {
-		r0 = rf(ctx, fecha)
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Formulario); ok {
+		r0 = rf(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*entity.Formulario)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
-		r1 = rf(ctx, fecha)
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -275,15 +275,15 @@ func (_m *MockRepository) GetFormByName(ctx context.Context, nombre string) (*en
 }
 
 // GetFormByVersion provides a mock function with given fields: ctx, version
-func (_m *MockRepository) GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error) {
+func (_m *MockRepository) GetFormByVersion(ctx context.Context, version int) (*entity.Formulario, error) {
 	ret := _m.Called(ctx, version)
 
 	var r0 *entity.Formulario
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) (*entity.Formulario, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*entity.Formulario, error)); ok {
 		return rf(ctx, version)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string) *entity.Formulario); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Formulario); ok {
 		r0 = rf(ctx, version)
 	} else {
 		if ret.Get(0) != nil {
@@ -291,7 +291,7 @@ func (_m *MockRepository) GetFormByVersion(ctx context.Context, version string) 
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
 		r1 = rf(ctx, version)
 	} else {
 		r1 = ret.Error(1)
@@ -302,6 +302,32 @@ func (_m *MockRepository) GetFormByVersion(ctx context.Context, version string) 
 
 // GetFormControles provides a mock function with given fields: ctx
 func (_m *MockRepository) GetFormControles(ctx context.Context) (*entity.Formulario, error) {
+	ret := _m.Called(ctx)
+
+	var r0 *entity.Formulario
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) (*entity.Formulario, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) *entity.Formulario); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Formulario)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetFormPhotos provides a mock function with given fields: ctx
+func (_m *MockRepository) GetFormPhotos(ctx context.Context) (*entity.Formulario, error) {
 	ret := _m.Called(ctx)
 
 	var r0 *entity.Formulario
@@ -353,15 +379,15 @@ func (_m *MockRepository) GetForms(ctx context.Context) ([]entity.Formulario, er
 }
 
 // GetFormsById provides a mock function with given fields: ctx, id
-func (_m *MockRepository) GetFormsById(ctx context.Context, id int64) (*entity.Formulario, error) {
+func (_m *MockRepository) GetFormsById(ctx context.Context, id int) (*entity.Formulario, error) {
 	ret := _m.Called(ctx, id)
 
 	var r0 *entity.Formulario
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) (*entity.Formulario, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int) (*entity.Formulario, error)); ok {
 		return rf(ctx, id)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) *entity.Formulario); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Formulario); ok {
 		r0 = rf(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
@@ -369,7 +395,7 @@ func (_m *MockRepository) GetFormsById(ctx context.Context, id int64) (*entity.F
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
 		r1 = rf(ctx, id)
 	} else {
 		r1 = ret.Error(1)
@@ -497,6 +523,30 @@ func (_m *MockRepository) GetPhotoById(ctx context.Context, id int) (*entity.Fot
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*entity.Foto)
 		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetPhotoFilePath provides a mock function with given fields: ctx, id
+func (_m *MockRepository) GetPhotoFilePath(ctx context.Context, id int) (string, error) {
+	ret := _m.Called(ctx, id)
+
+	var r0 string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, int) (string, error)); ok {
+		return rf(ctx, id)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, int) string); ok {
+		r0 = rf(ctx, id)
+	} else {
+		r0 = ret.Get(0).(string)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
@@ -812,13 +862,13 @@ func (_m *MockRepository) SaveEtapa(ctx context.Context, nombre string) error {
 	return r0
 }
 
-// SaveFrom provides a mock function with given fields: ctx, informacion, version, nombre, control_id, usuario_id
-func (_m *MockRepository) SaveFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error {
-	ret := _m.Called(ctx, informacion, version, nombre, control_id, usuario_id)
+// SaveFrom provides a mock function with given fields: ctx, nombre, informacion, version, control_id, usuario_id
+func (_m *MockRepository) SaveFrom(ctx context.Context, nombre string, informacion string, version int, control_id int, usuario_id int) error {
+	ret := _m.Called(ctx, nombre, informacion, version, control_id, usuario_id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, int, string, int, int) error); ok {
-		r0 = rf(ctx, informacion, version, nombre, control_id, usuario_id)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string, int, int, int) error); ok {
+		r0 = rf(ctx, nombre, informacion, version, control_id, usuario_id)
 	} else {
 		r0 = ret.Error(0)
 	}

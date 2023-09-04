@@ -2,9 +2,9 @@ package dtos
 
 type DocumentAudit struct {
 	ID          int    `json:"id_formulario"`
-	Informacion string `json:"informacion" validate:"required"`
-	Version     int    `json:"version" validate:"required"`
-	Nombre      string `json:"nombre" validate:"required"`
-	ControlID   int    `json:"control_id" validate:"required"`
-	UsuarioID   int    `json:"usuario_id" validate:"required"`
+	Informacion string `json:"informacion"`
+	Version     int    `json:"version" `
+	Nombre      string `json:"nombre" `
+	ControlID   int    `json:"control_id"`
+	UsuarioID   int    `json:"usuario_id"`
 }

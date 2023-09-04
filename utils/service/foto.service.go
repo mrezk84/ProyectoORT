@@ -16,12 +16,12 @@ var (
 
 func (s *serv) RegisterPhoto(ctx context.Context, nombre, notas string, formulario_id int) error {
 
-	fo, _ := s.repo.GetPhotoByForm(ctx, formulario_id)
+	fo, _ := s.repo.GetPhotos(ctx)
 	if fo != nil {
 		return ErrFotoAlreadyExists
 	}
 
-	return s.repo.SavePhoto(ctx, nombre, notas, fo.FormularioID)
+	return s.repo.SavePhoto(ctx, nombre, notas, formulario_id)
 
 }
 
@@ -48,6 +48,10 @@ func (s *serv) GetPhotos(ctx context.Context) ([]models.Foto, error) {
 }
 func (s *serv) GetPhoto(ctx context.Context, id int) (*models.Foto, error) {
 	p, err := s.repo.GetPhotoById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
 	if err != nil {
 		return nil, err
 	}

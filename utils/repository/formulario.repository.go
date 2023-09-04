@@ -7,47 +7,35 @@ import (
 
 const (
 	qryInsertFrom = `
-		INSERT INTO FORMULARIO (informacion,version, nombre,control_id, usuario_id)
+		INSERT INTO FORMULARIO (nombre, informacion,version,control_id, usuario_id)
 		VALUES (?, ?, ?, ?, ?);`
 
 	qryGetFormById = `
 		SELECT
 			id,
-			informacion,
-			version, 
-			nombre,
-			control_id, 
-			usuario_id
+			nombre, informacion,version,control_id, usuario_id
 		FROM FORMULARIO
 		WHERE id= ?;`
 
 	qryGetFormByVersion = `
 		SELECT
-		id,
-		informacion,
-		version, 
-		nombre,
-		control_id, 
-		usuario_id
+		id, nombre, informacion,version,control_id, usuario_id
 		FROM FORMULARIO
 		WHERE version = ?;`
 
 	qryGetAllForms = `
 		SELECT id,
+			nombre, 
 			informacion,
-			version, 
-		nombre,
-		control_id, 
-		usuario_id
+			version,
+			control_id, 
+			usuario_id,
+
 		FROM FORMULARIO;`
 
 	qryGetFormByName = `
 	SELECT
-		informacion,
-		version, 
-		nombre,
-		control_id, 
-		usuario_id
+	id, nombre, informacion,version,control_id, usuario_id
 	FROM FORMULARIO
 	WHERE name = ?;`
 
@@ -70,8 +58,8 @@ const (
 		WHERE f.id=p.id`
 )
 
-func (r *repo) SaveFrom(ctx context.Context, informacion string, version int, nombre string, control_id int, usuario_id int) error {
-	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, version, nombre, control_id, usuario_id)
+func (r *repo) SaveFrom(ctx context.Context, nombre string, informacion string, version int, control_id int, usuario_id int) error {
+	_, err := r.db.ExecContext(ctx, qryInsertFrom, nombre, informacion, version, control_id, usuario_id)
 	return err
 }
 
@@ -95,7 +83,7 @@ func (r *repo) GetForms(ctx context.Context) ([]entity.Formulario, error) {
 	return ff, nil
 }
 
-func (r *repo) GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error) {
+func (r *repo) GetFormByVersion(ctx context.Context, version int) (*entity.Formulario, error) {
 	f := &entity.Formulario{}
 	err := r.db.GetContext(ctx, f, qryGetFormByVersion, version)
 	if err != nil {
@@ -117,7 +105,7 @@ func (r *repo) GetFormControles(ctx context.Context) (*entity.Formulario, error)
 
 }
 
-func (r *repo) GetFormsById(ctx context.Context, ID int64) (*entity.Formulario, error) {
+func (r *repo) GetFormsById(ctx context.Context, ID int) (*entity.Formulario, error) {
 	f := &entity.Formulario{}
 
 	err := r.db.GetContext(ctx, f, qryGetFormById, ID)
