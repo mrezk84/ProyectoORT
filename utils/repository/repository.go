@@ -52,6 +52,8 @@ type Repository interface {
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 	DeleteObra(ctx context.Context, nombre string) error
+	GetDocumentsByObra(ctx context.Context, formID int64) ([]models.Document, error)
+	GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
 }
 
 type repo struct {

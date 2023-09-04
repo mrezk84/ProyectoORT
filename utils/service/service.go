@@ -37,6 +37,8 @@ type Service interface {
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, controles []models.Control, document models.Document, formularioID int64) error
 	DeleteObra(ctx context.Context, name string) error
+	GetObraDocuments(ctx context.Context, obraID int64) ([]models.Document, error)
+	GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
 }
 
 type serv struct {

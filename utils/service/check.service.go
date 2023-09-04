@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"proyectoort/utils/models"
 )
 
 var (
@@ -34,4 +35,8 @@ func (s *serv) AddCheckForm(ctx context.Context, checkID, formularioID int64) er
 	}
 
 	return s.repo.SaveCheckForm(ctx, checkID, formularioID)
+}
+
+func (s *serv) GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error) {
+	return s.repo.GetDocumentsChecks(ctx, documents)
 }

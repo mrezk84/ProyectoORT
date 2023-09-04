@@ -5,4 +5,5 @@ type Document struct {
 	Formulario Formulario
 	Obra       Obra
 	Piso       Piso
+	Checks     []Check
 }
