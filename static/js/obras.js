@@ -1,5 +1,7 @@
 $(document).ready(function() {
     getObrasByUser()
+
+    $('#obras').DataTable();
 });
 
 
@@ -15,15 +17,9 @@ async function getObrasByUser() {
     if (request.ok) {
         let listadoHtml = '';
             for (let obra of obras) {
-                listadoHtml +=
-                `
-                 <tr>
-                    <th>${obra.ID}</th>s
-                    <th>${obra.Nombre}</th>
-                    <th><button onclick="redirectPisos(${obra.ID})">Ver seguimiento</button></th>
-                    <th><button onclick="redirectDocumentos(${obra.ID})">Ver documentos</button></th>
-                </tr>
-                `
+                let botondocumentos = '<a onclick = "redirectDocumentos('+obra.ID+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>}</a>';
+                let obraHtml = '<tr><td>'+ obra.ID +'</td><td>' + obra.Nombre + '</td><td>' + botondocumentos + '</td></tr>';
+                listadoHtml += obraHtml;
         };
 
         document.querySelector('#obrasTBody').outerHTML = listadoHtml;

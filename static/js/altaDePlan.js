@@ -17,11 +17,11 @@ async function getFormulariosYpisos() {
             for (let formulario of formularios) {
                 listadoHtml +=
                 `
-                 <option value="${formulario.id_formulario}">${formulario.nombre}</option>
+                 <option value="${formulario.id_formulario}">${formulario.Nombre}</option>
                 `
         };
 
-        document.getElementById("select").innerHTML = listadoHtml;
+        document.getElementById("formulario").innerHTML = listadoHtml;
 
     }
 
@@ -37,11 +37,11 @@ async function getFormulariosYpisos() {
             for (let piso of pisos) {
                 listadoHtml +=
                 `
-                 <option value="${piso.id}">${piso.numero}</option>
+                 <option value="${piso.id}">${piso.Numero}</option>
                 `
         };
 
-        document.getElementById("select2").innerHTML = listadoHtml;
+        document.getElementById("piso").innerHTML = listadoHtml;
 
     }
 }
