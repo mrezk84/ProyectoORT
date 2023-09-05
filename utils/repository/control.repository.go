@@ -18,6 +18,14 @@ const (
 		FROM CONTROL
 		WHERE descripcion = ?;`
 
+	qryGetContByid = `
+		SELECT
+		id,
+			descripcion,
+			tipo,
+		FROM CONTROL
+		WHERE id = ?;`
+
 	qryGetAllControls = `
 		SELECT 
 		id,
@@ -27,9 +35,8 @@ const (
 
 	qryGetControlsByForm = `
 		SELECT 
-		id,
-		descripcion,
-		tipo
+		control_id,
+		formulario_id
 		FROM CONTROL_FORMULARIO
 		WHERE formulario_id = ?;`
 
@@ -51,8 +58,8 @@ func (r *repo) GetControls(ctx context.Context) ([]entity.Control, error) {
 	return cc, nil
 }
 
-func (r *repo) GetControlsByForm(ctx context.Context, formID int64) ([]entity.Control, error) {
-	cc := []entity.Control{}
+func (r *repo) GetControlsByForm(ctx context.Context, formID int64) ([]entity.ControlForm, error) {
+	cc := []entity.ControlForm{}
 
 	err := r.db.SelectContext(ctx, &cc, qryGetControlsByForm)
 	if err != nil {
@@ -64,6 +71,16 @@ func (r *repo) GetControlsByForm(ctx context.Context, formID int64) ([]entity.Co
 func (r *repo) GetConByDes(ctx context.Context, des string) (*entity.Control, error) {
 	c := &entity.Control{}
 	err := r.db.GetContext(ctx, c, qryGetContBydescripcion, des)
+	if err != nil {
+		return nil, err
+	}
+
+	return c, nil
+}
+
+func (r *repo) GetConByid(ctx context.Context, id int) (*entity.Control, error) {
+	c := &entity.Control{}
+	err := r.db.GetContext(ctx, c, qryGetContByid, id)
 	if err != nil {
 		return nil, err
 	}
