@@ -48,24 +48,13 @@ func (s *serv) GetControlsByForm(ctx context.Context, formID int64) ([]models.Co
 		return nil, err
 	}
 
-	controlesF := []models.FormularioControl{}
 	controles := []models.Control{}
 
-	for _, cf := range cc {
-		controlesF = append(controlesF, models.FormularioControl{
-			ControlID:    cf.ControlID,
-			FormularioID: cf.FormularioID,
-		})
-	}
-
-	for _, c := range controlesF {
-
-		control, _ := s.repo.GetConByid(ctx, int(c.ControlID))
-
+	for _, c := range cc {
 		controles = append(controles, models.Control{
-			ID:          control.ID,
-			Descripcion: control.Descripcion,
-			Tipo:        control.Tipo,
+			ID:          c.ID,
+			Descripcion: c.Descripcion,
+			Tipo:        c.Tipo,
 		})
 
 	}

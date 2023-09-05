@@ -614,15 +614,15 @@ func (a *API) AddFormToPlanControl(c echo.Context) error {
 
 	controles, err := a.serv.GetControlsByForm(ctx, params.FormularioID)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor 1"})
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 	document, err := a.serv.InsertDocument(ctx, params.FormularioID, params.ObraID, params.PisoID)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor 2"})
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 	err = a.serv.InsertChecks(ctx, controles, document, params.FormularioID)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor 3"})
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 	return c.JSON(http.StatusCreated, nil)
 }
