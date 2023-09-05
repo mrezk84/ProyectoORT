@@ -7,12 +7,12 @@ import (
 
 const (
 	qryInsertDocument = `
-		INSERT INTO document (formulario_id,obra_id,piso_id)
+		INSERT INTO document(formulario_id, obra_id, piso_id)
 		VALUES (?,?,?);`
 )
 
 func (r *repo) InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error) {
-	result, err := r.db.ExecContext(ctx, qryInsertPiso, formularioID, obraID, pisoID)
+	result, err := r.db.ExecContext(ctx, qryInsertDocument, formularioID, obraID, pisoID)
 	if err != nil {
 		return models.Document{}, err
 	}
