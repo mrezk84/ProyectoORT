@@ -33,7 +33,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	piso.POST("/addObra", a.RegisterObraPiso)
 	check.POST("/registrar", a.RegisterCheck)
 	check.POST("/addForm", a.RegisterCheckForm)
-	document.POST("/:id", a.AddFormToPlanControl)
+	document.POST("/addDocument", a.AddFormToPlanControl)
 	document.GET("/:obra_id", a.GetDocumentsByObra)
 
 }

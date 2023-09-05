@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"github.com/labstack/gommon/log"
 	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
@@ -15,7 +16,7 @@ const (
 
 	qryCreateCheck = `
 		INSERT INTO CHECKS (estado, observaciones, version, fecha_control,document_id,formulario_id,control_id)
-		VALUES (?,?,?,?,?,?,?);`
+		VALUES ('','',0,null,%v,%v,%v);`
 
 	qryGetCheckByVersion = `
 		SELECT
@@ -45,12 +46,15 @@ where d.id = ?;`
 func (r *repo) InsertChecks(ctx context.Context, formularioID int64, documentID int64, controles []models.Control) error {
 	tx, err := r.db.Beginx()
 	if err != nil {
+		fmt.Println(err)
 		log.Error(err.Error())
 		return err
 	}
 	for _, c := range controles {
-		_, err = tx.ExecContext(ctx, qryCreateCheck, "", "", 1, nil, documentID, formularioID, c.ID)
+		fmt.Println(fmt.Sprintf(qryCreateCheck, documentID, formularioID, c.ID))
+		_, err = tx.ExecContext(ctx, fmt.Sprintf(qryCreateCheck, documentID, formularioID, c.ID))
 		if err != nil {
+			fmt.Println(err)
 			tx.Rollback()
 			return err
 		}

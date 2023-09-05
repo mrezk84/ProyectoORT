@@ -4,19 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- plan de control">
-      <change afterPath="$PROJECT_DIR$/utils/api/dtos/get_documents_form.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/entity/Document.go" afterDir="false" />
+    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- get documents">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/api/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/handlers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/api/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/models/Document.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/models/Document.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/repository/check.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/check.repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/repository/control.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/control.repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/repository/document.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/document.repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/service/check.service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/check.service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/service/document.service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/document.service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/service/control.service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/control.service.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +129,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- plan de control" />
-    <option name="LAST_COMMIT_MESSAGE" value="- plan de control" />
+    <MESSAGE value="- get documents" />
+    <option name="LAST_COMMIT_MESSAGE" value="- get documents" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

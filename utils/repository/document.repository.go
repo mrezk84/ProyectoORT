@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
 )
@@ -9,15 +10,16 @@ import (
 const (
 	qryInsertDocument = `
 		INSERT INTO document (formulario_id,obra_id,piso_id)
-		VALUES (?,?,?);`
+		VALUES (%v,%v,%v);`
 
 	getDocumentsByObra = `
 		select * from documents where obra_id = ?`
 )
 
 func (r *repo) InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error) {
-	result, err := r.db.ExecContext(ctx, qryInsertPiso, formularioID, obraID, pisoID)
+	result, err := r.db.ExecContext(ctx, fmt.Sprintf(qryInsertDocument, formularioID, obraID, pisoID))
 	if err != nil {
+		fmt.Println(err)
 		return models.Document{}, err
 	}
 	id, err := result.LastInsertId()
