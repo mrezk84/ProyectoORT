@@ -17,7 +17,7 @@ async function getFormulariosYpisos() {
             for (let formulario of formularios) {
                 listadoHtml +=
                 `
-                 <option value="${formulario.id_formulario}">${formulario.nombre}</option>
+                 <option value="${formulario.id}">${formulario.nombre}</option>
                 `
         };
 
@@ -56,7 +56,7 @@ async function registrarDocumento() {
     datos.formulario = document.getElementById('formulario').value;
     datos.piso = document.getElementById('piso').value;
     datos.obra = obraid;
-           const request = await fetch("http://localhost:5000/formularios/registrar", {
+           const request = await fetch("http://localhost:5000/documentos/registrar", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {
@@ -69,5 +69,5 @@ async function registrarDocumento() {
          }else{
              alert("Error registrando el documento");
          }
-             window.location.href = `documentosDeObra.html`;
+             window.location.href = `documentosDeObra.html?obra_id=${obraid}`;
    }
