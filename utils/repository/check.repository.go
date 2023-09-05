@@ -2,19 +2,21 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"github.com/labstack/gommon/log"
 	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
+	"time"
 )
 
 const (
 	qryInsertCheck = `
-		INSERT INTO CHECK (estado, observaciones, version, fecha_control)
+		INSERT INTO CHECKS (estado, observaciones, version, fecha_control)
 		VALUES (?,?,?,?);`
 
 	qryCreateCheck = `
-		INSERT INTO CHECK (estado, observaciones, version, fecha_control,document_id,formulario_id,control_id)
-		VALUES (?,?,?,?,?,?,?);`
+		INSERT INTO CHECKS (estado, observaciones, version, fecha_control,document_id,formulario_id,control_id)
+		VALUES ('','',0,null,%v,%v,%v);`
 
 	qryGetCheckByVersion = `
 		SELECT
@@ -23,8 +25,19 @@ const (
 			observaciones
 			version
 			fecha_control
-		FROM CHECK
+		FROM CHECKS
 		WHERE version = ?;`
+
+	qryGetCheckSByDocument = `
+		SELECT
+			id
+			estado
+			observaciones
+			version
+			fecha_control
+		FROM CHECKS
+		inner join document d on CHECK.document_id = d.id
+where d.id = ?;`
 
 	qryInsertCheckForm = `
 		INSERT INTO CHECK_FORMULARIO (check_id, formulario_id) VALUES (:check_id, :formulario_id);`
@@ -33,12 +46,15 @@ const (
 func (r *repo) InsertChecks(ctx context.Context, formularioID int64, documentID int64, controles []models.Control) error {
 	tx, err := r.db.Beginx()
 	if err != nil {
+		fmt.Println(err)
 		log.Error(err.Error())
 		return err
 	}
 	for _, c := range controles {
-		_, err = tx.ExecContext(ctx, qryCreateCheck, "", "", 1, nil, documentID, formularioID, c.ID)
+		fmt.Println(fmt.Sprintf(qryCreateCheck, documentID, formularioID, c.ID))
+		_, err = tx.ExecContext(ctx, fmt.Sprintf(qryCreateCheck, documentID, formularioID, c.ID))
 		if err != nil {
+			fmt.Println(err)
 			tx.Rollback()
 			return err
 		}
@@ -82,4 +98,26 @@ func (r *repo) SaveCheckForm(ctx context.Context, checkID, formularioID int64) e
 
 	_, err := r.db.NamedExecContext(ctx, qryInsertCheckForm, data)
 	return err
+}
+
+func (r *repo) GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error) {
+	var checks []models.Check
+	for _, d := range documents {
+		c := &entity.Check{}
+		err := r.db.GetContext(ctx, c, qryGetCheckByVersion, d.ID)
+		if err != nil {
+			return nil, err
+		}
+		fechaControl, err := time.Parse("2006-01-02", c.FechaControl)
+		if err != nil {
+			return nil, err
+		}
+		checks = append(checks, models.Check{
+			ID:           c.ID,
+			Estado:       c.Estado,
+			FechaControl: &fechaControl,
+		})
+	}
+
+	return checks, nil
 }

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"proyectoort/utils/entity"
 )
 
@@ -26,12 +27,13 @@ const (
 		FROM CONTROL;`
 
 	qryGetControlsByForm = `
-		SELECT 
-		id,
-		descripcion,
-		tipo
-		FROM CONTROL_FORMULARIO
-		WHERE formulario_id = ?;`
+		SELECT
+		c.id,
+		c.descripcion,
+		c.tipo
+		FROM CONTROL c
+		inner join CONTROL_FORMULARIO CF on c.id = CF.control_id
+		WHERE CF.formulario_id = %v;`
 
 	qryInsertControlForm = `INSERT INTO CONTROL_FORMULARIO (control_id, formulario_id) VALUES (:control_id, :formulario_id);`
 )
@@ -54,8 +56,9 @@ func (r *repo) GetControls(ctx context.Context) ([]entity.Control, error) {
 func (r *repo) GetControlsByForm(ctx context.Context, formID int64) ([]entity.Control, error) {
 	cc := []entity.Control{}
 
-	err := r.db.SelectContext(ctx, &cc, qryGetControlsByForm)
+	err := r.db.SelectContext(ctx, &cc, fmt.Sprintf(qryGetControlsByForm, formID))
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 

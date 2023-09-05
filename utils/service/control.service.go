@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"fmt"
 	"proyectoort/utils/models"
 )
 
@@ -45,6 +46,7 @@ func (s *serv) GetControls(ctx context.Context) ([]models.Control, error) {
 func (s *serv) GetControlsByForm(ctx context.Context, formID int64) ([]models.Control, error) {
 	cc, err := s.repo.GetControlsByForm(ctx, formID)
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 
