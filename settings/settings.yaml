@@ -1,6 +1,6 @@
 port: 5000
 database:
-  host: ceaosa-db.ccfkgyxkbhdd.us-east-1.rds.amazonaws.com
+  host: ceaosadb.ckszmfzuzj2z.us-east-1.rds.amazonaws.com
   port: 3306
   user: admin
   password: admin1234
