@@ -17,7 +17,7 @@ async function getFormulariosYpisos() {
             for (let formulario of formularios) {
                 listadoHtml +=
                 `
-                 <option value="${formulario.id}">${formulario.nombre}</option>
+                 <option value="${formulario.id}">${formulario.id}--${formulario.nombre}--${formulario.informacion}</option>
                 `
         };
 
@@ -37,7 +37,7 @@ async function getFormulariosYpisos() {
             for (let piso of pisos) {
                 listadoHtml +=
                 `
-                 <option value="${piso.id}">${piso.numero}</option>
+                 <option value="${piso.id}">${piso.id}--${piso.numero}</option>
                 `
         };
 
@@ -53,10 +53,10 @@ async function registrarDocumento() {
     const searchParams = url.searchParams;
     obraid = searchParams.get('obra_id');
     
-    datos.formulario = document.getElementById('formulario').value;
-    datos.piso = document.getElementById('piso').value;
-    datos.obra = obraid;
-           const request = await fetch("http://localhost:5000/documentos/registrar", {
+    datos.formulario_id = document.getElementById('formulario');
+    datos.piso_id = document.getElementById('piso').value;
+    datos.obra_id = obraid;
+           const request = await fetch("http://localhost:5000/documentos/addDocument", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {

@@ -1,12 +1,17 @@
 $(document).ready(function() {
-    // getDocumentos()
+     getDocumentos()
 
     $('#documentos').DataTable();
 });
 
-async function getControles() {
+async function getDocumentos() {
 
-    const request = await fetch("http://localhost:5000/documentos", {
+    let obraid = null;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    obraid = searchParams.get('obra_id');
+
+    const request = await fetch("http://localhost:5000/document/" + obraid, {
         method: 'GET',
     })
 
@@ -16,7 +21,7 @@ async function getControles() {
         let listadoHtml = '';
             for (let documento of documentos) {
   
-              let documentoHtml = '<tr><td>'+ documento.ID +'</td><td>' + documento.Formulario + '</td><td>' + documento.Piso + '</td></tr>';
+              let documentoHtml = '<tr><td>'+ documento.id +'</td><td>' + documento.formulario.id + '</td><td>' + documento.obra.id + '</td><td>' + documento.piso.id + '</td></tr>';
               listadoHtml += documentoHtml;
               }
             

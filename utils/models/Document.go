@@ -1,9 +1,9 @@
 package models
 
 type Document struct {
-	ID         int64
-	Formulario Formulario
-	Obra       Obra
-	Piso       Piso
+	ID         int64      `json:"id"`
+	Formulario Formulario `json:"formulario"`
+	Obra       Obra       `json:"obra"`
+	Piso       Piso       `json:"piso"`
 	Checks     []Check
 }
