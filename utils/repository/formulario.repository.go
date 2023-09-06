@@ -35,8 +35,7 @@ const (
 			id,
 			nombre,
 			informacion,
-			version,
-			fecha
+			version
 		FROM FORMULARIO
 		WHERE id = ?;`
 
