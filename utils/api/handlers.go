@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"proyectoort/encryption"
@@ -618,11 +619,11 @@ func (a *API) AddFormToPlanControl(c echo.Context) error {
 	}
 	document, err := a.serv.InsertDocument(ctx, params.FormularioID, params.ObraID, params.PisoID)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Erroasdffr interno del servidor"})
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 	err = a.serv.InsertChecks(ctx, controles, document, params.FormularioID)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error idddnterno del servidor"})
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 	return c.JSON(http.StatusCreated, nil)
 }
@@ -636,13 +637,13 @@ func (a *API) GetDocumentsByObra(c echo.Context) error {
 		log.Println(err)
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
 	}
-
 	err = a.dataValidator.Struct(params)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
 	documents, err := a.serv.GetObraDocuments(ctx, params.ID)
+	fmt.Println(err)
 	if err == nil {
 		return c.JSON(http.StatusOK, documents)
 	}
