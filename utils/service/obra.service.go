@@ -75,7 +75,7 @@ func (s *serv) GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, e
 		piso, _ := s.repo.GetPisobyID(ctx, P.PisoID)
 		Pisos = append(Pisos, models.Piso{
 			ID:     piso.ID,
-			Numero: piso.Number,
+			Numero: piso.Numero,
 		})
 	}
 

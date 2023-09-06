@@ -43,6 +43,10 @@ func (r *repo) GetDocumentsByObra(ctx context.Context, obraID int64) ([]models.D
 		if err != nil {
 			return nil, err
 		}
+		piso, err := r.GetPisobyID(ctx, d.PisoID)
+		if err != nil {
+			return nil, err
+		}
 		documents = append(documents, models.Document{
 			ID: d.ID,
 			Obra: models.Obra{
@@ -53,6 +57,10 @@ func (r *repo) GetDocumentsByObra(ctx context.Context, obraID int64) ([]models.D
 				Informacion: formulario.Informacion,
 				Version:     formulario.Version,
 				Nombre:      formulario.Nombre,
+			},
+			Piso: models.Piso{
+				ID:     int(d.PisoID),
+				Numero: piso.Numero,
 			},
 		})
 	}

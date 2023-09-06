@@ -1,6 +1,6 @@
 package entity
 
 type Piso struct {
-	ID     int `db:"id_piso"`
-	Number int `db:"number"`
+	ID     int `db:"id"`
+	Numero int `db:"numero"`
 }
