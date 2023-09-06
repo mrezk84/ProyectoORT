@@ -67,7 +67,7 @@ async function registrarDocumento() {
                    'Content-Type': 'application/json'
                },
            })
-         if (request.status == 200) {
+         if (request.status == 204) {
              alert("documento registrado correctamente");
          }else{
              alert("Error registrando el documento");
