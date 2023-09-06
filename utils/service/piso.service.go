@@ -33,7 +33,7 @@ func (s *serv) GetPisos(ctx context.Context) ([]models.Piso, error) {
 	for _, p := range pp {
 		pisos = append(pisos, models.Piso{
 			ID:     p.ID,
-			Numero: p.Number,
+			Numero: p.Numero,
 		})
 
 	}
