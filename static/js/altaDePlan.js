@@ -53,10 +53,10 @@ async function registrarDocumento() {
     const searchParams = url.searchParams;
     obraid = searchParams.get('obra_id');
     
-    datos.formulario_id = document.getElementById('formulario');
+    datos.formulario_id = document.getElementById('formulario').value;
     datos.piso_id = document.getElementById('piso').value;
     datos.obra_id = obraid;
-           const request = await fetch("http://localhost:5000/documentos/addDocument", {
+           const request = await fetch("http://localhost:5000/document/addDocument", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {
