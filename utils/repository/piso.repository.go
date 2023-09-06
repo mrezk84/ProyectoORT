@@ -25,8 +25,8 @@ const (
 
 	qryGetPisobyID = `
 		SELECT
-			ID
-			Numero
+			id
+			numero
 		FROM PISO
 		WHERE ID = ?;`
 

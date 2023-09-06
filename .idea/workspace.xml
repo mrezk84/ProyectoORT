@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- get documents &amp; fix add document">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings/settings.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/settings/settings.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/api/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/api/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/entity/formulario.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/entity/formulario.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/repository/document.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/document.repository.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
