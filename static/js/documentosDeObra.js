@@ -21,7 +21,7 @@ async function getDocumentos() {
         let listadoHtml = '';
             for (let documento of documentos) {
   
-              let documentoHtml = '<tr><td>'+ documento.id +'</td><td>' + documento.formulario.id + '</td><td>' + documento.obra.id + '</td><td>' + documento.piso.id + '</td></tr>';
+              let documentoHtml = '<tr><td>'+ documento.id +'</td><td>' + documento.formulario.id + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.id + '</td><td>' + documento.piso.numero + '</td></tr>';
               listadoHtml += documentoHtml;
               }
             
