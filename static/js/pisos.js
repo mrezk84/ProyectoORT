@@ -25,7 +25,7 @@ async function getPisosByObra() {
             text +=
             `
                  <tr>
-                    <th>${piso.nroPiso}</th>
+                    <th>${piso.numero}</th>
                     <th><button onclick="redirectFormularios(${obra_id},${piso.id})">Ver Formularios</button></th>
                 </tr>
                 `
