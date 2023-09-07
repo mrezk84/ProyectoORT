@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 
 async function getFormularios() {
-  const request = await fetch("http://localhost:8080/formularios", {
+  const request = await fetch("http://localhost:5000/formularios", {
     method: 'GET',
   })
 
