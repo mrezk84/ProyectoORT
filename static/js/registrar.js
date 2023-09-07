@@ -9,7 +9,7 @@ async function registrarUsuario() {
   let datos = {};
 
   datos.email = document.getElementById('txtEmail').value;
-  datos.nombre = document.getElementById('txtUser').value;
+  datos.username = document.getElementById('txtUser').value;
   datos.password = document.getElementById('txtPassword').value;
   let repetirPassword = document.getElementById('txtRepetirPassword').value;
 
@@ -18,21 +18,22 @@ async function registrarUsuario() {
     return;
   }
 
-  const respuesta = await fetch("http://localhost:8080/usuarios/registrar", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    const request = await fetch("http://localhost:5000/usuarios/registrar", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
 
-    body: JSON.stringify(datos),
-    
-  });
+      body: JSON.stringify(datos),
 
-  const data = await respuesta.text()
-
-  console.log(data);
- 
-  }
+    });
+    if (request.status == 201) {
+      alert("Usuario creado correctamente");
+    }else{
+      alert("Error registrando al usuario");
+    }
+    window.location.href = `index.html`;
+}
   
 
 
