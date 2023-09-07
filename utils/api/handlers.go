@@ -502,6 +502,28 @@ func (a *API) GetPisos(c echo.Context) error {
 	return c.JSON(http.StatusOK, pisos)
 }
 
+func (a *API) GetPisosByObra(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.RegisterObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	pisos, err := a.serv.GetPisosByObra(ctx, int64(params.ID))
+	fmt.Println(err)
+	if err == nil {
+		return c.JSON(http.StatusOK, pisos)
+	}
+	return err
+}
+
 func (a *API) RegisterObraPiso(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.ConexionObraPiso{}
