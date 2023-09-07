@@ -456,10 +456,19 @@ func (a *API) RegisterPiso(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterPiso(ctx, int(params.Numero))
+	piso, err := a.serv.RegisterPiso(ctx, int(params.Numero))
 	if err != nil {
 		if err == service.ErrPisoAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El piso ya existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	err = a.serv.AddObraPiso(ctx, int64(params.Obra), int64(piso.ID))
+	if err != nil {
+		if err == service.ErrPisoObraAlreadyExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "La conexion ya existe"})
 		}
 
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})

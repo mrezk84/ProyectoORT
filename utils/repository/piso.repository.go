@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"proyectoort/utils/entity"
+	"proyectoort/utils/models"
 )
 
 const (
@@ -34,9 +35,12 @@ const (
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`
 )
 
-func (r *repo) SavePiso(ctx context.Context, number int) error {
-	_, err := r.db.ExecContext(ctx, qryInsertPiso, number)
-	return err
+func (r *repo) SavePiso(ctx context.Context, number int) (models.Piso, error) {
+	result, _ := r.db.ExecContext(ctx, qryInsertPiso, number)
+	id, err := result.LastInsertId()
+	return models.Piso{
+		ID: int(id),
+	}, err
 }
 
 func (r *repo) GetPisobyNumber(ctx context.Context, number int) (*entity.Piso, error) {

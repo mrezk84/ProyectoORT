@@ -40,9 +40,10 @@ type Repository interface {
 	GetObras(ctx context.Context) ([]entity.Obra, error)
 	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)
 	GetObrabyID(ctx context.Context, obraID int64) (*entity.Obra, error)
+	GetobraP(ctx context.Context, pisoID int64) (*entity.Obra, error)
 	SaveEtapa(ctx context.Context, nombre string) error
 	GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa, error)
-	SavePiso(ctx context.Context, number int) error
+	SavePiso(ctx context.Context, number int) (models.Piso, error)
 	GetPisos(ctx context.Context) ([]entity.Piso, error)
 	GetPisobyNumber(ctx context.Context, number int) (*entity.Piso, error)
 	GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error)
