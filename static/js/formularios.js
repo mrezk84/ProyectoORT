@@ -1,9 +1,7 @@
 $(document).ready(function() {
-  getFormularios()
- 
-  $('#fromularios').DataTable();
+  
+  Paginar("fromularios");
 });
-
 
 
 

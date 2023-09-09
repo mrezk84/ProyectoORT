@@ -9,7 +9,7 @@ let obra_id = null;
 let piso_id  = null;
 
 async function getFormularios() {
-  const request = await fetch(`api/v1/formulario`, {
+  const request = await fetch(`http://localhost:8080/formularios`, {
     method: 'GET',
   })
     const url = new URL(document.URL);

@@ -7,7 +7,7 @@ import (
 
 const (
 	qryInsertEtapa = `
-		INSERT INTO ETAPA (nombre)
+		INSERT INTO ETAPA (nombre, fechas)
 		VALUES (?);`
 
 	qryGetEtapabyName = `
@@ -16,6 +16,22 @@ const (
 			nombre
 		FROM ETAPAS
 		WHERE nombre = ?;`
+
+	qryGetEtapabyId = `
+		SELECT
+			ID,
+			nombre,
+			fecha_inicio AS fechaInicio,
+		FROM ETAPAS
+		WHERE nombre = ?;`
+
+	qryGetAllEtapas = `
+		SELECT id,
+		nombre,
+		informacion,
+		version,
+		fecha
+		FROM FORMULARIO;`
 )
 
 func (r *repo) SaveEtapa(ctx context.Context, nombre string) error {
@@ -23,7 +39,17 @@ func (r *repo) SaveEtapa(ctx context.Context, nombre string) error {
 	return err
 }
 
-func (r *repo) GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa, error) {
+func (r *repo) GetEtapaById(ctx context.Context, id int64) (*entity.Etapa, error) {
+	e := &entity.Etapa{}
+	err := r.db.GetContext(ctx, e, qryGetEtapabyName, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return e, nil
+}
+
+func (r *repo) GetEtapaByName(ctx context.Context, nombre string) (*entity.Etapa, error) {
 	e := &entity.Etapa{}
 	err := r.db.GetContext(ctx, e, qryGetEtapabyName, nombre)
 	if err != nil {
@@ -31,4 +57,19 @@ func (r *repo) GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa
 	}
 
 	return e, nil
+}
+func (r *repo) GetEtapa(ctx context.Context) ([]entity.Etapa, error) {
+	ff := []entity.Etapa{}
+
+	err := r.db.SelectContext(ctx, &ff, qryGetAllForms)
+	if err != nil {
+		return nil, err
+	}
+
+	err2 := r.db.SelectContext(ctx, &ff, qryGetFormUsers)
+	if err2 != nil {
+		return nil, err
+	}
+
+	return ff, nil
 }

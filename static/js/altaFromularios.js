@@ -23,7 +23,7 @@ $(document).ready(function() {
       if (request.ok){
         Swal.fire(
           'Exito!',
-          'Se guardo de la manera correcta el formulario',
+          'Formulario guardado correctamente',
           'success'
           )
           

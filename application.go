@@ -31,6 +31,7 @@ func main() {
 	)
 
 	app.Run()
+
 }
 
 func setLifeCycle(lc fx.Lifecycle, a *api.API, s *settings.Settings, e *echo.Echo) {

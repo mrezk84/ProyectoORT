@@ -1,6 +1,6 @@
 package models
 
-type UsarioRol struct {
-	UserID int64 `json:"user_id"`
-	RoleID int64 `json:"role_id"`
+type UsuarioRol struct {
+	UserID int `json:"usuario_id"`
+	RoleID int `json:"rol_id"`
 }

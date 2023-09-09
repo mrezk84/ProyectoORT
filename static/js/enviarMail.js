@@ -9,7 +9,7 @@ $(document).ready(function() {
    datos.mail = document.getElementById('txtMail').value;
 
     
-   const respuesta = await fetch('api/enviarCorreo', 
+   const respuesta = await fetch('"http://localhost:5000/enviarCorreo', 
    {
      method: 'POST',
      headers: {
