@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+
 	"proyectoort/encryption"
 	"proyectoort/utils/models"
 )
@@ -57,31 +58,23 @@ func (s *serv) LoginUser(ctx context.Context, email, password string) (*models.U
 	}, nil
 }
 
-func (s *serv) AddUserRole(ctx context.Context, userID, roleID int) error {
+func (s *serv) AddUserRole(ctx context.Context, userID, roleID int64) error {
 
-	roles, err := s.repo.GetRolById(ctx, roleID)
-	if err != nil {
-		return err
-	}
-	us, err := s.repo.GetUserById(ctx, userID)
+	roles, err := s.repo.GetUserRoles(ctx, userID)
 	if err != nil {
 		return err
 	}
 
-	ru, err := s.repo.GetUserRoles(ctx, us.ID)
-	if err != nil {
-		return err
-	}
-
-	for _, r := range ru {
+	for _, r := range roles {
 		if r.RoleID == roleID {
 			return ErrRoleAlreadyAdded
 		}
 	}
-	return s.repo.SaveUserRole(ctx, us.ID, roles.ID)
+
+	return s.repo.SaveUserRole(ctx, userID, roleID)
 }
 
-func (s *serv) RemoveUserRole(ctx context.Context, userID, roleID int) error {
+func (s *serv) RemoveUserRole(ctx context.Context, userID, roleID int64) error {
 	roles, err := s.repo.GetUserRoles(ctx, userID)
 	if err != nil {
 		return err
@@ -116,20 +109,4 @@ func (s *serv) GetUsers(ctx context.Context) ([]models.Usuario, error) {
 	}
 
 	return usuarios, nil
-
-}
-
-func (s *serv) GetUsersRole(ctx context.Context, userID int) ([]models.UsuarioRol, error) {
-	usro, err := s.repo.GetUserRoles(ctx, userID)
-	if err != nil {
-		return nil, err
-	}
-	user_roles := []models.UsuarioRol{}
-	for _, ur := range usro {
-		user_roles = append(user_roles, models.UsuarioRol{
-			UserID: ur.UserID,
-			RoleID: ur.RoleID,
-		})
-	}
-	return user_roles, nil
 }

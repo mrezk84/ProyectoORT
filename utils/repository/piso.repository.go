@@ -3,38 +3,70 @@ package repository
 import (
 	"context"
 	"proyectoort/utils/entity"
+	"proyectoort/utils/models"
 )
 
 const (
 	qryInsertPiso = `
-		INSERT INTO PISO (id, numero)
-		VALUES (?,?);`
+		INSERT INTO PISO (Numero)
+		VALUES (?);`
 
 	qryGetPisobyNumber = `
 		SELECT
-			id,
-			numero,
+			ID
+			Numero
 		FROM PISO
-		WHERE numero = ?;`
+		WHERE Numero = ?;`
 
 	qryGetPisos = `
-		SELECT 
-		 id,
-		 numero
+		SELECT
+			id,
+			numero
 		FROM PISO;`
+
+	qryGetPisobyID = `
+		SELECT
+			id
+			numero
+		FROM PISO
+		WHERE ID = ?;`
 
 	qryInsertPisoObra = `
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`
 )
 
-func (r *repo) SavePiso(ctx context.Context, id, numero int) error {
-	_, err := r.db.ExecContext(ctx, qryInsertPiso, id, numero)
-	return err
+func (r *repo) SavePiso(ctx context.Context, number int) (models.Piso, error) {
+	result, _ := r.db.ExecContext(ctx, qryInsertPiso, number)
+	id, err := result.LastInsertId()
+	return models.Piso{
+		ID: int(id),
+	}, err
 }
 
-func (r *repo) GetPisobyNumber(ctx context.Context, numero int) (*entity.Piso, error) {
+func (r *repo) GetPisobyNumber(ctx context.Context, number int) (*entity.Piso, error) {
 	p := &entity.Piso{}
-	err := r.db.GetContext(ctx, p, qryGetPisobyNumber, numero)
+	err := r.db.GetContext(ctx, p, qryGetPisobyNumber, number)
+	if err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}
+
+func (r *repo) GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error) {
+	p := &entity.Piso{}
+	err := r.db.GetContext(ctx, p, qryGetPisobyID, ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}
+
+func (r *repo) GetPisos(ctx context.Context) ([]entity.Piso, error) {
+	p := []entity.Piso{}
+
+	err := r.db.SelectContext(ctx, &p, qryGetPisos)
 	if err != nil {
 		return nil, err
 	}
@@ -62,14 +94,4 @@ func (r *repo) SaveObraPiso(ctx context.Context, obraID, pisoID int64) error {
 
 	_, err := r.db.NamedExecContext(ctx, qryInsertPisoObra, data)
 	return err
-}
-func (r *repo) GetPisos(ctx context.Context) ([]entity.Piso, error) {
-	p := []entity.Piso{}
-
-	err := r.db.GetContext(ctx, &p, qryGetPisos)
-	if err != nil {
-		return nil, err
-	}
-
-	return p, nil
 }

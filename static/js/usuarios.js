@@ -1,17 +1,17 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function() {
   cargarUsuarios();
-  actualizarEmailDelUsuario()
-  Paginar("usuarios");
+
+$('#usuarios').DataTable();
 
 
 });
 
-function actualizarEmailDelUsuario() {
-  document.getElementById('txt-nombre-usuario').outerHTML = localStorage.name
+function actualizarCedulaDelUsuario() {
+  document.getElementById('txt-nombre-usuario').outerHTML = localStorage.nombre
 }
 async function cargarRoles() {
-  const request = await fetch('http://localhost:5000/usuarios', {
+  const request = await fetch('http://localhost:8080/usuarios', {
     method: 'GET',
     headers: getHeaders()
   });
@@ -22,7 +22,7 @@ async function cargarRoles() {
 }
 
 async function cargarUsuarios() {
-  const request = await fetch("http://localhost:5000/usuarios", {
+  const request = await fetch("http://localhost:8080/usuarios", {
     method: 'GET',
   })
 
@@ -32,9 +32,10 @@ async function cargarUsuarios() {
             
             let listadoHtml = '';
             for (let usuario of usuarios) {
-              let botonEliminar = '<a  href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>' ;
-              let botonEditar = '<a  class="btn btn-primary" href="#" onclick="editarUsuario(' + usuario.id +')" btn  btn-circle btn-sm"><i class="bi bi-pencil-square"></i></a>  | ' ;
-              let usuarioHtml = '<tr><td>'+ usuario.id+'</td><td>' + usuario.email + '</td><td>' + usuario.name + '</td><td>' + '</td><td>' + usuario.roles.id + '</td><td>'
+  
+              let botonEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>' ;
+              let botonEditar = '<a href="#" onclick="editarUsuario(' + usuario.id +')" btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>  | ' ;
+              let usuarioHtml = '<tr><td>'+ usuario.id +'</td><td>' + usuario.email + '</td><td>' + usuario.name + '</td><td>'
                              +'</td><td>'+ botonEditar 
                                + botonEliminar + '</td></tr>';
               listadoHtml += usuarioHtml;
@@ -62,7 +63,7 @@ if (!confirm('¿Desea eliminar este usuario?')) {
   return;
 }
 
-const request = await fetch('http://localhost:5000/usuarios' + id, {
+const request = await fetch('http://localhost:8080/usuarios' + id, {
   method: 'DELETE',
   headers: getHeaders()
 });
@@ -74,7 +75,7 @@ async function editarUsuario(id) {
     return;
   }
   
-  const request = await fetch('http://localhost:5000/usuarios' + id, {
+  const request = await fetch('http://localhost:8080/usuarios' + id, {
     method: 'POST',
     headers: getHeaders()
   });
@@ -86,7 +87,7 @@ async function asignaroRol(nombre) {
   if (!confirm('¿Desea asingar este rol al usuario?')) {
      return;
    }
- const request = await fetch('http://localhost:5000/usuarios/roles' + nombre, {
+ const request = await fetch('http://localhost:8080/usuarios' + nombre, {
    method: 'POST',
    headers: getHeaders()
  });

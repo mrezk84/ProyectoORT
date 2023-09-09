@@ -33,8 +33,6 @@ $(document).ready(function() {
          body: JSON.stringify(datos),
          
        });
-       const data= await response.json();
-       console.log(data); 
     
        if (response.ok){
         Swal.fire(
@@ -46,7 +44,7 @@ $(document).ready(function() {
       }else{
         Swal.fire({
           title: 'Error!',
-          text: 'Error al iniciar sesión',
+          text: 'Error al guardar el formulario',
           icon: 'error',
         
         })
