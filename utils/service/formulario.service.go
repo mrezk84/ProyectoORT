@@ -41,7 +41,7 @@ func (s *serv) AddForm(ctx context.Context, email string, formulario models.Form
 	if err != nil {
 		return err
 	}
-	roles, err := s.repo.GetUserRoles(ctx, u.ID)
+	roles, err := s.repo.GetUserRoles(ctx, int64(u.ID))
 	if err != nil {
 		return err
 	}
@@ -150,7 +150,7 @@ func (s *serv) AddUserForm(ctx context.Context, formID, usuarioID int64) error {
 
 	for _, r := range usuariosf {
 		if r.FormularioID == formID {
-			return ErrFomeAlreadyAdded
+			return ErrFomUserAlreadyAdded
 		}
 	}
 
