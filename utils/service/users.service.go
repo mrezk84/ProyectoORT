@@ -63,12 +63,12 @@ func (s *serv) AddUserRole(ctx context.Context, userID, roleID int) error {
 	if err != nil {
 		return err
 	}
-	us, err := s.repo.GetUserById(ctx, int64(userID))
+	us, err := s.repo.GetUserById(ctx, userID)
 	if err != nil {
 		return err
 	}
 
-	ru, err := s.repo.GetUserRoles(ctx, int64(us.ID))
+	ru, err := s.repo.GetUserRoles(ctx, us.ID)
 	if err != nil {
 		return err
 	}
@@ -82,7 +82,7 @@ func (s *serv) AddUserRole(ctx context.Context, userID, roleID int) error {
 }
 
 func (s *serv) RemoveUserRole(ctx context.Context, userID, roleID int) error {
-	roles, err := s.repo.GetUserRoles(ctx, int64(userID))
+	roles, err := s.repo.GetUserRoles(ctx, userID)
 	if err != nil {
 		return err
 	}
@@ -120,7 +120,7 @@ func (s *serv) GetUsers(ctx context.Context) ([]models.Usuario, error) {
 }
 
 func (s *serv) GetUsersRole(ctx context.Context, userID int) ([]models.UsuarioRol, error) {
-	usro, err := s.repo.GetUserRoles(ctx, int64(userID))
+	usro, err := s.repo.GetUserRoles(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
