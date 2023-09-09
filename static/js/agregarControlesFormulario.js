@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 
 async function getControles() {
-    const request = await fetch("http://localhost:5000/Controles/sinF", {
+    const request = await fetch("http://localhost:5000/Controles/sinForm", {
         method: 'GET',
     })
 

@@ -9,10 +9,16 @@ async function buildControles() {
     const url = new URL(document.URL);
     const searchParams = url.searchParams;
     formularioid = searchParams.get('formulario_id');
+    datos.id_formulario = Number(formularioid);
 
-    const request = await fetch("http://localhost:5000/controles" + formularioid, {
-        method: 'GET',
-    })
+    const request = await fetch("http://localhost:5000/controles/byForm", {
+               method: 'POST',
+               body: JSON.stringify(datos),
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
 
     const controles = await request.json();
     console.log(controles)
@@ -20,10 +26,7 @@ async function buildControles() {
         let listadoHtml = '';
             for (let control of controles) {
   
-              let botonEliminar = '<a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>' ;
-              let botonEditar = '<a href="#" btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>  | ' ;
-              let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td><td>'+'</td><td>'+ botonEditar 
-              + botonEliminar + '</td></tr>';
+              let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td></tr>';
               listadoHtml += controlHtml;
               }
             
