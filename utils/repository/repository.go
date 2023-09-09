@@ -39,12 +39,12 @@ type Repository interface {
 	GetEtapaById(ctx context.Context, id int64) (*entity.Etapa, error)
 	SavePiso(ctx context.Context, id, numero int) error
 	GetPisobyNumber(ctx context.Context, numero int) (*entity.Piso, error)
-	GetPisobyID(ctx context.Context, pisoID int64) (*entity.Piso, error)
 	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
 	GetFormByName(ctx context.Context, nombre string) (*entity.Formulario, error)
+
 	SaveRole(ctx context.Context, id int) error
 	GetRolByName(ctx context.Context, nombre string) (*entity.Rol, error)
 	GetAllRoles(ctx context.Context) ([]entity.Rol, error)
