@@ -76,7 +76,7 @@ func (s *serv) AddControlForm(ctx context.Context, controlID, formularioID int64
 
 func (s *serv) GetControlSinForm(ctx context.Context) ([]models.Control, error) {
 
-	cc, err := s.repo.GetControls(ctx)
+	cc, err := s.repo.GetControlsSinForm(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -84,16 +84,11 @@ func (s *serv) GetControlSinForm(ctx context.Context) ([]models.Control, error) 
 	controles := []models.Control{}
 
 	for _, c := range cc {
-
-		conf, _ := s.repo.GetControlForm(ctx, int64(c.ID))
-
-		if conf != nil {
-			controles = append(controles, models.Control{
-				ID:          c.ID,
-				Descripcion: c.Descripcion,
-				Tipo:        c.Tipo,
-			})
-		}
+		controles = append(controles, models.Control{
+			ID:          c.ID,
+			Descripcion: c.Descripcion,
+			Tipo:        c.Tipo,
+		})
 
 	}
 

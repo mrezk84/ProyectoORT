@@ -8,22 +8,34 @@ let formulario = null;
 async function buildControles() {
     const url = new URL(document.URL);
     const searchParams = url.searchParams;
+    formularioid = searchParams.get('formulario_id');
 
-    formulario = searchParams.get('formulario');
-    formulario = JSON.parse(decodeURIComponent(formulario));
+    const request = await fetch("http://localhost:5000/controles" + formularioid, {
+        method: 'GET',
+    })
 
-    let text = ``;
-    formulario.control.forEach(control => {
-        text +=
-            `
-            <tr>
-                <th>${control.descripcion}</th>
-            </tr>
-            `
-    });
-    document.getElementById("controlesTBody").innerHTML = text;
-}
+    const controles = await request.json();
+    console.log(controles)
+    if (request.ok) {
+        let listadoHtml = '';
+            for (let control of controles) {
+  
+              let botonEliminar = '<a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>' ;
+              let botonEditar = '<a href="#" btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>  | ' ;
+              let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td><td>'+'</td><td>'+ botonEditar 
+              + botonEliminar + '</td></tr>';
+              listadoHtml += controlHtml;
+              }
+            
+            
+            document.querySelector('#controlesTBody').outerHTML = listadoHtml;
+            
+            }
+    }
 
 function redirectAgregarControl(){
-    window.location.href = `agregarControlesFormulario.html?formulario=${encodeURIComponent(JSON.stringify(formulario))}`;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    formularioid = searchParams.get('formulario_id');
+    window.location.href = `agregarControlesFormulario.html?formulario=${formularioid}`;
 }

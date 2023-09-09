@@ -32,6 +32,7 @@ type Repository interface {
 	GetConByDes(ctx context.Context, des string) (*entity.Control, error)
 	GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error)
 	SaveControlForm(ctx context.Context, controlID, formularioID int64) error
+	GetControlsSinForm(ctx context.Context) ([]entity.Control, error)
 	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 	GetFormByID(ctx context.Context, formID int64) (*entity.Formulario, error)
