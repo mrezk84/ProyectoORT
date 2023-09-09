@@ -39,7 +39,7 @@ func (r *repo) GetDocumentsByObra(ctx context.Context, obraID int64) ([]models.D
 	}
 	var documents []models.Document
 	for _, d := range e {
-		formulario, err := r.GetFormByID(ctx, d.FormularioID)
+		formulario, err := r.GetFormById(ctx, int(d.FormularioID))
 		if err != nil {
 			return nil, err
 		}
