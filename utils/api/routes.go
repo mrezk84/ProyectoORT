@@ -23,6 +23,8 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	form.GET("/user", a.GetFormUser)
 	controls.GET("", a.GetContorls)
 	controls.GET("/sinF", a.GetControlsSinForm)
+	controls.GET("/:id_formulario", a.GetControlsByForm)
+	controls.POST("/addForm", a.AddControlForm)
 	form.GET("", a.GetForms)
 	obra.POST("/registrar", a.RegisterObra)
 	obra.GET("", a.GetObras)

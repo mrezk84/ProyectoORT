@@ -308,6 +308,30 @@ func (a *API) GetControlsSinForm(c echo.Context) error {
 
 }
 
+func (a *API) GetControlsByForm(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.DocumentAudit{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	control, err := a.serv.GetControlsByForm(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los controles del formualrio"})
+	}
+	return c.JSON(http.StatusOK, control)
+}
+
 func (a *API) AddControlForm(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.ConexionControlForm{}
