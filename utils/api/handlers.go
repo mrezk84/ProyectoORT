@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"proyectoort/encryption"
@@ -728,4 +729,75 @@ func (a *API) GetDocumentsByObra(c echo.Context) error {
 		return c.JSON(http.StatusOK, documents)
 	}
 	return err
+}
+
+func (a *API) RegisterPhoto(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.FotoDTO{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.RegisterPhoto(ctx, params.Nombre, params.Notas, params.FormularioID)
+	if err != nil {
+		if err == service.ErrFotoAlreadyExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "la foto ya existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo la foto para el formulario"})
+}
+func (a *API) GetFotosForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.FotoDTO{}
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	fo, err := a.serv.GetPhotos(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener las fotos"})
+	}
+	return c.JSON(http.StatusOK, fo)
+}
+func (a *API) DownloadPhoto(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.FotoDTO{}
+
+	// Lógica para obtener la ruta del archivo de la foto desde la base de datos usando el ID
+	filePath, err := a.serv.GetPhotoFilePath(ctx, params.ID)
+	if err != nil {
+		// Manejar el error, por ejemplo, si la foto no existe
+		return c.String(http.StatusNotFound, "Foto no encontrada")
+	}
+
+	// Leer el contenido del archivo de la foto
+	fotoBytes, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		// Manejar el error si no se puede leer el archivo
+		return c.String(http.StatusInternalServerError, "Error al leer la foto")
+	}
+
+	// Configurar la respuesta HTTP
+	c.Response().Header().Set("Content-Disposition", "attachment; filename=foto.jpg") // Cambia el nombre de archivo según la foto
+	c.Response().Header().Set("Content-Type", "image/jpeg")                           // Cambia el tipo de contenido según la foto
+
+	// Enviar la foto como respuesta
+	return c.Blob(http.StatusOK, "image/jpeg", fotoBytes)
 }

@@ -42,6 +42,10 @@ type Service interface {
 	DeleteObra(ctx context.Context, name string) error
 	GetObraDocuments(ctx context.Context, obraID int64) ([]models.Document, error)
 	GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
+	RegisterPhoto(ctx context.Context, nombre, notas string, formulario_id int) error
+	GetPhotos(ctx context.Context) ([]models.Foto, error)
+	GetPhoto(ctx context.Context, id int) (*models.Foto, error)
+	GetPhotoFilePath(ctx context.Context, fotoID int) (string, error)
 }
 
 type serv struct {
