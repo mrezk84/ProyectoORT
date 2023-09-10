@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 let formulario = null;
 async function buildControles() {
+    let datos = {};
     const url = new URL(document.URL);
     const searchParams = url.searchParams;
     formularioid = searchParams.get('formulario_id');

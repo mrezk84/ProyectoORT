@@ -4,7 +4,8 @@ $(document).ready(function() {
 
 
 async function getControles() {
-    const request = await fetch("http://localhost:5000/Controles/sinForm", {
+
+    const request = await fetch("http://localhost:5000/controles/sinForm", {
         method: 'GET',
     })
 
@@ -15,7 +16,7 @@ async function getControles() {
             for (let control of controles) {
                 listadoHtml +=
                 `
-                 <option value="${control.id}">${control.id}--${formulario.descripcion}--${control.tipo}</option>
+                 <option value="${control.id}">${control.id}--${control.descripcion}--${control.tipo}</option>
                 `
         };
 
@@ -25,14 +26,18 @@ async function getControles() {
 }
 
 async function agregarControl(){
-    let formulario = null
+    let datos = {};
     const url = new URL(document.URL);
     const searchParams = url.searchParams;
-    formulario = searchParams.get('formulario_id');
+    formularioid = searchParams.get('formulario');
+    datos.formulario_id = Number(formularioid);
+
 
     let control = document.getElementById('control').value;
-    datos.formulario_id = Number(formulario);
     datos.control_id = Number(control);
+
+    console.log(formularioid)
+    console.log(control)
 
     const request = await fetch("http://localhost:5000/controles/addForm", {
                method: 'POST',
@@ -47,7 +52,7 @@ async function agregarControl(){
          }else{
              alert("Error agregando el control");
          }
-             window.location.href = `controlesFormulario.html?formulario_id=${formulario}`;
+             window.location.href = `controlesFormulario.html?formulario_id=${formularioid}`;
 }
 
 // function redirectControlesFormulario(formulario){
