@@ -6,4 +6,5 @@ type Document struct {
 	Obra       Obra
 	Piso       Piso
 	Checks     []Check
+	Status     string
 }

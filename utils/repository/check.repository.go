@@ -30,15 +30,24 @@ const (
 
 	qryGetCheckSByDocument = `
 		SELECT
-			id
-			estado
-			observaciones
-			version
-			fecha_control
-		FROM CHECKS
-		inner join document d on CHECK.document_id = d.id
+			c.id,
+			c.estado,
+			c.observaciones,
+			c.version,
+			c.fecha_control
+		FROM CHECKS c
+		inner join document d on c.document_id = d.id
 where d.id = ?;`
-
+	qryUpdateCheck = `
+	update CHECKS 
+set estado = '%v',
+observaciones = '%v',
+fecha_control = '%v'
+where id = %v	
+`
+	qryInsertChecksHistoric = `
+	insert into checks_historico (id,estado,observaciones,fecha_control) values(%v,'%s','%s','%s')	
+`
 	qryInsertCheckForm = `
 		INSERT INTO CHECK_FORMULARIO (check_id, formulario_id) VALUES (:check_id, :formulario_id);`
 )
@@ -52,7 +61,19 @@ func (r *repo) InsertChecks(ctx context.Context, formularioID int64, documentID 
 	}
 	for _, c := range controles {
 		fmt.Println(fmt.Sprintf(qryCreateCheck, documentID, formularioID, c.ID))
-		_, err = tx.ExecContext(ctx, fmt.Sprintf(qryCreateCheck, documentID, formularioID, c.ID))
+		result, err := tx.ExecContext(ctx, fmt.Sprintf(qryCreateCheck, documentID, formularioID, c.ID))
+		if err != nil {
+			fmt.Println(err)
+			tx.Rollback()
+			return err
+		}
+		lastInsertId, err := result.LastInsertId()
+		if err != nil {
+			fmt.Println(err)
+			tx.Rollback()
+			return err
+		}
+		_, err = tx.ExecContext(ctx, fmt.Sprintf(qryInsertChecksHistoric, lastInsertId, "", "", ""))
 		if err != nil {
 			fmt.Println(err)
 			tx.Rollback()
@@ -100,24 +121,52 @@ func (r *repo) SaveCheckForm(ctx context.Context, checkID, formularioID int64) e
 	return err
 }
 
-func (r *repo) GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error) {
-	var checks []models.Check
-	for _, d := range documents {
-		c := &entity.Check{}
-		err := r.db.GetContext(ctx, c, qryGetCheckByVersion, d.ID)
-		if err != nil {
-			return nil, err
-		}
-		fechaControl, err := time.Parse("2006-01-02", c.FechaControl)
-		if err != nil {
-			return nil, err
-		}
-		checks = append(checks, models.Check{
-			ID:           c.ID,
-			Estado:       c.Estado,
-			FechaControl: &fechaControl,
+func (r *repo) GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error) {
+	var checks []entity.Check
+	err := r.db.SelectContext(ctx, &checks, qryGetCheckSByDocument, documentID)
+	if err != nil {
+		return nil, err
+	}
+	if err != nil {
+		return nil, err
+	}
+	var checksResponse []models.Check
+	for _, check := range checks {
+		checksResponse = append(checksResponse, models.Check{
+			ID:            check.ID,
+			Estado:        check.Estado,
+			FechaControl:  check.FechaControl,
+			Responsable:   models.Usuario{},
+			Control:       models.Control{},
+			Document:      models.Document{},
+			Observaciones: check.Observaciones,
+			Version:       check.Version,
 		})
 	}
+	return checksResponse, nil
+}
 
-	return checks, nil
+func (r *repo) UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error {
+	tx, err := r.db.Beginx()
+	if err != nil {
+		fmt.Println(err)
+		log.Error(err.Error())
+		return err
+	}
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryUpdateCheck, estado, observaciones, time.Now().UTC(), checkID))
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("qdas")
+		tx.Rollback()
+		return err
+	}
+	fmt.Println(fmt.Sprintf(qryInsertChecksHistoric, checkID, estado, observaciones, time.Now().UTC()))
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryInsertChecksHistoric, checkID, estado, observaciones, time.Now().UTC()))
+	if err != nil {
+		fmt.Println(err)
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return err
 }

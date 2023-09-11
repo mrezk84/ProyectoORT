@@ -53,7 +53,9 @@ type Repository interface {
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 	DeleteObra(ctx context.Context, nombre string) error
 	GetDocumentsByObra(ctx context.Context, formID int64) ([]models.Document, error)
-	GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
+	GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error)
+	UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error
+	ExportDocument() ([]byte, error)
 }
 
 type repo struct {
