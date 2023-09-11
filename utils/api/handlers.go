@@ -660,7 +660,43 @@ func (a *API) GetDocumentsByObra(c echo.Context) error {
 }
 
 func (a *API) ExportDocument(c echo.Context) error {
-	b, err := a.serv.GetDocumentPDF()
+	ctx := c.Request().Context()
+	params := dtos.ExportDocuments{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	fmt.Println(params.ID)
+	b, err := a.serv.GetDocumentPDF(ctx, params.ID)
+	if err == nil {
+		return c.JSON(http.StatusOK, b)
+	}
+	return nil
+}
+
+func (a *API) ExportDocumentsByObra(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.ExportDocumentsByObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	fmt.Println(params.ID)
+	b, err := a.serv.GetDocumentsPDFByObra(ctx, params.ID)
 	if err == nil {
 		return c.JSON(http.StatusOK, b)
 	}

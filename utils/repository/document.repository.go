@@ -15,7 +15,7 @@ const (
 		VALUES (%v,%v,%v);`
 
 	qryGetFormularioByDocumentID = `
-	select * from FORMULARIO inner join document d on FORMULARIO.id = d.formulario_id
+	select f.id,f.nombre,f.informacion from FORMULARIO f inner join document d on f.id = d.formulario_id
 where d.id = %v
 	`
 	getDocumentsByObra = `
@@ -83,9 +83,11 @@ func (r *repo) GetDocumentsByObra(ctx context.Context, obraID int64) ([]models.D
 
 func (r *repo) ExportDocument(ctx context.Context, documentID int64) ([]byte, error) {
 	checks, err := r.GetDocumentChecks(ctx, documentID)
+	fmt.Println("1")
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("2")
 	// Crear un nuevo documento PDF
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	// Configurar la fuente y el tamaño del texto
@@ -95,6 +97,7 @@ func (r *repo) ExportDocument(ctx context.Context, documentID int64) ([]byte, er
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("3")
 	pdf.AddPage()
 	pdf.Cell(100, 16, fmt.Sprintf("Formulario: %v", form.Nombre))
 	pdf.Ln(15)
@@ -109,6 +112,7 @@ func (r *repo) ExportDocument(ctx context.Context, documentID int64) ([]byte, er
 		pdf.Cell(100, 16, "Responsable: "+check.Responsable.Name)
 		pdf.Ln(30)
 	}
+	fmt.Println("4")
 
 	var buf bytes.Buffer
 	err = pdf.Output(&buf)
@@ -117,8 +121,52 @@ func (r *repo) ExportDocument(ctx context.Context, documentID int64) ([]byte, er
 		fmt.Println(err)
 		return nil, err
 	}
+	fmt.Println("5")
 	return buf.Bytes(), err
 }
+
+func (r *repo) ExportDocumentsByObra(ctx context.Context, obraID int64) ([]byte, error) {
+	documents, err := r.GetDocumentsByObra(ctx, obraID)
+	if err != nil {
+		return nil, err
+	}
+
+	// Crear un nuevo documento PDF
+	pdf := gofpdf.New("P", "mm", "A4", "")
+	// Configurar la fuente y el tamaño del texto
+	pdf.SetFont("Arial", "B", 16)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, d := range documents {
+		pdf.AddPage()
+		pdf.Cell(100, 16, fmt.Sprintf("Formulario: %v", d.Formulario.Nombre))
+		pdf.Ln(15)
+		for _, check := range d.Checks {
+			// Agregar una página al documento
+			pdf.Cell(100, 16, "Estado: "+check.Estado)
+			pdf.Ln(15)
+			pdf.Cell(100, 16, "Observaciones: "+check.Observaciones)
+			pdf.Ln(15)
+			pdf.Cell(100, 16, "Fecha control: "+check.FechaControl.String())
+			pdf.Ln(15)
+			pdf.Cell(100, 16, "Responsable: "+check.Responsable.Name)
+			pdf.Ln(30)
+		}
+	}
+
+	var buf bytes.Buffer
+	err = pdf.Output(&buf)
+	fmt.Printf(fmt.Sprintf("%v", buf.Bytes()))
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	fmt.Println("5")
+	return buf.Bytes(), err
+}
+
 func getDocumentStatusFromChecks(checks []models.Check) string {
 	todosVacios := true
 	todosConforme := true
@@ -145,6 +193,7 @@ func (r *repo) GetFormularioByDocumentID(documentID int64) (*models.Formulario, 
 	var formulario entity.Formulario
 	err := r.db.Get(&formulario, fmt.Sprintf(qryGetFormularioByDocumentID, documentID))
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 	return &models.Formulario{

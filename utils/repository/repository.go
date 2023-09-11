@@ -55,7 +55,8 @@ type Repository interface {
 	GetDocumentsByObra(ctx context.Context, formID int64) ([]models.Document, error)
 	GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error)
 	UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error
-	ExportDocument() ([]byte, error)
+	ExportDocument(ctx context.Context, documentID int64) ([]byte, error)
+	ExportDocumentsByObra(ctx context.Context, obraID int64) ([]byte, error)
 }
 
 type repo struct {

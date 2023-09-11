@@ -17,6 +17,10 @@ func (s *serv) GetObraDocuments(ctx context.Context, obraID int64) ([]models.Doc
 	return s.repo.GetDocumentsByObra(ctx, obraID)
 }
 
-func (s *serv) GetDocumentPDF() ([]byte, error) {
-	return s.repo.ExportDocument()
+func (s *serv) GetDocumentPDF(ctx context.Context, documentID int64) ([]byte, error) {
+	return s.repo.ExportDocument(ctx, documentID)
+}
+
+func (s *serv) GetDocumentsPDFByObra(ctx context.Context, obraID int64) ([]byte, error) {
+	return s.repo.ExportDocumentsByObra(ctx, obraID)
 }

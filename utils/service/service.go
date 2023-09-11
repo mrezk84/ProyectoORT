@@ -40,7 +40,8 @@ type Service interface {
 	GetObraDocuments(ctx context.Context, obraID int64) ([]models.Document, error)
 	GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error)
 	UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error
-	GetDocumentPDF() ([]byte, error)
+	GetDocumentPDF(ctx context.Context, documentID int64) ([]byte, error)
+	GetDocumentsPDFByObra(ctx context.Context, obraID int64) ([]byte, error)
 }
 
 type serv struct {
