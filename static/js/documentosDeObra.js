@@ -77,7 +77,12 @@ function redirectCrearDocumento(){
 }
 
 function redirectRevisarChecks(id){
-    window.location.href = `revisarChecks.html?documento_id=${id}`;
+    let obraid = null;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    obraid = searchParams.get('obra_id');
+
+    window.location.href = `revisarChecks.html?documento_id=${id}&obra_id=${obraid}`;
 }
 
 // Función para descargar el PDF en base64 al hacer clic en el botón
