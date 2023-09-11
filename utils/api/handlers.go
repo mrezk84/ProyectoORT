@@ -855,7 +855,9 @@ func (a *API) ExportDocument(c echo.Context) error {
 	fmt.Println(params.ID)
 	b, err := a.serv.GetDocumentPDF(ctx, params.ID)
 	if err == nil {
-		return c.JSON(http.StatusOK, b)
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"document": b,
+		})
 	}
 	return nil
 }
@@ -877,7 +879,9 @@ func (a *API) ExportDocumentsByObra(c echo.Context) error {
 	fmt.Println(params.ID)
 	b, err := a.serv.GetDocumentsPDFByObra(ctx, params.ID)
 	if err == nil {
-		return c.JSON(http.StatusOK, b)
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"document": b,
+		})
 	}
 	return nil
 }
