@@ -20,8 +20,20 @@ async function getDocumentos() {
     if (request.ok) {
         let listadoHtml = '';
             for (let documento of documentos) {
-  
-              let documentoHtml = '<tr><td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td></tr>';
+
+                if (documento.status == "DONE"){
+                    listadoHtml += '<tr bgcolor="#a1ff64">';
+                }
+                if (documento.status == "WIP"){
+                    listadoHtml += '<tr bgcolor="#f6ff64">';
+                }
+                if (documento.status == "TODO"){
+                    listadoHtml += '<tr bgcolor="#ff7764">';
+                }
+
+
+
+              let documentoHtml = '<td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td></tr>';
               listadoHtml += documentoHtml;
               }
             

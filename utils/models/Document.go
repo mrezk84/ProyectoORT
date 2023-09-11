@@ -6,5 +6,5 @@ type Document struct {
 	Obra       Obra       `json:"obra"`
 	Piso       Piso       `json:"piso"`
 	Checks     []Check
-	Status     string
+	Status     string `json:"status"`
 }
