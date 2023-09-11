@@ -838,10 +838,10 @@ func (a *API) DownloadPhoto(c echo.Context) error {
 
 }
 
-func (a *API) ExportDocument(c echo.Context) error {
-	b, err := a.serv.GetDocumentPDF()
-	if err == nil {
-		return c.JSON(http.StatusOK, b)
-	}
-	return nil
-}
+// func (a *API) ExportDocument(c echo.Context) error {
+// 	b, err := a.serv.GetDocumentPDF()
+// 	if err == nil {
+// 		return c.JSON(http.StatusOK, b)
+// 	}
+// 	return nil
+// }

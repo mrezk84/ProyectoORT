@@ -41,7 +41,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	check.PUT("/:id", a.UpdateCheck)
 	document.POST("/addDocument", a.AddFormToPlanControl)
 	document.GET("/:id", a.GetDocumentsByObra)
-	document.GET("/export", a.ExportDocument)
+	// document.GET("/export", a.ExportDocument)
 
 	foto := e.Group("/fotos")
 	foto.POST("/registrar", a.RegisterPhoto)

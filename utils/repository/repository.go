@@ -64,7 +64,7 @@ type Repository interface {
 	GetPhotoFilePath(ctx context.Context, id int) (string, error)
 	GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error)
 	UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error
-	ExportDocument() ([]byte, error)
+	// ExportDocument() ([]byte, error)
 }
 
 type repo struct {
