@@ -39,13 +39,13 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	check.POST("/registrar", a.RegisterCheck)
 	check.POST("/addForm", a.RegisterCheckForm)
 	check.PUT("/:id", a.UpdateCheck)
+	check.GET("/document/:document_id", a.GetDocumentChecks)
 	document.POST("/addDocument", a.AddFormToPlanControl)
 	document.GET("/:id", a.GetDocumentsByObra)
 
 	document.GET("/export/:id", a.ExportDocument)
 	document.GET("/export/obra/:id", a.ExportDocumentsByObra)
 	document.GET("/export", a.ExportDocument)
-
 	foto := e.Group("/fotos")
 	foto.POST("/registrar", a.RegisterPhoto)
 	foto.GET("/formulario", a.GetFotosForm)

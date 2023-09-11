@@ -876,7 +876,6 @@ func (a *API) ExportDocumentsByObra(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	fmt.Println(params.ID)
 	b, err := a.serv.GetDocumentsPDFByObra(ctx, params.ID)
 	if err == nil {
 		return c.JSON(http.StatusOK, map[string]interface{}{
@@ -884,4 +883,25 @@ func (a *API) ExportDocumentsByObra(c echo.Context) error {
 		})
 	}
 	return nil
+}
+
+func (a *API) GetDocumentChecks(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.GetDocumentChecks{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	checks, err := a.serv.GetDocumentChecks(ctx, params.DocumentID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	return c.JSON(http.StatusOK, checks)
 }
