@@ -4,23 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- register">
-      <change afterPath="$PROJECT_DIR$/utils/api/dtos/update_check.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/repository/document.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/repository/template.docx" afterDir="false" />
+    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- status &amp; udpate check">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/documentosDeObra.html" beforeDir="false" afterPath="$PROJECT_DIR$/static/documentosDeObra.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/documentosDeObra.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/documentosDeObra.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/api/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/api/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/entity/check.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/entity/check.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/models/Document.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/models/Document.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/repository/check.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/check.repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/repository/document.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/document.repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/service/check.service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/check.service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/service/document.service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/document.service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/service.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +73,7 @@
       <recent name="$PROJECT_DIR$/utils/repository" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build proyectoort">
+  <component name="RunManager" selected="JavaScript Debug.documentosDeObra.html">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="ProyectoORT" />
       <working_directory value="$PROJECT_DIR$" />
@@ -118,7 +106,7 @@
     <configuration name="controlesOpe.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ProyectoORT/static/controlesOpe.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="formulariosDeObra.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ProyectoORT/static/formulariosDeObra.html" useBuiltInWebServerPort="true">
+    <configuration name="documentosDeObra.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ProyectoORT/static/documentosDeObra.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="registrar.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ProyectoORT/static/registrar.html" useBuiltInWebServerPort="true">
@@ -126,11 +114,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.documentosDeObra.html" />
         <item itemvalue="Go Build.go build proyectoort" />
         <item itemvalue="JavaScript Debug.registrar.html" />
         <item itemvalue="JavaScript Debug.asignarFormularioC.html" />
         <item itemvalue="JavaScript Debug.controlesOpe.html" />
-        <item itemvalue="JavaScript Debug.formulariosDeObra.html" />
       </list>
     </recent_temporary>
   </component>
@@ -165,7 +153,8 @@
     <MESSAGE value="- get documents" />
     <MESSAGE value="- get documents &amp; fix add document" />
     <MESSAGE value="- register" />
-    <option name="LAST_COMMIT_MESSAGE" value="- register" />
+    <MESSAGE value="- status &amp; udpate check" />
+    <option name="LAST_COMMIT_MESSAGE" value="- status &amp; udpate check" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
