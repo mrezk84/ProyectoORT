@@ -55,7 +55,7 @@ async function getDocumentos() {
 
 
 
-              let documentoHtml = '<td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td></tr>';
+              let documentoHtml = '<td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td><td><button onclick="redirectRevisarChecks('+ documento.id +')" class="btn btn-primary btn-user">Revisar Checks</button></td></tr>';
               listadoHtml += documentoHtml;
               }
             
@@ -74,6 +74,10 @@ function redirectCrearDocumento(){
     obraid = searchParams.get('obra_id');
 
     window.location.href = `altaDePlan.html?obra_id=${obraid}`;
+}
+
+function redirectRevisarChecks(id){
+    window.location.href = `revisarChecks.html?documento_id=${id}`;
 }
 
 // Función para descargar el PDF en base64 al hacer clic en el botón
