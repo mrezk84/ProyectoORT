@@ -2,7 +2,7 @@
   async function registrarObra() {
    let datos = {};
      datos.nombre = document.getElementById('txtNombre').value;
-          const request = await fetch('obra', {
+          const request = await fetch("http://localhost:5000/obras/registrar", {
               method: 'POST',
               body: JSON.stringify(datos),
               headers: {

@@ -69,6 +69,18 @@ func (r *repo) GetObrabyID(ctx context.Context, obraID int64) (*entity.Obra, err
 	return o, nil
 }
 
+func (r *repo) GetobraP(ctx context.Context, pisoID int64) (*entity.Obra, error) {
+	obrap := &entity.Obra{}
+
+	err := r.db.SelectContext(ctx, &obrap, "SELECT obra_id, piso_id FROM OBRA_PISOS WHERE piso_id = ?", pisoID)
+	if err != nil {
+		return nil, err
+	}
+
+	return obrap, nil
+
+}
+
 func (r *repo) DeleteObra(ctx context.Context, nombre string) error {
 	_, err := r.db.ExecContext(ctx, qryEliminateObra, nombre)
 	return err

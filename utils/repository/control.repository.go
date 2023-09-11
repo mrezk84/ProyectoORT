@@ -35,6 +35,14 @@ const (
 		inner join CONTROL_FORMULARIO CF on c.id = CF.control_id
 		WHERE CF.formulario_id = %v;`
 
+	qryGetControlsSinForm = `
+		SELECT
+		c.id,
+		c.descripcion,
+		c.tipo
+		FROM CONTROL c
+		inner join CONTROL_FORMULARIO CF on c.id != CF.control_id`
+
 	qryInsertControlForm = `INSERT INTO CONTROL_FORMULARIO (control_id, formulario_id) VALUES (:control_id, :formulario_id);`
 )
 
@@ -64,6 +72,19 @@ func (r *repo) GetControlsByForm(ctx context.Context, formID int64) ([]entity.Co
 
 	return cc, nil
 }
+
+func (r *repo) GetControlsSinForm(ctx context.Context) ([]entity.Control, error) {
+	cc := []entity.Control{}
+
+	err := r.db.SelectContext(ctx, &cc, fmt.Sprintf(qryGetControlsSinForm))
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return cc, nil
+}
+
 func (r *repo) GetConByDes(ctx context.Context, des string) (*entity.Control, error) {
 	c := &entity.Control{}
 	err := r.db.GetContext(ctx, c, qryGetContBydescripcion, des)

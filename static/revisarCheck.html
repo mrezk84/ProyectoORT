@@ -35,17 +35,25 @@
               <div class="col-lg-7">
                   <div class="p-5">
                       <div class="text-center">
-                          <h1 class="h4 text-gray-900 mb-4">Editar Check</h1>
+                          <h1 class="h4 text-gray-900 mb-4">Actualizar Check</h1>
                       </div>
                       <form class="user">
                           <div class="dropdown mb-4 show">
+                            <h2 class="h4 text-gray-900 mb-4">Cambiar Estado:</h2>
                             <select class="col-sm-6 mb-3 mb-sm-0" id="estado" name="estado">
-                                <option value="Sin revisar">Sin revisar</option>
-                                <option value="Revisado">Revisado</option>
+                                <option value="No Conforme">No Conforme</option>
+                                <option value="Conforme">Conforme</option>
                               </select>
                           </div>
-                          <br>
-                          <br>
+                          <div class="form-group row">
+                            <h2 class="h4 text-gray-900 mb-4">Escribir Observaciones</h2>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <textarea class="form-control" id="txtObservaciones"  cols= "50" rows="8"
+                               
+                                    placeholder="Informacion"></textarea>
+                                    
+                            </div>
+                          </div>
                           <a onclick="Update(new Check())" href="checks.html" class="btn btn-primary btn-user btn-block">
                               Guardar
                           </a>
@@ -70,7 +78,7 @@
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin-2.min.js"></script>
 
-<script src="js/altaChecks.js"></script>
+<script src="js/revisarCheck.js"></script>
 
 
 </body>

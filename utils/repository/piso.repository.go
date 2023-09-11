@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"proyectoort/utils/entity"
+	"proyectoort/utils/models"
 )
 
 const (
@@ -17,6 +18,12 @@ const (
 		FROM PISO
 		WHERE Numero = ?;`
 
+	qryGetPisos = `
+		SELECT
+			id,
+			numero
+		FROM PISO;`
+
 	qryGetPisobyID = `
 		SELECT
 			id
@@ -28,12 +35,15 @@ const (
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`
 )
 
-func (r *repo) SavePiso(ctx context.Context, number int64) error {
-	_, err := r.db.ExecContext(ctx, qryInsertPiso, number)
-	return err
+func (r *repo) SavePiso(ctx context.Context, number int) (models.Piso, error) {
+	result, _ := r.db.ExecContext(ctx, qryInsertPiso, number)
+	id, err := result.LastInsertId()
+	return models.Piso{
+		ID: int(id),
+	}, err
 }
 
-func (r *repo) GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error) {
+func (r *repo) GetPisobyNumber(ctx context.Context, number int) (*entity.Piso, error) {
 	p := &entity.Piso{}
 	err := r.db.GetContext(ctx, p, qryGetPisobyNumber, number)
 	if err != nil {
@@ -46,6 +56,17 @@ func (r *repo) GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso,
 func (r *repo) GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error) {
 	p := &entity.Piso{}
 	err := r.db.GetContext(ctx, p, qryGetPisobyID, ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}
+
+func (r *repo) GetPisos(ctx context.Context) ([]entity.Piso, error) {
+	p := []entity.Piso{}
+
+	err := r.db.SelectContext(ctx, &p, qryGetPisos)
 	if err != nil {
 		return nil, err
 	}

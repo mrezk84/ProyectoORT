@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 
 async function getControles() {
-    const request = await fetch("http://localhost:8080/controles", {
+    const request = await fetch("http://localhost:5000/controles", {
         method: 'GET',
     })
 

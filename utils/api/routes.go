@@ -20,8 +20,11 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	form.POST("/registrar", a.RegisterFrom)
 	form.GET("/getByid", a.GetForm)
 	form.POST("/addUser", a.RegisterUserForm)
-	form.POST("/user", a.GetFormUser)
+	form.GET("/user", a.GetFormUser)
 	controls.GET("", a.GetContorls)
+	controls.GET("/sinForm", a.GetControlsSinForm)
+	controls.POST("/byForm", a.GetControlsByForm)
+	controls.POST("/addForm", a.AddControlForm)
 	form.GET("", a.GetForms)
 	obra.POST("/registrar", a.RegisterObra)
 	obra.GET("", a.GetObras)
@@ -30,6 +33,8 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	obra.DELETE("/eliminar", a.DeleteObra)
 	etapa.POST("/registrar", a.RegisterEtapa)
 	piso.POST("/registrar", a.RegisterPiso)
+	piso.GET("", a.GetPisos)
+	piso.GET("/:id", a.GetPisosByObra)
 	piso.POST("/addObra", a.RegisterObraPiso)
 	check.POST("/registrar", a.RegisterCheck)
 	check.POST("/addForm", a.RegisterCheckForm)
@@ -38,4 +43,11 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	document.GET("/:id", a.GetDocumentsByObra)
 	document.GET("/export/:id", a.ExportDocument)
 	document.GET("/export/obra/:id", a.ExportDocumentsByObra)
+	document.GET("/export", a.ExportDocument)
+
+	foto := e.Group("/fotos")
+	foto.POST("/registrar", a.RegisterPhoto)
+	foto.GET("/formulario", a.GetFotosForm)
+	foto.GET("download/:id", a.DownloadPhoto)
+
 }

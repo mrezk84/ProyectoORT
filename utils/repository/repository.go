@@ -32,6 +32,7 @@ type Repository interface {
 	GetConByDes(ctx context.Context, des string) (*entity.Control, error)
 	GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error)
 	SaveControlForm(ctx context.Context, controlID, formularioID int64) error
+	GetControlsSinForm(ctx context.Context) ([]entity.Control, error)
 	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 	GetFormByID(ctx context.Context, formID int64) (*entity.Formulario, error)
@@ -40,10 +41,12 @@ type Repository interface {
 	GetObras(ctx context.Context) ([]entity.Obra, error)
 	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)
 	GetObrabyID(ctx context.Context, obraID int64) (*entity.Obra, error)
+	GetobraP(ctx context.Context, pisoID int64) (*entity.Obra, error)
 	SaveEtapa(ctx context.Context, nombre string) error
 	GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa, error)
-	SavePiso(ctx context.Context, number int64) error
-	GetPisobyNumber(ctx context.Context, number int64) (*entity.Piso, error)
+	SavePiso(ctx context.Context, number int) (models.Piso, error)
+	GetPisos(ctx context.Context) ([]entity.Piso, error)
+	GetPisobyNumber(ctx context.Context, number int) (*entity.Piso, error)
 	GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error)
 	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
@@ -53,6 +56,12 @@ type Repository interface {
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 	DeleteObra(ctx context.Context, nombre string) error
 	GetDocumentsByObra(ctx context.Context, formID int64) ([]models.Document, error)
+	// GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
+	SavePhoto(ctx context.Context, nombre, notas string, formulario_id int) error
+	GetPhotoByForm(ctx context.Context, formulario_id int) (*entity.Foto, error)
+	GetPhotos(ctx context.Context) ([]entity.Foto, error)
+	GetPhotoById(ctx context.Context, id int) (*entity.Foto, error)
+	GetPhotoFilePath(ctx context.Context, id int) (string, error)
 	GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error)
 	UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error
 	ExportDocument(ctx context.Context, documentID int64) ([]byte, error)

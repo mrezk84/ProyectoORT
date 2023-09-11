@@ -23,21 +23,29 @@ type Service interface {
 	GetControls(ctx context.Context) ([]models.Control, error)
 	AddControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error)
+	GetControlSinForm(ctx context.Context) ([]models.Control, error)
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
 	GetControlsByForm(ctx context.Context, formID int64) ([]models.Control, error)
 	RegisterObra(ctx context.Context, name string) error
 	GetObras(ctx context.Context) ([]models.Obra, error)
 	GetObra(ctx context.Context, obraID int64) (*models.Obra, error)
 	RegisterEtapa(ctx context.Context, nombre string) error
-	RegisterPiso(ctx context.Context, number int64) error
+	RegisterPiso(ctx context.Context, number int) (models.Piso, error)
+	GetPisos(ctx context.Context) ([]models.Piso, error)
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
 	GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, error)
+	GetPisosByObra(ctx context.Context, obraID int64) ([]models.Piso, error)
 	RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, controles []models.Control, document models.Document, formularioID int64) error
 	DeleteObra(ctx context.Context, name string) error
 	GetObraDocuments(ctx context.Context, obraID int64) ([]models.Document, error)
+	// GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
+	RegisterPhoto(ctx context.Context, nombre, notas string, formulario_id int) error
+	GetPhotos(ctx context.Context) ([]models.Foto, error)
+	GetPhoto(ctx context.Context, id int) (*models.Foto, error)
+	GetPhotoFilePath(ctx context.Context, fotoID int) (string, error)
 	GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error)
 	UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error
 	GetDocumentPDF(ctx context.Context, documentID int64) ([]byte, error)

@@ -1,12 +1,14 @@
 $(document).ready(function() {
     getObrasByUser()
+
+    $('#obras').DataTable();
 });
 
 
 
 
 async function getObrasByUser() {
-    const request = await fetch("http://localhost:8080/obras", {
+    const request = await fetch("http://localhost:5000/obras", {
         method: 'GET',
     })
 
@@ -15,14 +17,9 @@ async function getObrasByUser() {
     if (request.ok) {
         let listadoHtml = '';
             for (let obra of obras) {
-                listadoHtml +=
-                `
-                 <tr>
-                    <th>${obra.ID}</th>s
-                    <th>${obra.Nombre}</th>
-                    <th><button onclick="redirectPisos(${obra.ID})">Ver seguimiento</button></th>
-                </tr>
-                `
+                let botondocumentos = '<a onclick = "redirectDocumentos('+obra.ID+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>}</a>';
+                let obraHtml = '<tr><td>'+ obra.ID +'</td><td>' + obra.Nombre + '</td><td>' + botondocumentos + '</td></tr>';
+                listadoHtml += obraHtml;
         };
 
         document.querySelector('#obrasTBody').outerHTML = listadoHtml;
@@ -32,6 +29,10 @@ async function getObrasByUser() {
 
 function redirectPisos(id) {
     window.location.href = `altaSeguimiento.html?obra_id=${id}`;
+}
+
+function redirectDocumentos(id) {
+    window.location.href = `documentosDeObra.html?obra_id=${id}`;
 }
 
 function redirectAltaObra() {

@@ -6,24 +6,40 @@ $(document).ready(function() {
 
 let formulario = null;
 async function buildControles() {
+    let datos = {};
     const url = new URL(document.URL);
     const searchParams = url.searchParams;
+    formularioid = searchParams.get('formulario_id');
+    datos.id_formulario = Number(formularioid);
 
-    formulario = searchParams.get('formulario');
-    formulario = JSON.parse(decodeURIComponent(formulario));
+    const request = await fetch("http://localhost:5000/controles/byForm", {
+               method: 'POST',
+               body: JSON.stringify(datos),
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
 
-    let text = ``;
-    formulario.control.forEach(control => {
-        text +=
-            `
-            <tr>
-                <th>${control.descripcion}</th>
-            </tr>
-            `
-    });
-    document.getElementById("controlesTBody").innerHTML = text;
-}
+    const controles = await request.json();
+    console.log(controles)
+    if (request.ok) {
+        let listadoHtml = '';
+            for (let control of controles) {
+  
+              let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td></tr>';
+              listadoHtml += controlHtml;
+              }
+            
+            
+            document.querySelector('#controlesTBody').outerHTML = listadoHtml;
+            
+            }
+    }
 
 function redirectAgregarControl(){
-    window.location.href = `agregarControlesFormulario.html?formulario=${encodeURIComponent(JSON.stringify(formulario))}`;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    formularioid = searchParams.get('formulario_id');
+    window.location.href = `agregarControlesFormulario.html?formulario=${formularioid}`;
 }

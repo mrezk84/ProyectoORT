@@ -12,7 +12,7 @@ import (
 const (
 	qryInsertDocument = `
 		INSERT INTO document (formulario_id,obra_id,piso_id)
-		VALUES (%v,%v,%v);`
+		VALUES (?,?,?);`
 
 	qryGetFormularioByDocumentID = `
 	select f.id,f.nombre,f.informacion from FORMULARIO f inner join document d on f.id = d.formulario_id
@@ -23,7 +23,7 @@ where d.id = %v
 )
 
 func (r *repo) InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error) {
-	result, err := r.db.ExecContext(ctx, fmt.Sprintf(qryInsertDocument, formularioID, obraID, pisoID))
+	result, err := r.db.ExecContext(ctx, qryInsertDocument, formularioID, obraID, pisoID)
 	if err != nil {
 		fmt.Println(err)
 		return models.Document{}, err
