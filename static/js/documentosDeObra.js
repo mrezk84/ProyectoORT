@@ -22,13 +22,13 @@ async function getDocumentos() {
             for (let documento of documentos) {
 
                 if (documento.status == "DONE"){
-                    listadoHtml += '<tr bgcolor="#a1ff64">';
+                    listadoHtml += '<tr bgcolor="#adebad">';
                 }
                 if (documento.status == "WIP"){
-                    listadoHtml += '<tr bgcolor="#f6ff64">';
+                    listadoHtml += '<tr bgcolor="#ffff99">';
                 }
                 if (documento.status == "TODO"){
-                    listadoHtml += '<tr bgcolor="#ff7764">';
+                    listadoHtml += '<tr bgcolor="#ffb3b3">';
                 }
 
 
