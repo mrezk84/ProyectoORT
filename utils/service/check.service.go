@@ -37,6 +37,10 @@ func (s *serv) AddCheckForm(ctx context.Context, checkID, formularioID int64) er
 	return s.repo.SaveCheckForm(ctx, checkID, formularioID)
 }
 
-func (s *serv) GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error) {
-	return s.repo.GetDocumentsChecks(ctx, documents)
+func (s *serv) UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error {
+	return s.repo.UpdateCheck(ctx, checkID, estado, observaciones)
+}
+
+func (s *serv) GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error) {
+	return s.repo.GetDocumentChecks(ctx, documentID)
 }

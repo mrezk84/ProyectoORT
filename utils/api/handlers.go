@@ -709,10 +709,45 @@ func (a *API) AddFormToPlanControl(c echo.Context) error {
 	return c.JSON(http.StatusCreated, nil)
 }
 
+func (a *API) UpdateCheck(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdateCheck{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateCheck(ctx, params.CheckID, params.Estado, params.Observaciones)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
+}
+
 func (a *API) GetDocumentsByObra(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.GetDocumentsForm{}
 
+	//auth := c.Request().Header.Get("Authorization")
+	//if auth == "" {
+	//	c.JSON(http.StatusUnauthorized, responseMessage{"Authorization Header Not Found"})
+	//	return nil
+	//}
+	//splitToken := strings.Split(auth, "Bearer ")
+	//auth = splitToken[1]
+	//
+	//claims, err := encryption.ParseLoginJWT(auth)
+	//if err != nil {
+	//	return err
+	//}
+	//email := claims["email"]
 	err := c.Bind(&params)
 	if err != nil {
 		log.Println(err)
@@ -800,4 +835,13 @@ func (a *API) DownloadPhoto(c echo.Context) error {
 
 	// Enviar la foto como respuesta
 	return c.Blob(http.StatusOK, "image/jpeg", fotoBytes)
+
+}
+
+func (a *API) ExportDocument(c echo.Context) error {
+	b, err := a.serv.GetDocumentPDF()
+	if err == nil {
+		return c.JSON(http.StatusOK, b)
+	}
+	return nil
 }

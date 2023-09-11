@@ -10,6 +10,14 @@ require (
 )
 
 require (
+	github.com/jung-kurt/gofpdf v1.16.2 // indirect
+	github.com/lukasjarosch/go-docx v0.4.7 // indirect
+	github.com/mattn/go-runewidth v0.0.9 // indirect
+	github.com/nguyenthenguyen/docx v0.0.0-20230621112118-9c8e795a11db // indirect
+	github.com/olekukonko/tablewriter v0.0.5 // indirect
+)
+
+require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect

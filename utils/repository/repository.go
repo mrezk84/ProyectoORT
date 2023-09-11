@@ -56,12 +56,15 @@ type Repository interface {
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 	DeleteObra(ctx context.Context, nombre string) error
 	GetDocumentsByObra(ctx context.Context, formID int64) ([]models.Document, error)
-	GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
+	// GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
 	SavePhoto(ctx context.Context, nombre, notas string, formulario_id int) error
 	GetPhotoByForm(ctx context.Context, formulario_id int) (*entity.Foto, error)
 	GetPhotos(ctx context.Context) ([]entity.Foto, error)
 	GetPhotoById(ctx context.Context, id int) (*entity.Foto, error)
 	GetPhotoFilePath(ctx context.Context, id int) (string, error)
+	GetDocumentChecks(ctx context.Context, documentID int64) ([]models.Check, error)
+	UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error
+	ExportDocument() ([]byte, error)
 }
 
 type repo struct {
