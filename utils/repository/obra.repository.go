@@ -30,6 +30,14 @@ const (
 			Nombre
 		FROM OBRA`
 
+	qryGetObraDePiso = `
+		SELECT
+		o.ID ,
+		o.Nombre
+		FROM OBRA o 
+		inner join OBRA_PISOS op on o.ID = op.obra_id
+		WHERE op.piso_id = %v;`
+
 	qryEliminateObra = `DELETE * FROM OBRA WHERE Nombre = ?;`
 )
 
@@ -72,7 +80,7 @@ func (r *repo) GetObrabyID(ctx context.Context, obraID int64) (*entity.Obra, err
 func (r *repo) GetobraP(ctx context.Context, pisoID int64) (*entity.Obra, error) {
 	obrap := &entity.Obra{}
 
-	err := r.db.SelectContext(ctx, &obrap, "SELECT obra_id, piso_id FROM OBRA_PISOS WHERE piso_id = ?", pisoID)
+	err := r.db.GetContext(ctx, &obrap, qryGetObraDePiso, pisoID)
 	if err != nil {
 		return nil, err
 	}

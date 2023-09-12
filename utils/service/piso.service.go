@@ -33,15 +33,14 @@ func (s *serv) GetPisos(ctx context.Context) ([]models.Piso, error) {
 	for _, p := range pp {
 
 		// obra, _ := s.repo.GetobraP(ctx, int64(p.ID))
-		// Obra := models.Obra{
-		// 	ID:     obra.ID,
-		// 	Nombre: obra.Nombre,
-		// }
 
 		pisos = append(pisos, models.Piso{
 			ID:     p.ID,
 			Numero: p.Numero,
-			// Obra:   Obra,
+			// Obra: models.Obra{
+			// 	ID:     obra.ID,
+			// 	Nombre: obra.Nombre,
+			// },
 		})
 
 	}

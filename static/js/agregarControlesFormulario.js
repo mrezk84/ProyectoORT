@@ -47,7 +47,7 @@ async function agregarControl(){
                    'Content-Type': 'application/json'
                },
            })
-         if (request.status == 204) {
+         if (request.status == 201) {
              alert("control agregado correctamente");
          }else{
              alert("Error agregando el control");

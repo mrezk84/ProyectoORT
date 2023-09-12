@@ -8,23 +8,22 @@ async function getPisos() {
     const request = await fetch("http://localhost:5000/pisos", {
         method: 'GET',
     })
-    let response = await request.json()
-    console.log(response)
+    let pisos = await request.json()
+    console.log(pisos)
     if (request.status == 200) {
-            let text = ``;
-            response.pisosObra.forEach(piso => {
-            text +=
-            `
-                <tr>
-                    <th>${piso.id}</th>
-                    <th>${piso.numero}</th>
-                    <th>${piso.numero}</th>
-                </tr>
-                `
-            });
-            document.getElementById("pisosTBody").innerHTML = text;
+        let listadoHtml = '';
+        for (let piso of pisos) {
+
+          let pisoHtml = '<td>' + piso.id + '</td><td>' + piso.numero + '</td></tr>';
+          listadoHtml += pisoHtml;
+          }
+            document.getElementById("pisosTBody").outerHTML = listadoHtml;
 
     }
+}
+
+async function redirectAltaPiso() {
+    window.location.href = `altaPiso.html`;
 }
 
 // async function agregarPisoObra(){
