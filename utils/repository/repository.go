@@ -50,6 +50,7 @@ type Repository interface {
 	GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error)
 	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
+	UpdatePiso(ctx context.Context, pisoID int64, numero int) error
 	SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)

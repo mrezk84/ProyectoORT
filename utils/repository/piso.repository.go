@@ -2,8 +2,11 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
+
+	"github.com/labstack/gommon/log"
 )
 
 const (
@@ -33,6 +36,12 @@ const (
 
 	qryInsertPisoObra = `
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`
+
+	qryUpdatePiso = `
+		update PISO
+	set numero = '%v'
+	where id = %v	
+	`
 )
 
 func (r *repo) SavePiso(ctx context.Context, number int) (models.Piso, error) {
@@ -93,5 +102,23 @@ func (r *repo) SaveObraPiso(ctx context.Context, obraID, pisoID int64) error {
 	}
 
 	_, err := r.db.NamedExecContext(ctx, qryInsertPisoObra, data)
+	return err
+}
+
+func (r *repo) UpdatePiso(ctx context.Context, pisoID int64, numero int) error {
+	tx, err := r.db.Beginx()
+	if err != nil {
+		fmt.Println(err)
+		log.Error(err.Error())
+		return err
+	}
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryUpdatePiso, numero, pisoID))
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("qdas")
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
 	return err
 }

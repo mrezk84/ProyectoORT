@@ -14,7 +14,8 @@ async function getPisos() {
         let listadoHtml = '';
         for (let piso of pisos) {
 
-          let pisoHtml = '<td>' + piso.id + '</td><td>' + piso.numero + '</td></tr>';
+            let botonUpdate = '<a onclick = "redirectUpdate('+piso.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>';
+          let pisoHtml = '<td>' + piso.id + '</td><td>' + piso.numero + '</td><td>' + botonUpdate + '</td></tr>';
           listadoHtml += pisoHtml;
           }
             document.getElementById("pisosTBody").outerHTML = listadoHtml;
@@ -24,6 +25,10 @@ async function getPisos() {
 
 async function redirectAltaPiso() {
     window.location.href = `altaPiso.html`;
+}
+
+async function redirectUpdate(id) {
+    window.location.href = `pisoUpdate.html?piso_id=${id}`;
 }
 
 // async function agregarPisoObra(){

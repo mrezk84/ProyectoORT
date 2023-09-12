@@ -36,6 +36,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	piso.GET("", a.GetPisos)
 	piso.GET("/:id", a.GetPisosByObra)
 	piso.POST("/addObra", a.RegisterObraPiso)
+	piso.PUT("/:id", a.UpdatePiso)
 	check.POST("/registrar", a.RegisterCheck)
 	check.POST("/addForm", a.RegisterCheckForm)
 	check.PUT("/:id", a.UpdateCheck)

@@ -95,3 +95,7 @@ func (s *serv) AddObraPiso(ctx context.Context, obraID, pisoID int64) error {
 
 	return s.repo.SaveObraPiso(ctx, obraID, pisoID)
 }
+
+func (s *serv) UpdatePiso(ctx context.Context, pisoID int64, numero int) error {
+	return s.repo.UpdatePiso(ctx, pisoID, numero)
+}

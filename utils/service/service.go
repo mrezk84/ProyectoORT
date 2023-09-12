@@ -35,6 +35,7 @@ type Service interface {
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
 	GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, error)
 	GetPisosByObra(ctx context.Context, obraID int64) ([]models.Piso, error)
+	UpdatePiso(ctx context.Context, pisoID int64, numero int) error
 	RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
