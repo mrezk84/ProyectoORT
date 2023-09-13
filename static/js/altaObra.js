@@ -10,7 +10,7 @@
                   'Content-Type': 'application/json'
               },
           })
-        if (request.status == 200) {
+        if (request.status == 201) {
             alert("Obra registrada correctamente");
         }else{
             alert("Error registrando la obra");

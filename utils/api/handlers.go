@@ -56,7 +56,7 @@ func (a *API) RegisterFrom(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterFrom(ctx, params.Informacion, params.Nombre, params.Version, params.Fecha)
+	err = a.serv.RegisterFrom(ctx, params.Informacion, params.Nombre)
 	if err != nil {
 		if err == service.ErrFormAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulairo ya existe"})
@@ -180,6 +180,28 @@ func (a *API) GetForms(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})
 	}
 	return c.JSON(http.StatusOK, forms)
+}
+
+func (a *API) UpdateForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdateForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateFormulario(ctx, params.FormID, params.Nombre, params.Informacion)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
 }
 
 func (a *API) GetForm(c echo.Context) error {
@@ -462,6 +484,28 @@ func (a *API) DeleteObra(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusAccepted, nil)
+}
+
+func (a *API) UpdateObra(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdateObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateObra(ctx, params.ObraID, params.Nombre)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
 }
 
 func (a *API) RegisterEtapa(c echo.Context) error {

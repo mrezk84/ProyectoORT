@@ -15,9 +15,10 @@ type Service interface {
 	LoginUser(ctx context.Context, email, password string) (*models.Usuario, error)
 	AddUserRole(ctx context.Context, userID, roleID int64) error
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
-	RegisterFrom(ctx context.Context, nombre string, informacion string, version string, fecha string) error
+	RegisterFrom(ctx context.Context, nombre string, informacion string) error
 	GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error)
 	GetForms(ctx context.Context) ([]models.Formulario, error)
+	UpdateFormulario(ctx context.Context, formID int64, nombre, informacion string) error
 	AddUserForm(ctx context.Context, formID, usuarioID int64) error
 	GetUserOfForm(ctx context.Context, formID int64) (*models.Usuario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
@@ -29,6 +30,7 @@ type Service interface {
 	RegisterObra(ctx context.Context, name string) error
 	GetObras(ctx context.Context) ([]models.Obra, error)
 	GetObra(ctx context.Context, obraID int64) (*models.Obra, error)
+	UpdateObra(ctx context.Context, obraID int64, nombre string) error
 	RegisterEtapa(ctx context.Context, nombre string) error
 	RegisterPiso(ctx context.Context, number int) (models.Piso, error)
 	GetPisos(ctx context.Context) ([]models.Piso, error)

@@ -13,14 +13,14 @@ var (
 	ErrFormNotFound      = errors.New("Error al asignar formulario")
 )
 
-func (s *serv) RegisterFrom(ctx context.Context, nombre string, informacion string, version string, fecha string) error {
+func (s *serv) RegisterFrom(ctx context.Context, nombre string, informacion string) error {
 
-	f, _ := s.repo.GetForm(ctx)
+	f, _ := s.repo.GetFormByNombre(ctx, nombre)
 	if f != nil {
 		return ErrFormAlreadyExists
 	}
 
-	return s.repo.SaveFrom(ctx, nombre, informacion, version, fecha)
+	return s.repo.SaveFrom(ctx, nombre, informacion)
 }
 
 func (s *serv) GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error) {
@@ -114,4 +114,8 @@ func (s *serv) GetUserOfForm(ctx context.Context, formID int64) (*models.Usuario
 	}
 
 	return usuario, nil
+}
+
+func (s *serv) UpdateFormulario(ctx context.Context, formID int64, nombre, informacion string) error {
+	return s.repo.UpdateFormulario(ctx, formID, nombre, informacion)
 }

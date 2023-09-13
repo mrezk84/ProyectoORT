@@ -24,7 +24,8 @@ async function getFormularios() {
                         <th>${formulario.informacion}</th>
                         <th>${formulario.version}</th>
                         <th>${formulario.fecha}</th>
-                        <th><button onclick="redirectControles('${formulario.id}')" class="btn btn-primary btn-user"> Editar Controles </button></th>
+                        <th><button onclick="redirectControles('${formulario.id}')" class="btn btn-primary btn-user"> Editar Controles </button>
+                        <a onclick = "redirectUpdate('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a></th>
                     </tr>
                     `
             });
@@ -35,6 +36,10 @@ async function getFormularios() {
 
 function redirectAltaFormulario(){
     window.location.href = `altaFormulario.html`;
+}
+
+async function redirectUpdate(id) {
+  window.location.href = `formularioUpdate.html?formulario_id=${id}`;
 }
 
 function redirectControles(formulario){

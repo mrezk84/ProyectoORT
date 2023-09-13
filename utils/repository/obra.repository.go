@@ -2,7 +2,10 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"proyectoort/utils/entity"
+
+	"github.com/labstack/gommon/log"
 )
 
 const (
@@ -37,6 +40,12 @@ const (
 		FROM OBRA o 
 		inner join OBRA_PISOS op on o.ID = op.obra_id
 		WHERE op.piso_id = %v;`
+
+	qryUpdateObra = `
+		update OBRA
+	set Nombre = '%v'
+	where ID = %v	
+	`
 
 	qryEliminateObra = `DELETE * FROM OBRA WHERE Nombre = ?;`
 )
@@ -91,5 +100,23 @@ func (r *repo) GetobraP(ctx context.Context, pisoID int64) (*entity.Obra, error)
 
 func (r *repo) DeleteObra(ctx context.Context, nombre string) error {
 	_, err := r.db.ExecContext(ctx, qryEliminateObra, nombre)
+	return err
+}
+
+func (r *repo) UpdateObra(ctx context.Context, obraID int64, nombre string) error {
+	tx, err := r.db.Beginx()
+	if err != nil {
+		fmt.Println(err)
+		log.Error(err.Error())
+		return err
+	}
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryUpdateObra, nombre, obraID))
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("qdas")
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
 	return err
 }

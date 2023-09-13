@@ -13,9 +13,10 @@ import (
 //go:generate mockery --name=Repository --output=repository --inpackage
 type Repository interface {
 	SaveUser(ctx context.Context, email, username, password string) error
-	SaveFrom(ctx context.Context, informacion string, nombre string, version string, fecha string) error
+	SaveFrom(ctx context.Context, informacion string, nombre string) error
 	GetUsuarioForm(ctx context.Context, usuarioID int64) ([]entity.UsuarioForm, error)
 	GetFormUser(ctx context.Context, formularioID int64) (*entity.UsuarioForm, error)
+	UpdateFormulario(ctx context.Context, FormID int64, nombre, informacion string) error
 	SaveUserForm(ctx context.Context, formID, usuarioID int64) error
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
 	SaveControl(ctx context.Context, descripcion, tipo string) error
@@ -25,6 +26,7 @@ type Repository interface {
 	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
 	GetForm(ctx context.Context) ([]entity.Formulario, error)
+	GetFormByNombre(ctx context.Context, nombre string) (*entity.Formulario, error)
 	GetControls(ctx context.Context) ([]entity.Control, error)
 	GetControlsByForm(ctx context.Context, formID int64) ([]entity.Control, error)
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
@@ -42,6 +44,7 @@ type Repository interface {
 	GetObrabyName(ctx context.Context, name string) (*entity.Obra, error)
 	GetObrabyID(ctx context.Context, obraID int64) (*entity.Obra, error)
 	GetobraP(ctx context.Context, pisoID int64) (*entity.Obra, error)
+	UpdateObra(ctx context.Context, obraID int64, nombre string) error
 	SaveEtapa(ctx context.Context, nombre string) error
 	GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa, error)
 	SavePiso(ctx context.Context, number int) (models.Piso, error)

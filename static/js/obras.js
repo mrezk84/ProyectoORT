@@ -18,7 +18,8 @@ async function getObrasByUser() {
         let listadoHtml = '';
             for (let obra of obras) {
                 let botondocumentos = '<a onclick = "redirectDocumentos('+obra.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>documentos</a>';
-                let obraHtml = '<tr><td>'+ obra.id +'</td><td>' + obra.nombre + '</td><td>' + botondocumentos + '</td></tr>';
+                let botonUpdate = '<a onclick = "redirectUpdate('+obra.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>';
+                let obraHtml = '<tr><td>'+ obra.id +'</td><td>' + obra.nombre + '</td><td>' + botondocumentos + botonUpdate + '</td></tr>';
                 listadoHtml += obraHtml;
         };
 
@@ -37,4 +38,8 @@ function redirectDocumentos(id) {
 
 function redirectAltaObra() {
     window.location.href = `altaObra.html`;
+}
+
+async function redirectUpdate(id) {
+    window.location.href = `obraUpdate.html?obra_id=${id}`;
 }

@@ -91,3 +91,7 @@ func (s *serv) DeleteObra(ctx context.Context, name string) error {
 
 	return ErrObraDoesNotExists
 }
+
+func (s *serv) UpdateObra(ctx context.Context, obraID int64, nombre string) error {
+	return s.repo.UpdateObra(ctx, obraID, nombre)
+}

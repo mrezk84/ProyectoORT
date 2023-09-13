@@ -9,8 +9,6 @@ $(document).ready(function() {
 
     datos.nombre = document.getElementById('txtNombre').value;
     datos.informacion = document.getElementById('txtInformacion').value;
-    datos.version = document.getElementById('txtVersion').value;
-    datos.fecha= document.getElementById('txtFecha').value;
 
     const request = await fetch("http://localhost:5000/formularios/registrar", {
       method: 'POST',

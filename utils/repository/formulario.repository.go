@@ -2,12 +2,16 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"proyectoort/utils/entity"
+	"time"
+
+	"github.com/labstack/gommon/log"
 )
 
 const (
 	qryInsertFrom = `
-		INSERT INTO  FORMULARIO (nombre,informacion, version, fecha)
+		INSERT INTO  FORMULARIO (nombre, informacion, version, fecha)
 		VALUES (?, ?, ?, ?);`
 
 	qryGetFormByDate = `
@@ -39,6 +43,15 @@ const (
 		FROM FORMULARIO
 		WHERE id = ?;`
 
+	qryGetFormByNombre = `
+		SELECT
+			id,
+			nombre,
+			informacion,
+			version
+		FROM FORMULARIO
+		WHERE nombre = ?;`
+
 	// qryGetNForm = `
 	// 	SELECT
 	// 		nombre
@@ -53,6 +66,13 @@ const (
 		version
 		FROM FORMULARIO;`
 
+	qryUpdateForm = `
+	update FORMULARIO 
+set nombre = '%v',
+informacion = '%v'
+where id = %v	
+`
+
 	qryGetFormCategories = `
 		SELECT f.id,f.nombre,f.informacion,f.fecha, c.descripcion as controles
 		FROM FORMULARIO f INNER JOIN CONTROLES c
@@ -63,8 +83,8 @@ const (
 		INSERT INTO FORMULARIO_RESPONSABLE (formulario_id, usuario_id) VALUES (:formulario_id, :usuario_id);`
 )
 
-func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string, version string, fecha string) error {
-	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, nombre, version, fecha)
+func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string) error {
+	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, nombre, 1, time.Now().UTC())
 	return err
 }
 
@@ -100,6 +120,16 @@ func (r *repo) GetForm(ctx context.Context) ([]entity.Formulario, error) {
 func (r *repo) GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error) {
 	f := &entity.Formulario{}
 	err := r.db.GetContext(ctx, f, qryGetFormByVersion, version)
+	if err != nil {
+		return nil, err
+	}
+
+	return f, nil
+}
+
+func (r *repo) GetFormByNombre(ctx context.Context, nombre string) (*entity.Formulario, error) {
+	f := &entity.Formulario{}
+	err := r.db.GetContext(ctx, f, qryGetFormByNombre, nombre)
 	if err != nil {
 		return nil, err
 	}
@@ -150,5 +180,23 @@ func (r *repo) SaveUserForm(ctx context.Context, formID, usuarioID int64) error 
 	}
 
 	_, err := r.db.NamedExecContext(ctx, qryInsertUserForm, data)
+	return err
+}
+
+func (r *repo) UpdateFormulario(ctx context.Context, FormID int64, nombre, informacion string) error {
+	tx, err := r.db.Beginx()
+	if err != nil {
+		fmt.Println(err)
+		log.Error(err.Error())
+		return err
+	}
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryUpdateForm, nombre, informacion, FormID))
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("qdas")
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
 	return err
 }
