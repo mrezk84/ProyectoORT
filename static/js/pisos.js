@@ -15,7 +15,8 @@ async function getPisos() {
         for (let piso of pisos) {
 
             let botonUpdate = '<a onclick = "redirectUpdate('+piso.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>';
-          let pisoHtml = '<td>' + piso.id + '</td><td>' + piso.numero + '</td><td>' + botonUpdate + '</td></tr>';
+            let botonDelete = '<a onclick = "eliminarPiso('+piso.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
+          let pisoHtml = '<td>' + piso.id + '</td><td>' + piso.numero + '</td><td>' + botonUpdate + botonDelete+ '</td></tr>';
           listadoHtml += pisoHtml;
           }
             document.getElementById("pisosTBody").outerHTML = listadoHtml;
@@ -30,6 +31,23 @@ async function redirectAltaPiso() {
 async function redirectUpdate(id) {
     window.location.href = `pisoUpdate.html?piso_id=${id}`;
 }
+
+async function eliminarPiso(id){
+
+    const request = await fetch("http://localhost:5000/controles/"+ id +"/", {
+               method: 'DELETE',
+               body: JSON.stringify(datos),
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
+         if (request.ok) {
+             alert("Piso Eliminado");
+         }else{
+             alert("Error eliminando el piso");
+         }
+  }
 
 // async function agregarPisoObra(){
 //     let piso = document.getElementById("idPisoAgregar").value;
