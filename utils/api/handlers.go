@@ -971,3 +971,24 @@ func (a *API) GetDocumentChecks(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, checks)
 }
+
+func (a *API) DeleteControlForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.DeleteControlForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteControlForm(ctx, params.ControlID, params.FormularioID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: err.Error()})
+	}
+	return c.JSON(http.StatusOK, nil)
+}

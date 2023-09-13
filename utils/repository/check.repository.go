@@ -14,6 +14,13 @@ const (
 		INSERT INTO CHECKS (estado, observaciones, version, fecha_control)
 		VALUES (?,?,?,?);`
 
+	qryDeleteChecks = `
+		delete from CHECKS c where
+   		c.document_id in %v
+    	and c.control_id = %v
+		and formulario_id = %v
+ `
+
 	qryCreateCheck = `
 		INSERT INTO CHECKS (estado, observaciones, version, fecha_control,document_id,formulario_id,control_id)
 		VALUES ('','',0,null,%v,%v,%v);`
@@ -47,7 +54,10 @@ where id = %v
 `
 	qryInsertChecksHistoric = `
 	insert into checks_historico (id,estado,observaciones,fecha_control) values(%v,'%s','%s','%s')	
+
 `
+	qryDeleteChecksHistoric = `
+	insert into checks_historico (id,estado,observaciones,fecha_control) values(%v,'%s','%s','%s')	`
 	qryInsertCheckForm = `
 		INSERT INTO CHECK_FORMULARIO (check_id, formulario_id) VALUES (:check_id, :formulario_id);`
 )
@@ -81,6 +91,17 @@ func (r *repo) InsertChecks(ctx context.Context, formularioID int64, documentID 
 		}
 	}
 	tx.Commit()
+	return err
+}
+func (r *repo) DeleteChecks(ctx context.Context, formularioID int64, documents []models.Document, control int) error {
+	d := "("
+	for _, doc := range documents {
+		d += fmt.Sprint(doc.ID)
+	}
+	d += ")"
+
+	fmt.Println(fmt.Sprintf(qryDeleteChecks, d, control, formularioID))
+	_, err := r.db.ExecContext(ctx, fmt.Sprintf(qryDeleteChecks, d, control, formularioID))
 	return err
 }
 
