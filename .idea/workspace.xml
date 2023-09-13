@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- get document checks">
-      <change afterPath="$PROJECT_DIR$/utils/api/dtos/delete_control_form.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/api/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/api/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/repository/check.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/check.repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/repository/control.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/control.repository.go" afterDir="false" />
+    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- delete document checks">
       <change beforePath="$PROJECT_DIR$/utils/repository/document.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/document.repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/service/control.service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/control.service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/service/service.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +137,8 @@
     <MESSAGE value="- export documents" />
     <MESSAGE value="- export documents by obra" />
     <MESSAGE value="- get document checks" />
-    <option name="LAST_COMMIT_MESSAGE" value="- get document checks" />
+    <MESSAGE value="- delete document checks" />
+    <option name="LAST_COMMIT_MESSAGE" value="- delete document checks" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

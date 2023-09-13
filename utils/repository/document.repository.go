@@ -21,7 +21,7 @@ where d.id = %v
 	getDocumentsByObra = `
 		select * from document where obra_id = ?`
 
-	qryGetWipOrTodoDocuments = `select d.id FROM document d
+	qryGetWipOrTodoDocuments = `select d.id,d.formulario_id,d.obra_id,d.piso_id FROM document d
 LEFT JOIN CHECKS c ON d.id = c.document_id
 WHERE c.estado != 'CONFORME' OR c.estado IS NULL
 GROUP BY d.id`
@@ -217,6 +217,7 @@ func (r *repo) GetWipOrTodoDocuments(ctx context.Context) ([]models.Document, er
 	}
 	var documents []models.Document
 	for _, d := range e {
+		fmt.Println(d)
 		documents = append(documents, models.Document{
 			ID:         d.ID,
 			Formulario: models.Formulario{ID: int(d.FormularioID)},

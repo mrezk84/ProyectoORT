@@ -144,7 +144,7 @@ func (r *repo) SaveControlForm(ctx context.Context, controlID, formularioID int6
 	}
 	documents, err := r.GetWipOrTodoDocuments(ctx)
 	for _, d := range documents {
-		err = r.InsertChecks(ctx, int64(d.Formulario.ID), d.ID, []models.Control{{ID: int(controlID)}})
+		err = r.InsertChecks(ctx, formularioID, d.ID, []models.Control{{ID: int(controlID)}})
 		if err != nil {
 			tx.Rollback()
 			return err
