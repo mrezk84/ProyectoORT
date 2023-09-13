@@ -27,7 +27,7 @@ async function buildControles() {
         let listadoHtml = '';
             for (let control of controles) {
   
-                let botonDelete = '<a onclick = eliminarControl"('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
+              let botonDelete = '<a onclick = eliminarControl"('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
               let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td><td>' + botonDelete + '</td></tr>';
               listadoHtml += controlHtml;
               }

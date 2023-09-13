@@ -138,7 +138,7 @@ func (r *repo) GetDocumentsByForm(ctx context.Context, formID int64) ([]models.D
 
 }
 
-func (r *repo) getDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.Document, error) {
+func (r *repo) GetDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.Document, error) {
 	e := []entity.Document{}
 	err := r.db.SelectContext(ctx, &e, getDocumentsByPiso, pisoID)
 	if err != nil {

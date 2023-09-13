@@ -19,6 +19,7 @@ type Service interface {
 	GetFormByDate(ctx context.Context, fecha string) (*models.Formulario, error)
 	GetForms(ctx context.Context) ([]models.Formulario, error)
 	UpdateFormulario(ctx context.Context, formID int64, nombre, informacion string) error
+	DeleteFormulario(ctx context.Context, FormID int64) error
 	AddUserForm(ctx context.Context, formID, usuarioID int64) error
 	GetUserOfForm(ctx context.Context, formID int64) (*models.Usuario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
@@ -38,6 +39,7 @@ type Service interface {
 	GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, error)
 	GetPisosByObra(ctx context.Context, obraID int64) ([]models.Piso, error)
 	UpdatePiso(ctx context.Context, pisoID int64, numero int) error
+	DeletePiso(ctx context.Context, PisoID int64) error
 	RegisterCheck(ctx context.Context, estado string, fecha string, observaciones string, version int) error
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)

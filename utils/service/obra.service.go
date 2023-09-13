@@ -84,12 +84,19 @@ func (s *serv) GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, e
 
 func (s *serv) DeleteObra(ctx context.Context, ObraID int64) error {
 
-	o, _ := s.repo.GetObrabyID(ctx, ObraID)
-	if o != nil {
-		return s.repo.DeleteObra(ctx, ObraID)
+	dd, _ := s.repo.GetDocumentsByObra(ctx, ObraID)
+
+	for _, d := range dd {
+		s.repo.DeleteDocument(ctx, d.ID)
 	}
 
-	return ErrObraDoesNotExists
+	pp, _ := s.repo.GetPisosDeObra(ctx, ObraID)
+
+	for _, p := range pp {
+		s.repo.DeletePiso(ctx, int64(p.ID))
+	}
+
+	return s.repo.DeleteObra(ctx, ObraID)
 }
 
 func (s *serv) UpdateObra(ctx context.Context, obraID int64, nombre string) error {

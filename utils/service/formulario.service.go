@@ -119,3 +119,14 @@ func (s *serv) GetUserOfForm(ctx context.Context, formID int64) (*models.Usuario
 func (s *serv) UpdateFormulario(ctx context.Context, formID int64, nombre, informacion string) error {
 	return s.repo.UpdateFormulario(ctx, formID, nombre, informacion)
 }
+
+func (s *serv) DeleteFormulario(ctx context.Context, FormID int64) error {
+
+	dd, _ := s.repo.GetDocumentsByForm(ctx, FormID)
+
+	for _, d := range dd {
+		s.repo.DeleteDocument(ctx, d.ID)
+	}
+
+	return s.repo.DeletePiso(ctx, FormID)
+}

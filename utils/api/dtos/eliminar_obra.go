@@ -1,5 +1,5 @@
 package dtos
 
 type EliminarObra struct {
-	Nombre string `json:"name" validate:"required"`
+	ID int64 `json:"id" validate:"required"`
 }

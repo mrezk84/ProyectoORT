@@ -99,3 +99,14 @@ func (s *serv) AddObraPiso(ctx context.Context, obraID, pisoID int64) error {
 func (s *serv) UpdatePiso(ctx context.Context, pisoID int64, numero int) error {
 	return s.repo.UpdatePiso(ctx, pisoID, numero)
 }
+
+func (s *serv) DeletePiso(ctx context.Context, PisoID int64) error {
+
+	dd, _ := s.repo.GetDocumentsByPiso(ctx, PisoID)
+
+	for _, d := range dd {
+		s.repo.DeleteDocument(ctx, d.ID)
+	}
+
+	return s.repo.DeletePiso(ctx, PisoID)
+}

@@ -64,7 +64,7 @@ type Repository interface {
 	DeleteObra(ctx context.Context, obraID int64) error
 	GetDocumentsByObra(ctx context.Context, obraID int64) ([]models.Document, error)
 	GetDocumentsByForm(ctx context.Context, formID int64) ([]models.Document, error)
-	getDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.Document, error)
+	GetDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.Document, error)
 	DeleteDocument(ctx context.Context, DocID int64) error
 	// GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
 	SavePhoto(ctx context.Context, nombre, notas string, formulario_id int) error

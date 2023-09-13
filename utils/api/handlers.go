@@ -474,7 +474,7 @@ func (a *API) DeleteObra(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.DeleteObra(ctx, params.Nombre)
+	err = a.serv.DeleteObra(ctx, params.ID)
 	if err != nil {
 		if err == service.ErrObraDoesntExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "La Obra no existe"})
