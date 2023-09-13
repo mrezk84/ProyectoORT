@@ -29,6 +29,8 @@ type Repository interface {
 	GetControlsByForm(ctx context.Context, formID int64) ([]entity.Control, error)
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, formularioID int64, documentID int64, controles []models.Control) error
+	DeleteChecks(ctx context.Context, formularioID int64, documents []models.Document, control int) error
+	DeleteControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetConByDes(ctx context.Context, des string) (*entity.Control, error)
 	GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error)
 	SaveControlForm(ctx context.Context, controlID, formularioID int64) error
@@ -66,6 +68,7 @@ type Repository interface {
 	UpdateCheck(ctx context.Context, checkID int64, estado, observaciones string) error
 	ExportDocument(ctx context.Context, documentID int64) ([]byte, error)
 	ExportDocumentsByObra(ctx context.Context, obraID int64) ([]byte, error)
+	GetWipOrTodoDocuments(ctx context.Context) ([]models.Document, error)
 }
 
 type repo struct {

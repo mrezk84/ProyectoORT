@@ -25,6 +25,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	controls.GET("/sinForm", a.GetControlsSinForm)
 	controls.POST("/byForm", a.GetControlsByForm)
 	controls.POST("/addForm", a.AddControlForm)
+	controls.DELETE("/:control_id/formulario", a.DeleteControlForm)
 	form.GET("", a.GetForms)
 	obra.POST("/registrar", a.RegisterObra)
 	obra.GET("", a.GetObras)
