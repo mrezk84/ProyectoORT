@@ -42,7 +42,7 @@ type Service interface {
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, controles []models.Control, document models.Document, formularioID int64) error
-	DeleteObra(ctx context.Context, name string) error
+	DeleteObra(ctx context.Context, ObraID int64) error
 	GetObraDocuments(ctx context.Context, obraID int64) ([]models.Document, error)
 	// GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
 	RegisterPhoto(ctx context.Context, nombre, notas string, formulario_id int) error

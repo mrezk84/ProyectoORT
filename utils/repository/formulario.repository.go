@@ -73,6 +73,12 @@ informacion = '%v'
 where id = %v	
 `
 
+	qryDeleteFormularioControl = `
+		DELETE FROM CONTROL_FORMULARIO where formulario_id = ?`
+
+	qryDeleteFormulario = `
+		DELETE FROM FORMULARIO where id = ?`
+
 	qryGetFormCategories = `
 		SELECT f.id,f.nombre,f.informacion,f.fecha, c.descripcion as controles
 		FROM FORMULARIO f INNER JOIN CONTROLES c
@@ -199,4 +205,13 @@ func (r *repo) UpdateFormulario(ctx context.Context, FormID int64, nombre, infor
 	}
 	tx.Commit()
 	return err
+}
+
+func (r *repo) DeleteFormulario(ctx context.Context, FormID int64) error {
+	_, err := r.db.ExecContext(ctx, qryDeleteFormularioControl, FormID)
+	if err != nil {
+		return err
+	}
+	_, err2 := r.db.ExecContext(ctx, qryDeleteFormulario, FormID)
+	return err2
 }

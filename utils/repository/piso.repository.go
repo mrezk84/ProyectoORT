@@ -42,6 +42,12 @@ const (
 	set numero = '%v'
 	where id = %v	
 	`
+
+	qryDeletePisosObra = `
+		DELETE FROM OBRA_PISOS where piso_id = ?`
+
+	qryDeletePiso = `
+		DELETE FROM PISO where id = ?`
 )
 
 func (r *repo) SavePiso(ctx context.Context, number int) (models.Piso, error) {
@@ -121,4 +127,13 @@ func (r *repo) UpdatePiso(ctx context.Context, pisoID int64, numero int) error {
 	}
 	tx.Commit()
 	return err
+}
+
+func (r *repo) DeletePiso(ctx context.Context, pisoID int64) error {
+	_, err := r.db.ExecContext(ctx, qryDeletePisosObra, pisoID)
+	if err != nil {
+		return err
+	}
+	_, err2 := r.db.ExecContext(ctx, qryDeletePiso, pisoID)
+	return err2
 }

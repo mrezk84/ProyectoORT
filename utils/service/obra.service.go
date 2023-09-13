@@ -82,11 +82,11 @@ func (s *serv) GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, e
 	return Pisos, nil
 }
 
-func (s *serv) DeleteObra(ctx context.Context, name string) error {
+func (s *serv) DeleteObra(ctx context.Context, ObraID int64) error {
 
-	o, _ := s.repo.GetObrabyName(ctx, name)
+	o, _ := s.repo.GetObrabyID(ctx, ObraID)
 	if o != nil {
-		return s.repo.DeleteObra(ctx, name)
+		return s.repo.DeleteObra(ctx, ObraID)
 	}
 
 	return ErrObraDoesNotExists

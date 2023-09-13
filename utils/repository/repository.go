@@ -17,6 +17,7 @@ type Repository interface {
 	GetUsuarioForm(ctx context.Context, usuarioID int64) ([]entity.UsuarioForm, error)
 	GetFormUser(ctx context.Context, formularioID int64) (*entity.UsuarioForm, error)
 	UpdateFormulario(ctx context.Context, FormID int64, nombre, informacion string) error
+	DeleteFormulario(ctx context.Context, FormID int64) error
 	SaveUserForm(ctx context.Context, formID, usuarioID int64) error
 	SaveUserRole(ctx context.Context, userID, roleID int64) error
 	SaveControl(ctx context.Context, descripcion, tipo string) error
@@ -45,6 +46,7 @@ type Repository interface {
 	GetObrabyID(ctx context.Context, obraID int64) (*entity.Obra, error)
 	GetobraP(ctx context.Context, pisoID int64) (*entity.Obra, error)
 	UpdateObra(ctx context.Context, obraID int64, nombre string) error
+	GetPisosDeObra(ctx context.Context, pisoID int64) ([]entity.Piso, error)
 	SaveEtapa(ctx context.Context, nombre string) error
 	GetEtapabyName(ctx context.Context, nombre string) (*entity.Etapa, error)
 	SavePiso(ctx context.Context, number int) (models.Piso, error)
@@ -54,11 +56,12 @@ type Repository interface {
 	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
 	UpdatePiso(ctx context.Context, pisoID int64, numero int) error
+	DeletePiso(ctx context.Context, pisoID int64) error
 	SaveCheck(ctx context.Context, estado, observaciones string, version int, fecha string) error
 	GetCheckByVersion(ctx context.Context, version int) (*entity.Check, error)
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
-	DeleteObra(ctx context.Context, nombre string) error
+	DeleteObra(ctx context.Context, obraID int64) error
 	GetDocumentsByObra(ctx context.Context, obraID int64) ([]models.Document, error)
 	GetDocumentsByForm(ctx context.Context, formID int64) ([]models.Document, error)
 	getDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.Document, error)
