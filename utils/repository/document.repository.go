@@ -27,6 +27,12 @@ where d.id = %v
 
 	getDocumentsByPiso = `
 		select * from document where piso_id = ?`
+
+	qryDeleteChecks = `
+		DELETE FROM CHECKS where document_id = ?`
+
+	qryDeleteDocumento = `
+		DELETE FROM document where id = ?`
 )
 
 func (r *repo) InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error) {
@@ -174,6 +180,15 @@ func (r *repo) getDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.D
 	}
 	return documents, nil
 
+}
+
+func (r *repo) DeleteDocument(ctx context.Context, DocID int64) error {
+	_, err := r.db.ExecContext(ctx, qryDeleteChecks, DocID)
+	if err != nil {
+		return err
+	}
+	_, err2 := r.db.ExecContext(ctx, qryDeleteDocumento, DocID)
+	return err2
 }
 
 func (r *repo) ExportDocument(ctx context.Context, documentID int64) ([]byte, error) {

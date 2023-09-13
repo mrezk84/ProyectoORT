@@ -59,7 +59,10 @@ type Repository interface {
 	GetCheckForm(ctx context.Context, FormularioID int64) ([]entity.CheckFormulario, error)
 	SaveCheckForm(ctx context.Context, checkID, formularioID int64) error
 	DeleteObra(ctx context.Context, nombre string) error
-	GetDocumentsByObra(ctx context.Context, formID int64) ([]models.Document, error)
+	GetDocumentsByObra(ctx context.Context, obraID int64) ([]models.Document, error)
+	GetDocumentsByForm(ctx context.Context, formID int64) ([]models.Document, error)
+	getDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.Document, error)
+	DeleteDocument(ctx context.Context, DocID int64) error
 	// GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)
 	SavePhoto(ctx context.Context, nombre, notas string, formulario_id int) error
 	GetPhotoByForm(ctx context.Context, formulario_id int) (*entity.Foto, error)
