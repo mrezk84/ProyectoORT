@@ -27,7 +27,8 @@ async function buildControles() {
         let listadoHtml = '';
             for (let control of controles) {
   
-              let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td></tr>';
+                let botonDelete = '<a onclick = eliminarControl"('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
+              let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td><td>' + botonDelete + '</td></tr>';
               listadoHtml += controlHtml;
               }
             
@@ -42,4 +43,24 @@ function redirectAgregarControl(){
     const searchParams = url.searchParams;
     formularioid = searchParams.get('formulario_id');
     window.location.href = `agregarControlesFormulario.html?formulario=${formularioid}`;
+}
+
+async function eliminarControl(id){
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    formularioid = searchParams.get('formulario_id');
+    datos.id_formulario = Number(formularioid);
+
+    const request = await fetch("http://localhost:5000/pisos/registrar", {
+               method: 'DELETE',
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
+         if (request.ok) {
+             alert("control borrado del formulario correctamente");
+         }else{
+             alert("Error eliminando el control del formulario");
+         }
 }

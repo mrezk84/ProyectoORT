@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/jung-kurt/gofpdf"
 	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
+
+	"github.com/jung-kurt/gofpdf"
 )
 
 const (
@@ -20,6 +21,12 @@ where d.id = %v
 	`
 	getDocumentsByObra = `
 		select * from document where obra_id = ?`
+
+	getDocumentsByForm = `
+		select * from document where formulario_id = ?`
+
+	getDocumentsByPiso = `
+		select * from document where piso_id = ?`
 )
 
 func (r *repo) InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error) {
@@ -40,6 +47,94 @@ func (r *repo) InsertDocument(ctx context.Context, formularioID int64, obraID in
 func (r *repo) GetDocumentsByObra(ctx context.Context, obraID int64) ([]models.Document, error) {
 	e := []entity.Document{}
 	err := r.db.SelectContext(ctx, &e, getDocumentsByObra, obraID)
+	if err != nil {
+		return nil, err
+	}
+	var documents []models.Document
+	for _, d := range e {
+		formulario, err := r.GetFormByID(ctx, d.FormularioID)
+		if err != nil {
+			return nil, err
+		}
+		piso, err := r.GetPisobyID(ctx, d.PisoID)
+		if err != nil {
+			return nil, err
+		}
+		documentChecks, err := r.GetDocumentChecks(ctx, d.ID)
+		if err != nil {
+			return nil, err
+		}
+		status := getDocumentStatusFromChecks(documentChecks)
+		documents = append(documents, models.Document{
+			ID: d.ID,
+			Obra: models.Obra{
+				ID: int(d.ObraID),
+			},
+			Formulario: models.Formulario{
+				ID:          int(d.FormularioID),
+				Informacion: formulario.Informacion,
+				Version:     formulario.Version,
+				Nombre:      formulario.Nombre,
+			},
+			Piso: models.Piso{
+				ID:     int(d.PisoID),
+				Numero: piso.Numero,
+			},
+			Checks: documentChecks,
+			Status: status,
+		})
+	}
+	return documents, nil
+
+}
+
+func (r *repo) GetDocumentsByForm(ctx context.Context, formID int64) ([]models.Document, error) {
+	e := []entity.Document{}
+	err := r.db.SelectContext(ctx, &e, getDocumentsByForm, formID)
+	if err != nil {
+		return nil, err
+	}
+	var documents []models.Document
+	for _, d := range e {
+		formulario, err := r.GetFormByID(ctx, d.FormularioID)
+		if err != nil {
+			return nil, err
+		}
+		piso, err := r.GetPisobyID(ctx, d.PisoID)
+		if err != nil {
+			return nil, err
+		}
+		documentChecks, err := r.GetDocumentChecks(ctx, d.ID)
+		if err != nil {
+			return nil, err
+		}
+		status := getDocumentStatusFromChecks(documentChecks)
+		documents = append(documents, models.Document{
+			ID: d.ID,
+			Obra: models.Obra{
+				ID: int(d.ObraID),
+			},
+			Formulario: models.Formulario{
+				ID:          int(d.FormularioID),
+				Informacion: formulario.Informacion,
+				Version:     formulario.Version,
+				Nombre:      formulario.Nombre,
+			},
+			Piso: models.Piso{
+				ID:     int(d.PisoID),
+				Numero: piso.Numero,
+			},
+			Checks: documentChecks,
+			Status: status,
+		})
+	}
+	return documents, nil
+
+}
+
+func (r *repo) getDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.Document, error) {
+	e := []entity.Document{}
+	err := r.db.SelectContext(ctx, &e, getDocumentsByPiso, pisoID)
 	if err != nil {
 		return nil, err
 	}
