@@ -122,3 +122,7 @@ func (s *serv) GetFormdeControl(ctx context.Context, controlID int64) (*models.F
 func (s *serv) DeleteControlForm(ctx context.Context, controlID, formularioID int64) error {
 	return s.repo.DeleteControlForm(ctx, controlID, formularioID)
 }
+
+func (s *serv) DeleteControl(ctx context.Context, ControlID int64) error {
+	return s.repo.DeleteControl(ctx, ControlID)
+}

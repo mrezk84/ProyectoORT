@@ -23,7 +23,6 @@ async function getFormularios() {
                         <th>${formulario.nombre}</th>
                         <th>${formulario.informacion}</th>
                         <th>${formulario.version}</th>
-                        <th>${formulario.fecha}</th>
                         <th><button onclick="redirectControles('${formulario.id}')" class="btn btn-primary btn-user"> Editar Controles </button>
                         <a onclick = "redirectUpdate('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>
                         <a onclick = "eliminarFormulario('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a></th>
@@ -61,4 +60,5 @@ async function eliminarFormulario(id){
        }else{
            alert("Error eliminando el formulario");
        }
+       window.location.href = `formularios.html`;
 }

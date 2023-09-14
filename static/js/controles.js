@@ -18,7 +18,7 @@ async function getControles() {
         let listadoHtml = '';
             for (let control of controles) {
   
-              let botonEliminar = '<a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>' ;
+              let botonEliminar = '<a onclick = "eliminarControl('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
               let botonEditar = '<a href="#" btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>  | ' ;
               let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td><td>'+'</td><td>'+ botonEditar 
               + botonEliminar + '</td></tr>';
@@ -35,3 +35,20 @@ async function getControles() {
 function redirectCrearControl(){
     window.location.href = `altaControl.html`;
 }
+
+async function eliminarControl(id){
+
+    const request = await fetch("http://localhost:5000/controles/eliminar/"+ id, {
+               method: 'DELETE',
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
+         if (request.ok) {
+             alert("Control Eliminado");
+         }else{
+             alert("Error eliminando el control");
+         }
+         window.location.href = `controles.html`;
+  }

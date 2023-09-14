@@ -46,6 +46,7 @@ async function eliminarPiso(id){
          }else{
              alert("Error eliminando el piso");
          }
+         window.location.href = `pisos.html`;
   }
 
 // async function agregarPisoObra(){

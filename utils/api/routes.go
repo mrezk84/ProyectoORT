@@ -28,6 +28,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	controls.POST("/byForm", a.GetControlsByForm)
 	controls.POST("/addForm", a.AddControlForm)
 	controls.DELETE("/:control_id/formulario", a.DeleteControlForm)
+	controls.DELETE("/eliminar/:id", a.DeleteControl)
 	form.GET("", a.GetForms)
 	obra.POST("/registrar", a.RegisterObra)
 	obra.GET("", a.GetObras)
@@ -48,6 +49,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	check.GET("/document/:document_id", a.GetDocumentChecks)
 	document.POST("/addDocument", a.AddFormToPlanControl)
 	document.GET("/:id", a.GetDocumentsByObra)
+	document.DELETE("/eliminar/:id", a.DeleteDocument)
 
 	document.GET("/export/:id", a.ExportDocument)
 	document.GET("/export/obra/:id", a.ExportDocumentsByObra)

@@ -53,9 +53,9 @@ async function getDocumentos() {
                     listadoHtml += '<tr bgcolor="#ffb3b3">';
                 }
 
-
-
-              let documentoHtml = '<td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td><td><button onclick="redirectRevisarChecks('+ documento.id +')" class="btn btn-primary btn-user">Revisar Checks</button></td></tr>';
+                let botonChecks = '<button onclick="redirectRevisarChecks('+ documento.id +')" class="btn btn-primary btn-user">Revisar Checks</button></td>'
+                let botonEliminar = '<a onclick = "eliminarDocumento('+documento.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
+              let documentoHtml = '<td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td><td>' + botonChecks + botonEliminar +'</td></tr>';
               listadoHtml += documentoHtml;
               }
             
@@ -110,3 +110,25 @@ document.getElementById('botonDescargar').addEventListener('click', function() {
     // Elimina el enlace del DOM después de la descarga
     document.body.removeChild(enlaceDescarga);
 });
+
+async function eliminarDocumento(id){
+
+    const request = await fetch("http://localhost:5000/document/eliminar/"+ id, {
+               method: 'DELETE',
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
+         if (request.ok) {
+             alert("Documento Eliminado");
+         }else{
+             alert("Error eliminando el documento");
+         }
+
+         let obraid = null;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    obraid = searchParams.get('obra_id');
+    window.location.href = `documentosDeObra.html?obra_id=${obraid}`;
+  }

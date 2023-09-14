@@ -33,6 +33,5 @@ $(document).ready(function() {
         
         })
       }
-
-
+      window.location.href = `formularios.html`;
   }

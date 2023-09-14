@@ -25,6 +25,7 @@ type Service interface {
 	GetControls(ctx context.Context) ([]models.Control, error)
 	AddControlForm(ctx context.Context, controlID, formularioID int64) error
 	DeleteControlForm(ctx context.Context, controlID, formularioID int64) error
+	DeleteControl(ctx context.Context, ControlID int64) error
 	GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error)
 	GetControlSinForm(ctx context.Context) ([]models.Control, error)
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
@@ -45,6 +46,7 @@ type Service interface {
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, controles []models.Control, document models.Document, formularioID int64) error
+	DeleteDocument(ctx context.Context, DocID int64) error
 	DeleteObra(ctx context.Context, ObraID int64) error
 	GetObraDocuments(ctx context.Context, obraID int64) ([]models.Document, error)
 	// GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)

@@ -59,4 +59,5 @@ async function eliminarObra(id){
          }else{
              alert("Error eliminando la Obra");
          }
+         window.location.href = `obras.html`;
   }

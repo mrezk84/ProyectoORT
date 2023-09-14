@@ -94,6 +94,33 @@ func (a *API) RegisterControl(c echo.Context) error {
 	return c.JSON(http.StatusCreated, responseMessage{Message: "Se a creado el control"})
 }
 
+func (a *API) DeleteControl(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarControl{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteControl(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Control no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
+}
+
 func (a *API) LoginUser(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.LoginUser{}
@@ -1024,6 +1051,33 @@ func (a *API) GetDocumentChecks(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 	return c.JSON(http.StatusOK, checks)
+}
+
+func (a *API) DeleteDocument(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarDoc{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteDocument(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Documento no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
 }
 
 func (a *API) DeleteControlForm(c echo.Context) error {

@@ -33,6 +33,7 @@ type Repository interface {
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, formularioID int64, documentID int64, controles []models.Control) error
 	DeleteChecks(ctx context.Context, formularioID int64, documents []models.Document, control int) error
+	DeleteControl(ctx context.Context, controlID int64) error
 	DeleteControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetConByDes(ctx context.Context, des string) (*entity.Control, error)
 	GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error)

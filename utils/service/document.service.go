@@ -24,3 +24,7 @@ func (s *serv) GetDocumentPDF(ctx context.Context, documentID int64) ([]byte, er
 func (s *serv) GetDocumentsPDFByObra(ctx context.Context, obraID int64) ([]byte, error) {
 	return s.repo.ExportDocumentsByObra(ctx, obraID)
 }
+
+func (s *serv) DeleteDocument(ctx context.Context, DocID int64) error {
+	return s.repo.DeleteDocument(ctx, DocID)
+}
