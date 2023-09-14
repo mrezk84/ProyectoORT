@@ -47,6 +47,15 @@ const (
 	qryInsertControlForm = `INSERT INTO CONTROL_FORMULARIO (control_id, formulario_id) VALUES (:control_id, :formulario_id);`
 
 	qryDeleteControlForm = `Delete from CONTROL_FORMULARIO where control_id = %v and formulario_id = %v`
+
+	qryDeleteControlFormularios = `
+		DELETE FROM CONTROL_FORMULARIO where control_id = ?`
+
+	qryDeleteControlChecks = `
+		DELETE FROM CHECKS where control_id = ?`
+
+	qryDeleteControl = `
+		DELETE FROM CONTROL where id = ?`
 )
 
 func (r *repo) SaveControl(ctx context.Context, descripcion, tipo string) error {
@@ -152,4 +161,17 @@ func (r *repo) SaveControlForm(ctx context.Context, controlID, formularioID int6
 	}
 	tx.Commit()
 	return err
+}
+
+func (r *repo) DeleteControl(ctx context.Context, controlID int64) error {
+	_, err := r.db.ExecContext(ctx, qryDeleteControlFormularios, controlID)
+	if err != nil {
+		return err
+	}
+	_, err2 := r.db.ExecContext(ctx, qryDeleteControlChecks, controlID)
+	if err2 != nil {
+		return err2
+	}
+	_, err3 := r.db.ExecContext(ctx, qryDeleteControl, controlID)
+	return err3
 }

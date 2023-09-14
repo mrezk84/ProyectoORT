@@ -26,7 +26,7 @@ async function getFormularios() {
                         <th>${formulario.fecha}</th>
                         <th><button onclick="redirectControles('${formulario.id}')" class="btn btn-primary btn-user"> Editar Controles </button>
                         <a onclick = "redirectUpdate('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>
-                        <a onclick = "eliminarFormulario('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';</th>
+                        <a onclick = "eliminarFormulario('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a></th>
                     </tr>
                     `
             });
@@ -49,9 +49,8 @@ function redirectControles(formulario){
 
 async function eliminarFormulario(id){
 
-  const request = await fetch("http://localhost:5000/controles/"+ id +"/", {
+  const request = await fetch("http://localhost:5000/formularios/eliminar/"+ id, {
              method: 'DELETE',
-             body: JSON.stringify(datos),
              headers: {
                  'Accept': 'application/json',
                  'Content-Type': 'application/json'

@@ -11,8 +11,8 @@ import (
 
 const (
 	qryInsertFrom = `
-		INSERT INTO  FORMULARIO (nombre, informacion, version, fecha)
-		VALUES (?, ?, ?, ?);`
+		INSERT INTO  FORMULARIO (nombre, informacion, version)
+		VALUES (?, ?, ?);`
 
 	qryGetFormByDate = `
 		SELECT

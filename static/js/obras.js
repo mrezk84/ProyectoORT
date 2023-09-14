@@ -47,9 +47,8 @@ async function redirectUpdate(id) {
 
 async function eliminarObra(id){
 
-    const request = await fetch("http://localhost:5000/controles/"+ id +"/", {
+    const request = await fetch("http://localhost:5000/obras/eliminar/"+ id, {
                method: 'DELETE',
-               body: JSON.stringify(datos),
                headers: {
                    'Accept': 'application/json',
                    'Content-Type': 'application/json'
