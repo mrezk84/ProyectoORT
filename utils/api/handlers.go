@@ -204,6 +204,33 @@ func (a *API) UpdateForm(c echo.Context) error {
 	return c.JSON(http.StatusCreated, nil)
 }
 
+func (a *API) DeleteFormulario(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteFormulario(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Formulario no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
+}
+
 func (a *API) GetForm(c echo.Context) error {
 
 	ctx := c.Request().Context()
@@ -690,6 +717,33 @@ func (a *API) UpdatePiso(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 	return c.JSON(http.StatusCreated, nil)
+}
+
+func (a *API) DeletePiso(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarPiso{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeletePiso(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Piso no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
 }
 
 func (a *API) RegisterCheck(c echo.Context) error {

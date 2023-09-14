@@ -128,5 +128,5 @@ func (s *serv) DeleteFormulario(ctx context.Context, FormID int64) error {
 		s.repo.DeleteDocument(ctx, d.ID)
 	}
 
-	return s.repo.DeletePiso(ctx, FormID)
+	return s.repo.DeleteFormulario(ctx, FormID)
 }

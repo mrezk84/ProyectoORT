@@ -1,5 +1,5 @@
 package dtos
 
-type EliminarObra struct {
+type EliminarPiso struct {
 	ID int64 `param:"id"`
 }
