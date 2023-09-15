@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"proyectoort/utils/entity"
-	"time"
 
 	"github.com/labstack/gommon/log"
 )
@@ -90,7 +89,7 @@ where id = %v
 )
 
 func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string) error {
-	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, nombre, 1, time.Now().UTC())
+	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, nombre, 1)
 	return err
 }
 

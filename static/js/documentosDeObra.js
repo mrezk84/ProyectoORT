@@ -53,7 +53,7 @@ async function getDocumentos() {
                     listadoHtml += '<tr bgcolor="#ffb3b3">';
                 }
 
-                let botonChecks = '<button onclick="redirectRevisarChecks('+ documento.id +')" class="btn btn-primary btn-user">Revisar Checks</button></td>'
+                let botonChecks = '<a onclick="redirectRevisarChecks('+ documento.id +')" class="btn btn-primary btn-user">Revisar Checks</a></td>'
                 let botonEliminar = '<a onclick = "eliminarDocumento('+documento.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
               let documentoHtml = '<td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td><td>' + botonChecks + botonEliminar +'</td></tr>';
               listadoHtml += documentoHtml;
