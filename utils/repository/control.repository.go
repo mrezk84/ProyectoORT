@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
+
+	"github.com/labstack/gommon/log"
 )
 
 const (
@@ -43,6 +45,13 @@ const (
 		c.tipo
 		FROM CONTROL c
 		inner join CONTROL_FORMULARIO CF on c.id != CF.control_id`
+
+	qryUpdateControl = `
+		update CONTROL
+	set descripcion = '%v',
+	tipo = '%v'
+	where id = %v	
+	`
 
 	qryInsertControlForm = `INSERT INTO CONTROL_FORMULARIO (control_id, formulario_id) VALUES (:control_id, :formulario_id);`
 
@@ -95,6 +104,24 @@ func (r *repo) GetControlsSinForm(ctx context.Context) ([]entity.Control, error)
 	}
 
 	return cc, nil
+}
+
+func (r *repo) UpdateControl(ctx context.Context, ControlID int64, descripcion, tipo string) error {
+	tx, err := r.db.Beginx()
+	if err != nil {
+		fmt.Println(err)
+		log.Error(err.Error())
+		return err
+	}
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryUpdateControl, descripcion, tipo, ControlID))
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("qdas")
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return err
 }
 
 func (r *repo) GetConByDes(ctx context.Context, des string) (*entity.Control, error) {

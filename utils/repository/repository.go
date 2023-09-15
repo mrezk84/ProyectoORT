@@ -39,6 +39,7 @@ type Repository interface {
 	GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error)
 	SaveControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetControlsSinForm(ctx context.Context) ([]entity.Control, error)
+	UpdateControl(ctx context.Context, ControlID int64, descripcion, tipo string) error
 	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 	GetFormByID(ctx context.Context, formID int64) (*entity.Formulario, error)

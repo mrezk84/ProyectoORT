@@ -28,6 +28,7 @@ type Service interface {
 	DeleteControl(ctx context.Context, ControlID int64) error
 	GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error)
 	GetControlSinForm(ctx context.Context) ([]models.Control, error)
+	UpdateControl(ctx context.Context, controlID int64, descripcion, tipo string) error
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
 	GetControlsByForm(ctx context.Context, formID int64) ([]models.Control, error)
 	RegisterObra(ctx context.Context, name string) error

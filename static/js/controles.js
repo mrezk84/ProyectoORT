@@ -19,7 +19,7 @@ async function getControles() {
             for (let control of controles) {
   
               let botonEliminar = '<a onclick = "eliminarControl('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
-              let botonEditar = '<a href="#" btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>  | ' ;
+              let botonEditar = '<a onclick = "redirectUpdate('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>';
               let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td><td>'+'</td><td>'+ botonEditar 
               + botonEliminar + '</td></tr>';
               listadoHtml += controlHtml;
@@ -34,6 +34,10 @@ async function getControles() {
 
 function redirectCrearControl(){
     window.location.href = `altaControl.html`;
+}
+
+async function redirectUpdate(id) {
+    window.location.href = `controlUpdate.html?control_id=${id}`;
 }
 
 async function eliminarControl(id){

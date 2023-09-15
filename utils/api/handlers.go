@@ -385,6 +385,28 @@ func (a *API) GetControlsSinForm(c echo.Context) error {
 
 }
 
+func (a *API) UpdateControl(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdateControl{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateControl(ctx, params.ControlID, params.Descripcion, params.Tipo)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
+}
+
 func (a *API) GetControlsByForm(c echo.Context) error {
 
 	ctx := c.Request().Context()

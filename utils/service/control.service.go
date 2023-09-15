@@ -95,6 +95,10 @@ func (s *serv) GetControlSinForm(ctx context.Context) ([]models.Control, error) 
 	return controles, nil
 }
 
+func (s *serv) UpdateControl(ctx context.Context, controlID int64, descripcion, tipo string) error {
+	return s.repo.UpdateControl(ctx, controlID, descripcion, tipo)
+}
+
 func (s *serv) GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error) {
 
 	cont, err := s.repo.GetControlForm(ctx, controlID)
