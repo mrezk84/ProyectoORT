@@ -30,6 +30,7 @@ type Repository interface {
 	GetFormByNombre(ctx context.Context, nombre string) (*entity.Formulario, error)
 	GetControls(ctx context.Context) ([]entity.Control, error)
 	GetControlsByForm(ctx context.Context, formID int64) ([]entity.Control, error)
+	GetControlSinF(ctx context.Context, FormID int64) ([]entity.Control, error)
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, formularioID int64, documentID int64, controles []models.Control) error
 	DeleteChecks(ctx context.Context, formularioID int64, documents []models.Document, control int) error

@@ -29,10 +29,10 @@ const (
 
 	qryGetPisobyID = `
 		SELECT
-			id
+			id,
 			numero
 		FROM PISO
-		WHERE ID = ?;`
+		WHERE id = ?;`
 
 	qryInsertPisoObra = `
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`

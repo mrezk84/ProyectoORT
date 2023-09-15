@@ -5,7 +5,12 @@ $(document).ready(function() {
 
 async function getControles() {
 
-    const request = await fetch("http://localhost:5000/controles", {
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    formularioid = searchParams.get('formulario');
+    formulario_id = Number(formularioid);
+
+    const request = await fetch("http://localhost:5000/formularios/" + formulario_id, {
         method: 'GET',
     })
 

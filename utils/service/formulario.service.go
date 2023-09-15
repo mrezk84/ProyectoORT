@@ -116,6 +116,26 @@ func (s *serv) GetUserOfForm(ctx context.Context, formID int64) (*models.Usuario
 	return usuario, nil
 }
 
+func (s *serv) GetControlsSinForm(ctx context.Context, formID int64) ([]models.Control, error) {
+	cc, err := s.repo.GetControlSinF(ctx, formID)
+	if err != nil {
+		return nil, err
+	}
+
+	controles := []models.Control{}
+
+	for _, c := range cc {
+		controles = append(controles, models.Control{
+			ID:          c.ID,
+			Descripcion: c.Descripcion,
+			Tipo:        c.Tipo,
+		})
+
+	}
+
+	return controles, nil
+}
+
 func (s *serv) UpdateFormulario(ctx context.Context, formID int64, nombre, informacion string) error {
 	return s.repo.UpdateFormulario(ctx, formID, nombre, informacion)
 }

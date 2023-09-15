@@ -31,6 +31,7 @@ type Service interface {
 	UpdateControl(ctx context.Context, controlID int64, descripcion, tipo string) error
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
 	GetControlsByForm(ctx context.Context, formID int64) ([]models.Control, error)
+	GetControlsSinForm(ctx context.Context, formID int64) ([]models.Control, error)
 	RegisterObra(ctx context.Context, name string) error
 	GetObras(ctx context.Context) ([]models.Obra, error)
 	GetObra(ctx context.Context, obraID int64) (*models.Obra, error)

@@ -363,7 +363,7 @@ func (a *API) GetContorls(c echo.Context) error {
 func (a *API) GetControlsSinForm(c echo.Context) error {
 
 	ctx := c.Request().Context()
-	params := dtos.RegisterControl{}
+	params := dtos.DocumentAudit{}
 
 	err := c.Bind(&params)
 	if err != nil {
@@ -376,7 +376,7 @@ func (a *API) GetControlsSinForm(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	control, err := a.serv.GetControlSinForm(ctx)
+	control, err := a.serv.GetControlsSinForm(ctx, int64(params.ID))
 	if err != nil {
 		log.Println(err)
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los controles"})
@@ -686,7 +686,7 @@ func (a *API) GetPisosByObra(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	pisos, err := a.serv.GetPisosByObra(ctx, int64(params.ID))
+	pisos, err := a.serv.GetPisosObra(ctx, int64(params.ID))
 	fmt.Println(err)
 	if err == nil {
 		return c.JSON(http.StatusOK, pisos)

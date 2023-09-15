@@ -72,6 +72,15 @@ informacion = '%v'
 where id = %v	
 `
 
+	qryGetControlesSinF = `
+		SELECT
+		c.id,
+		c.descripcion,
+		c.tipo
+		FROM CONTROL c
+		inner join CONTROL_FORMULARIO cf on c.id = cf.control_id
+		WHERE cf.formulario_id != ?;`
+
 	qryDeleteFormularioControl = `
 		DELETE FROM CONTROL_FORMULARIO where formulario_id = ?`
 
@@ -152,6 +161,17 @@ func (r *repo) GetFromControles(ctx context.Context, controles string) (*entity.
 
 	return f, nil
 
+}
+
+func (r *repo) GetControlSinF(ctx context.Context, FormID int64) ([]entity.Control, error) {
+	cc := []entity.Control{}
+
+	err := r.db.SelectContext(ctx, &cc, qryGetControlesSinF, FormID)
+	if err != nil {
+		return nil, err
+	}
+
+	return cc, nil
 }
 
 func (r *repo) GetUsuarioForm(ctx context.Context, usuarioID int64) ([]entity.UsuarioForm, error) {
