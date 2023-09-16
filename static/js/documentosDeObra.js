@@ -43,19 +43,20 @@ async function getDocumentos() {
         let listadoHtml = '';
             for (let documento of documentos) {
 
+                let estado = ''
                 if (documento.status == "DONE"){
-                    listadoHtml += '<tr bgcolor="#adebad">';
+                    estado += '<td bgcolor="#adebad">Revisado</td>';
                 }
                 if (documento.status == "WIP"){
-                    listadoHtml += '<tr bgcolor="#ffff99">';
+                    estado += '<td bgcolor="#ffff99">Falta Revisar</td>';
                 }
                 if (documento.status == "TODO"){
-                    listadoHtml += '<tr bgcolor="#ffb3b3">';
+                    estado += '<td bgcolor="#ffb3b3">Sin Revisar</td>';
                 }
 
-                let botonChecks = '<a onclick="redirectRevisarChecks('+ documento.id +')" class="btn btn-primary btn-user">Revisar Checks</a></td>'
-                let botonEliminar = '<a onclick = "eliminarDocumento('+documento.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
-              let documentoHtml = '<td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td><td>' + botonChecks + botonEliminar +'</td></tr>';
+                let botonChecks = '<a onclick= "redirectRevisarChecks('+ documento.id +')" class="btn btn-success btn-icon-split">Revisar Checks</a>'
+                let botonEliminar = '<a onclick = "eliminarDocumento('+documento.id+')"  class="btn btn-success btn-icon-split">Delete</a>'
+              let documentoHtml = '<tr><td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td>' + estado + '<td>' + botonChecks + botonEliminar +'</td></tr>';
               listadoHtml += documentoHtml;
               }
             
