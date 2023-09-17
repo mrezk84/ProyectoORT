@@ -55,7 +55,7 @@ async function getDocumentos() {
                 }
 
                 let botonChecks = '<a onclick= "redirectRevisarChecks('+ documento.id +')" class="btn btn-success btn-icon-split">Revisar Checks</a>'
-                let botonEliminar = '<a onclick = "eliminarDocumento('+documento.id+')"  class="btn btn-success btn-icon-split">Delete</a>'
+                let botonEliminar = '<a onclick = "eliminarDocumento('+documento.id+')"  class="btn btn-success btn-icon-split">Eliminar</a>'
               let documentoHtml = '<tr><td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td>' + estado + '<td>' + botonChecks + botonEliminar +'</td></tr>';
               listadoHtml += documentoHtml;
               }

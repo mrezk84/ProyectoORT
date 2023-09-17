@@ -37,6 +37,15 @@ const (
 			password
 		FROM USUARIOS;`
 
+	qryGetUserForm = `
+		SELECT
+		u.id,
+		u.email,
+		u.username
+		FROM USUARIOS u
+		inner join FORMULARIO_RESPONSABLE FR on u.id = FR.usuario_id
+		WHERE FR.formulario_id = %v;`
+
 	qryInsertUserRole = `
 		INSERT INTO USUARIOS_ROLES (usuario_id, rol_id) VALUES (:usuario_id, :rol_id);`
 
@@ -105,6 +114,17 @@ func (r *repo) GetUsers(ctx context.Context) ([]entity.Usuario, error) {
 	us := []entity.Usuario{}
 
 	err := r.db.SelectContext(ctx, &us, qryAllGetUsers)
+	if err != nil {
+		return nil, err
+	}
+
+	return us, nil
+}
+
+func (r *repo) GetUserForm(ctx context.Context, FormID int64) (*entity.Usuario, error) {
+	us := &entity.Usuario{}
+
+	err := r.db.SelectContext(ctx, &us, qryGetUserForm, FormID)
 	if err != nil {
 		return nil, err
 	}

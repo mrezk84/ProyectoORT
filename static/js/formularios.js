@@ -23,9 +23,9 @@ async function getFormularios() {
                         <th>${formulario.nombre}</th>
                         <th>${formulario.informacion}</th>
                         <th>${formulario.version}</th>
-                        <th><button onclick="redirectControles('${formulario.id}')" class="btn btn-primary btn-user"> Editar Controles </button>
-                        <a onclick = "redirectUpdate('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>
-                        <a onclick = "eliminarFormulario('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a></th>
+                        <th><button onclick="redirectControles('${formulario.id}')" class="btn btn-primary btn-user">Editar Controles</button>
+                        <a onclick = "redirectUpdate('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Actualizar</a>
+                        <a onclick = "eliminarFormulario('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Eliminar</a></th>
                     </tr>
                     `
             });

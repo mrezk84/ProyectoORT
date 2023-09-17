@@ -46,30 +46,48 @@ func (s *serv) GetForms(ctx context.Context) ([]models.Formulario, error) {
 	if err != nil {
 		return nil, err
 	}
-	cc, err := s.repo.GetControls(ctx)
-	if err != nil {
-		return nil, err
-	}
+	// cc, err := s.repo.GetControls(ctx)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	formularios := []models.Formulario{}
-	controles := []models.Control{}
+	// controles := []models.Control{}
 
-	for _, c := range cc {
-		controles = append(controles, models.Control{
-			ID:          c.ID,
-			Descripcion: c.Descripcion,
-			Tipo:        c.Tipo,
-		})
-	}
+	// for _, c := range cc {
+	// 	controles = append(controles, models.Control{
+	// 		ID:          c.ID,
+	// 		Descripcion: c.Descripcion,
+	// 		Tipo:        c.Tipo,
+	// 	})
+	// }
 
 	for _, f := range ff {
-		formularios = append(formularios, models.Formulario{
-			ID:          f.ID,
-			Informacion: f.Informacion,
-			Version:     f.Version,
-			Nombre:      f.Nombre,
-			Controles:   controles,
-		})
+
+		usuario, _ := s.repo.GetUserForm(ctx, int64(f.ID))
+
+		if usuario != nil {
+
+			user := models.Usuario{
+				ID:    usuario.ID,
+				Email: usuario.Email,
+				Name:  usuario.Name,
+			}
+			formularios = append(formularios, models.Formulario{
+				ID:          f.ID,
+				Informacion: f.Informacion,
+				Version:     f.Version,
+				Nombre:      f.Nombre,
+				Usuario:     user,
+			})
+		} else {
+			formularios = append(formularios, models.Formulario{
+				ID:          f.ID,
+				Informacion: f.Informacion,
+				Version:     f.Version,
+				Nombre:      f.Nombre,
+			})
+		}
 
 	}
 

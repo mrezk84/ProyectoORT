@@ -6,4 +6,5 @@ type Formulario struct {
 	Version     string    `json:"version"`
 	Nombre      string    `json:"nombre"`
 	Controles   []Control `json:"controles"`
+	Usuario     Usuario   `json:"usuario"`
 }

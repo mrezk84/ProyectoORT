@@ -26,6 +26,7 @@ type Repository interface {
 	GetUserById(ctx context.Context, id int64) (*entity.Usuario, error)
 	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
+	GetUserForm(ctx context.Context, FormID int64) (*entity.Usuario, error)
 	GetForm(ctx context.Context) ([]entity.Formulario, error)
 	GetFormByNombre(ctx context.Context, nombre string) (*entity.Formulario, error)
 	GetControls(ctx context.Context) ([]entity.Control, error)

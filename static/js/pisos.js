@@ -14,8 +14,8 @@ async function getPisos() {
         let listadoHtml = '';
         for (let piso of pisos) {
 
-            let botonUpdate = '<a onclick = "redirectUpdate('+piso.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>';
-            let botonDelete = '<a onclick = "eliminarPiso('+piso.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
+            let botonUpdate = '<a onclick = "redirectUpdate('+piso.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Actualizar</a>';
+            let botonDelete = '<a onclick = "eliminarPiso('+piso.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Eliminar</a>';
           let pisoHtml = '<td>' + piso.id + '</td><td>' + piso.numero + '</td><td>' + botonUpdate + botonDelete+ '</td></tr>';
           listadoHtml += pisoHtml;
           }

@@ -18,8 +18,8 @@ async function getControles() {
         let listadoHtml = '';
             for (let control of controles) {
   
-              let botonEliminar = '<a onclick = "eliminarControl('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
-              let botonEditar = '<a onclick = "redirectUpdate('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Update</a>';
+              let botonEliminar = '<a onclick = "eliminarControl('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Eliminar</a>';
+              let botonEditar = '<a onclick = "redirectUpdate('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Actualizar</a>';
               let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td><td>'+'</td><td>'+ botonEditar 
               + botonEliminar + '</td></tr>';
               listadoHtml += controlHtml;
