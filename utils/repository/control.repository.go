@@ -14,13 +14,13 @@ const (
 		INSERT INTO CONTROL(descripcion, tipo)
 		VALUES (?, ?);`
 
-	qryGetContBydescripcion = `
+	qryGetContBydescripcionandTipo = `
 		SELECT
 		id,
-			descripcion,
-			tipo,
+		descripcion,
+		tipo
 		FROM CONTROL
-		WHERE descripcion = ?;`
+		WHERE descripcion = %v and tipo = %v;`
 
 	qryGetAllControls = `
 		SELECT 
@@ -124,9 +124,9 @@ func (r *repo) UpdateControl(ctx context.Context, ControlID int64, descripcion, 
 	return err
 }
 
-func (r *repo) GetConByDes(ctx context.Context, des string) (*entity.Control, error) {
+func (r *repo) GetConByDesAndTipo(ctx context.Context, des, tipo string) (*entity.Control, error) {
 	c := &entity.Control{}
-	err := r.db.GetContext(ctx, c, qryGetContBydescripcion, des)
+	err := r.db.GetContext(ctx, c, qryGetContBydescripcionandTipo, des, tipo)
 	if err != nil {
 		return nil, err
 	}

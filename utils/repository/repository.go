@@ -24,9 +24,13 @@ type Repository interface {
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
 	GetUserById(ctx context.Context, id int64) (*entity.Usuario, error)
-	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
+	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsuarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
 	GetUserForm(ctx context.Context, FormID int64) (*entity.Usuario, error)
+	SaveRole(ctx context.Context, nombre int) error
+	GetRolByName(ctx context.Context, nombre string) (*entity.Rol, error)
+	GetAllRoles(ctx context.Context) ([]entity.Rol, error)
+	GetRolById(ctx context.Context, id int) (*entity.Rol, error)
 	GetForm(ctx context.Context) ([]entity.Formulario, error)
 	GetFormByNombre(ctx context.Context, nombre string) (*entity.Formulario, error)
 	GetControls(ctx context.Context) ([]entity.Control, error)
@@ -37,7 +41,7 @@ type Repository interface {
 	DeleteChecks(ctx context.Context, formularioID int64, documents []models.Document, control int) error
 	DeleteControl(ctx context.Context, controlID int64) error
 	DeleteControlForm(ctx context.Context, controlID, formularioID int64) error
-	GetConByDes(ctx context.Context, des string) (*entity.Control, error)
+	GetConByDesAndTipo(ctx context.Context, des, tipo string) (*entity.Control, error)
 	GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error)
 	SaveControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetControlsSinForm(ctx context.Context) ([]entity.Control, error)

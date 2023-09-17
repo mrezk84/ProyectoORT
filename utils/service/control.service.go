@@ -16,9 +16,9 @@ var (
 
 func (s *serv) RegisterControl(ctx context.Context, descripcion, tipo string) error {
 
-	c, _ := s.repo.GetConByDes(ctx, descripcion)
+	c, _ := s.repo.GetConByDesAndTipo(ctx, descripcion, tipo)
 	if c != nil {
-		return ErrFormAlreadyExists
+		return ErrContAlreadyExists
 	}
 
 	return s.repo.SaveControl(ctx, descripcion, tipo)

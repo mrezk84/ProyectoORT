@@ -44,10 +44,10 @@ const (
 
 	qryGetFormByNombre = `
 		SELECT
-			id,
-			nombre,
-			informacion,
-			version
+		id,
+		nombre,
+		informacion,
+		version
 		FROM FORMULARIO
 		WHERE nombre = ?;`
 

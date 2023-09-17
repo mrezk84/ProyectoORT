@@ -79,7 +79,7 @@ func (r *repo) GetUserById(ctx context.Context, id int64) (*entity.Usuario, erro
 }
 
 func (r *repo) SaveUserRole(ctx context.Context, userID, roleID int64) error {
-	data := entity.UsarioRol{
+	data := entity.UsuarioRol{
 		UserID: userID,
 		RoleID: roleID,
 	}
@@ -89,7 +89,7 @@ func (r *repo) SaveUserRole(ctx context.Context, userID, roleID int64) error {
 }
 
 func (r *repo) RemoveUserRole(ctx context.Context, userID, roleID int64) error {
-	data := entity.UsarioRol{
+	data := entity.UsuarioRol{
 		UserID: userID,
 		RoleID: roleID,
 	}
@@ -99,8 +99,8 @@ func (r *repo) RemoveUserRole(ctx context.Context, userID, roleID int64) error {
 	return err
 }
 
-func (r *repo) GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error) {
-	roles := []entity.UsarioRol{}
+func (r *repo) GetUserRoles(ctx context.Context, userID int64) ([]entity.UsuarioRol, error) {
+	roles := []entity.UsuarioRol{}
 
 	err := r.db.SelectContext(ctx, &roles, "SELECT usuario_id, rol_id FROM USUARIOS_ROLES WHERE usuario_id = ?", userID)
 	if err != nil {

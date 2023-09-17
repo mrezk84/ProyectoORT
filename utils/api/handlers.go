@@ -84,7 +84,7 @@ func (a *API) RegisterControl(c echo.Context) error {
 
 	err = a.serv.RegisterControl(ctx, params.Descripcion, params.Tipo)
 	if err != nil {
-		if err == service.ErrFormAlreadyExists {
+		if err == service.ErrContAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El control ya existe"})
 		}
 
