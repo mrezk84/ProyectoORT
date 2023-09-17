@@ -34,6 +34,14 @@ const (
 		FROM PISO
 		WHERE id = ?;`
 
+	qryGetPisosObra = `
+		SELECT
+		p.id,
+		p.numero
+		FROM PISO p
+		inner join OBRA_PISOS OP on p.id = OP.piso_id
+		WHERE OP.obra_id = %v;`
+
 	qryInsertPisoObra = `
 		INSERT INTO OBRA_PISOS (obra_id, piso_id) VALUES (:obra_id, :piso_id);`
 
@@ -89,10 +97,10 @@ func (r *repo) GetPisos(ctx context.Context) ([]entity.Piso, error) {
 	return p, nil
 }
 
-func (r *repo) GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error) {
-	obrap := []entity.PisoObra{}
+func (r *repo) GetObraPisos(ctx context.Context, obraID int64) ([]entity.Piso, error) {
+	obrap := []entity.Piso{}
 
-	err := r.db.SelectContext(ctx, &obrap, "SELECT obra_id, piso_id FROM OBRA_PISOS WHERE obra_id = ?", obraID)
+	err := r.db.SelectContext(ctx, &obrap, qryGetPisosObra, obraID)
 	if err != nil {
 		return nil, err
 	}

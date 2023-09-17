@@ -626,7 +626,7 @@ func (a *API) RegisterPiso(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	piso, err := a.serv.RegisterPiso(ctx, int(params.Numero))
+	piso, err := a.serv.RegisterPiso(ctx, int(params.Numero), int64(params.Obra))
 	if err != nil {
 		if err == service.ErrPisoAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El piso ya existe"})

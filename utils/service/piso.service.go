@@ -12,14 +12,26 @@ var (
 	ErrObraDoesNotExists     = errors.New("La Obra no Existe")
 )
 
-func (s *serv) RegisterPiso(ctx context.Context, number int) (models.Piso, error) {
+func (s *serv) RegisterPiso(ctx context.Context, number int, obraId int64) (models.Piso, error) {
 
-	// p, _ := s.repo.GetPisobyNumber(ctx, number)
-	// if p != nil {
-	// 	return ErrPisoAlreadyExists
-	// }
+	op, _ := s.repo.GetObraPisos(ctx, obraId)
+	existe := false
+	for _, p := range op {
 
-	return s.repo.SavePiso(ctx, number)
+		piso := models.Piso{
+			ID:     p.ID,
+			Numero: p.Numero,
+		}
+
+		if piso.Numero == number {
+			existe = true
+		}
+	}
+
+	if !existe {
+		return s.repo.SavePiso(ctx, number)
+	}
+	return models.Piso{}, ErrPisoAlreadyExists
 }
 
 func (s *serv) GetPisos(ctx context.Context) ([]models.Piso, error) {
@@ -54,25 +66,13 @@ func (s *serv) GetPisosByObra(ctx context.Context, obraID int64) ([]models.Piso,
 		return nil, err
 	}
 
-	conexiones := []models.ObraPiso{}
-
-	for _, o := range op {
-		conexiones = append(conexiones, models.ObraPiso{
-			ObraID: o.ObraID,
-			PisoID: o.PisoID,
-		})
-
-	}
-
 	pisos := []models.Piso{}
 
-	for _, p := range conexiones {
-
-		piso, _ := s.repo.GetPisobyID(ctx, p.PisoID)
+	for _, p := range op {
 
 		pisos = append(pisos, models.Piso{
-			ID:     piso.ID,
-			Numero: piso.Numero,
+			ID:     p.ID,
+			Numero: p.Numero,
 		})
 
 	}
@@ -88,7 +88,7 @@ func (s *serv) AddObraPiso(ctx context.Context, obraID, pisoID int64) error {
 	}
 
 	for _, r := range pisos {
-		if r.PisoID == pisoID {
+		if int64(r.ID) == pisoID {
 			return ErrPisoObraAlreadyExists
 		}
 	}

@@ -59,7 +59,7 @@ type Repository interface {
 	GetPisos(ctx context.Context) ([]entity.Piso, error)
 	GetPisobyNumber(ctx context.Context, number int) (*entity.Piso, error)
 	GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error)
-	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
+	GetObraPisos(ctx context.Context, obraID int64) ([]entity.Piso, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
 	UpdatePiso(ctx context.Context, pisoID int64, numero int) error
 	DeletePiso(ctx context.Context, pisoID int64) error
