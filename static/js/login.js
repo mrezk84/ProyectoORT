@@ -44,7 +44,7 @@ $(document).ready(function() {
       }else{
         Swal.fire({
           title: 'Error!',
-          text: 'Error al guardar el formulario',
+          text: 'Error al Iniciar Sesion',
           icon: 'error',
         
         })
