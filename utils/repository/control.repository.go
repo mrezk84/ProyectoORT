@@ -121,7 +121,7 @@ func (r *repo) DeleteControlForm(ctx context.Context, controlID, formularioID in
 		tx.Rollback()
 		return err
 	}
-	documents, err := r.GetWipOrTodoDocuments(ctx)
+	documents, err := r.GetWipOrTodoDocumentsByFormID(ctx, formularioID)
 	err = r.DeleteChecks(ctx, formularioID, documents, int(controlID))
 	if err != nil {
 		tx.Rollback()
@@ -142,7 +142,7 @@ func (r *repo) SaveControlForm(ctx context.Context, controlID, formularioID int6
 		tx.Rollback()
 		return err
 	}
-	documents, err := r.GetWipOrTodoDocuments(ctx)
+	documents, err := r.GetWipOrTodoDocumentsByFormID(ctx, formularioID)
 	for _, d := range documents {
 		err = r.InsertChecks(ctx, formularioID, d.ID, []models.Control{{ID: int(controlID)}})
 		if err != nil {

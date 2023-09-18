@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- delete document checks">
-      <change beforePath="$PROJECT_DIR$/utils/repository/document.repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/repository/document.repository.go" afterDir="false" />
+    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- fix save control form">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +138,8 @@
     <MESSAGE value="- export documents by obra" />
     <MESSAGE value="- get document checks" />
     <MESSAGE value="- delete document checks" />
-    <option name="LAST_COMMIT_MESSAGE" value="- delete document checks" />
+    <MESSAGE value="- fix save control form" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fix save control form" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
