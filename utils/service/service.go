@@ -25,16 +25,19 @@ type Service interface {
 	GetControls(ctx context.Context) ([]models.Control, error)
 	AddControlForm(ctx context.Context, controlID, formularioID int64) error
 	DeleteControlForm(ctx context.Context, controlID, formularioID int64) error
+	DeleteControl(ctx context.Context, ControlID int64) error
 	GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error)
 	GetControlSinForm(ctx context.Context) ([]models.Control, error)
+	UpdateControl(ctx context.Context, controlID int64, descripcion, tipo string) error
 	GetUsers(ctc context.Context) ([]models.Usuario, error)
 	GetControlsByForm(ctx context.Context, formID int64) ([]models.Control, error)
+	GetControlsSinForm(ctx context.Context, formID int64) ([]models.Control, error)
 	RegisterObra(ctx context.Context, name string) error
 	GetObras(ctx context.Context) ([]models.Obra, error)
 	GetObra(ctx context.Context, obraID int64) (*models.Obra, error)
 	UpdateObra(ctx context.Context, obraID int64, nombre string) error
 	RegisterEtapa(ctx context.Context, nombre string) error
-	RegisterPiso(ctx context.Context, number int) (models.Piso, error)
+	RegisterPiso(ctx context.Context, number int, obraId int64) (models.Piso, error)
 	GetPisos(ctx context.Context) ([]models.Piso, error)
 	AddObraPiso(ctx context.Context, obraID, pisoID int64) error
 	GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, error)
@@ -45,6 +48,7 @@ type Service interface {
 	AddCheckForm(ctx context.Context, checkID, formularioID int64) error
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, controles []models.Control, document models.Document, formularioID int64) error
+	DeleteDocument(ctx context.Context, DocID int64) error
 	DeleteObra(ctx context.Context, ObraID int64) error
 	GetObraDocuments(ctx context.Context, obraID int64) ([]models.Document, error)
 	// GetDocumentsChecks(ctx context.Context, documents []models.Document) ([]models.Check, error)

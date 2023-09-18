@@ -55,27 +55,17 @@ func (s *serv) GetObra(ctx context.Context, obraID int64) (*models.Obra, error) 
 }
 
 func (s *serv) GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, error) {
-	po, err := s.repo.GetObraPisos(ctx, ObraID)
+	po, err := s.repo.GetPisosDeObra(ctx, ObraID)
 	if err != nil {
 		return nil, err
 	}
 
-	PisosObra := []models.ObraPiso{}
-
-	for _, p := range po {
-		PisosObra = append(PisosObra, models.ObraPiso{
-			ObraID: p.ObraID,
-			PisoID: p.PisoID,
-		})
-	}
-
 	Pisos := []models.Piso{}
 
-	for _, P := range PisosObra {
-		piso, _ := s.repo.GetPisobyID(ctx, P.PisoID)
+	for _, P := range po {
 		Pisos = append(Pisos, models.Piso{
-			ID:     piso.ID,
-			Numero: piso.Numero,
+			ID:     P.ID,
+			Numero: P.Numero,
 		})
 	}
 

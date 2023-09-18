@@ -3,10 +3,11 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/labstack/gommon/log"
 	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
 	"time"
+
+	"github.com/labstack/gommon/log"
 )
 
 const (
@@ -18,7 +19,7 @@ const (
 		delete from CHECKS c where
    		c.document_id in %v
     	and c.control_id = %v
-		and formulario_id = %v
+		and c.formulario_id = %v
  `
 
 	qryCreateCheck = `

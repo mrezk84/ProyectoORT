@@ -10,6 +10,7 @@ $(document).ready(function() {
     datos.nombre = document.getElementById('txtNombre').value;
     datos.informacion = document.getElementById('txtInformacion').value;
 
+    console.log(document.getElementById('image').value)
     const request = await fetch("http://localhost:5000/formularios/registrar", {
       method: 'POST',
       headers: {
@@ -33,6 +34,5 @@ $(document).ready(function() {
         
         })
       }
-
-
+      window.location.href = `formularios.html`;
   }

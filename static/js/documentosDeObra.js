@@ -43,19 +43,20 @@ async function getDocumentos() {
         let listadoHtml = '';
             for (let documento of documentos) {
 
+                let estado = ''
                 if (documento.status == "DONE"){
-                    listadoHtml += '<tr bgcolor="#adebad">';
+                    estado += '<td bgcolor="#adebad">Revisado</td>';
                 }
                 if (documento.status == "WIP"){
-                    listadoHtml += '<tr bgcolor="#ffff99">';
+                    estado += '<td bgcolor="#ffff99">Falta Revisar</td>';
                 }
                 if (documento.status == "TODO"){
-                    listadoHtml += '<tr bgcolor="#ffb3b3">';
+                    estado += '<td bgcolor="#ffb3b3">Sin Revisar</td>';
                 }
 
-
-
-              let documentoHtml = '<td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td><td><button onclick="redirectRevisarChecks('+ documento.id +')" class="btn btn-primary btn-user">Revisar Checks</button></td></tr>';
+                let botonChecks = '<a onclick= "redirectRevisarChecks('+ documento.id +')" class="btn btn-success btn-icon-split">Revisar Checks</a>'
+                let botonEliminar = '<a onclick = "eliminarDocumento('+documento.id+')"  class="btn btn-success btn-icon-split">Eliminar</a>'
+              let documentoHtml = '<tr><td>' + documento.formulario.nombre + '</td><td>' + documento.formulario.informacion + '</td><td>' + documento.piso.numero + '</td>' + estado + '<td>' + botonChecks + botonEliminar +'</td></tr>';
               listadoHtml += documentoHtml;
               }
             
@@ -110,3 +111,25 @@ document.getElementById('botonDescargar').addEventListener('click', function() {
     // Elimina el enlace del DOM después de la descarga
     document.body.removeChild(enlaceDescarga);
 });
+
+async function eliminarDocumento(id){
+
+    const request = await fetch("http://localhost:5000/document/eliminar/"+ id, {
+               method: 'DELETE',
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
+         if (request.ok) {
+             alert("Documento Eliminado");
+         }else{
+             alert("Error eliminando el documento");
+         }
+
+         let obraid = null;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    obraid = searchParams.get('obra_id');
+    window.location.href = `documentosDeObra.html?obra_id=${obraid}`;
+  }

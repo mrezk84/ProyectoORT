@@ -24,20 +24,28 @@ type Repository interface {
 	RemoveUserRole(ctx context.Context, userID, roleID int64) error
 	GetUserByEmail(ctx context.Context, email string) (*entity.Usuario, error)
 	GetUserById(ctx context.Context, id int64) (*entity.Usuario, error)
-	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsarioRol, error)
+	GetUserRoles(ctx context.Context, userID int64) ([]entity.UsuarioRol, error)
 	GetUsers(ctx context.Context) ([]entity.Usuario, error)
+	GetUserForm(ctx context.Context, FormID int64) (*entity.Usuario, error)
+	SaveRole(ctx context.Context, nombre int) error
+	GetRolByName(ctx context.Context, nombre string) (*entity.Rol, error)
+	GetAllRoles(ctx context.Context) ([]entity.Rol, error)
+	GetRolById(ctx context.Context, id int) (*entity.Rol, error)
 	GetForm(ctx context.Context) ([]entity.Formulario, error)
 	GetFormByNombre(ctx context.Context, nombre string) (*entity.Formulario, error)
 	GetControls(ctx context.Context) ([]entity.Control, error)
 	GetControlsByForm(ctx context.Context, formID int64) ([]entity.Control, error)
+	GetControlSinF(ctx context.Context, FormID int64) ([]entity.Control, error)
 	InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error)
 	InsertChecks(ctx context.Context, formularioID int64, documentID int64, controles []models.Control) error
 	DeleteChecks(ctx context.Context, formularioID int64, documents []models.Document, control int) error
+	DeleteControl(ctx context.Context, controlID int64) error
 	DeleteControlForm(ctx context.Context, controlID, formularioID int64) error
-	GetConByDes(ctx context.Context, des string) (*entity.Control, error)
+	GetConByDesAndTipo(ctx context.Context, des, tipo string) (*entity.Control, error)
 	GetControlForm(ctx context.Context, controlID int64) ([]entity.ControlForm, error)
 	SaveControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetControlsSinForm(ctx context.Context) ([]entity.Control, error)
+	UpdateControl(ctx context.Context, ControlID int64, descripcion, tipo string) error
 	GetFormByDate(ctx context.Context, fecha string) (*entity.Formulario, error)
 	GetFormByVersion(ctx context.Context, version string) (*entity.Formulario, error)
 	GetFormByID(ctx context.Context, formID int64) (*entity.Formulario, error)
@@ -55,7 +63,7 @@ type Repository interface {
 	GetPisos(ctx context.Context) ([]entity.Piso, error)
 	GetPisobyNumber(ctx context.Context, number int) (*entity.Piso, error)
 	GetPisobyID(ctx context.Context, ID int64) (*entity.Piso, error)
-	GetObraPisos(ctx context.Context, obraID int64) ([]entity.PisoObra, error)
+	GetObraPisos(ctx context.Context, obraID int64) ([]entity.Piso, error)
 	SaveObraPiso(ctx context.Context, obraID, pisoID int64) error
 	UpdatePiso(ctx context.Context, pisoID int64, numero int) error
 	DeletePiso(ctx context.Context, pisoID int64) error

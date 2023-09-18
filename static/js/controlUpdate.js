@@ -1,22 +1,28 @@
+async function updateControl(){
+    let datos = {};
 
-  async function actualizarControl() {
-   let datos = {};
-     datos.descripcion = document.getElementById('txtDescripcion').value;
-      const url = new URL(document.URL);
-      const searchParams = url.searchParams;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    let control_id = searchParams.get('control_id');
+    
+    
+    datos.descripcion = document.getElementById('txtDescripcion').value;
+    datos.tipo = document.getElementById('selectTipo').value;
+    
 
-      let id = searchParams.get('control_id');
-
-          const request = await fetch(`control/${id}`, {
-              method: 'PUT',
-              body: JSON.stringify(datos),
-              headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-              },
-          })
-        if (request.status == 200) {
-            alert("Control actualizado correctamente");
-            window.location.href = 'controles.html';
-        }
-  }
+    const request = await fetch("http://localhost:5000/controles/" + control_id, {
+               method: 'PUT',
+               body: JSON.stringify(datos),
+               headers: {
+                   'Accept': 'application/json',
+                   'Content-Type': 'application/json'
+               },
+           })
+         if (request.status == 201) {
+             alert("controles actualizado correctamente");
+         }else{
+             alert("Error actualizando el control");
+         }
+         
+         window.location.href = `controles.html`;
+}

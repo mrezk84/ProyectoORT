@@ -27,7 +27,7 @@ async function buildControles() {
         let listadoHtml = '';
             for (let control of controles) {
   
-              let botonDelete = '<a onclick = eliminarControl"('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
+              let botonDelete = '<a onclick = "eliminarControl('+control.id+')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Delete</a>';
               let controlHtml = '<tr><td>'+ control.id +'</td><td>' + control.descripcion + '</td><td>' + control.tipo + '</td><td>' + botonDelete + '</td></tr>';
               listadoHtml += controlHtml;
               }
@@ -46,13 +46,15 @@ function redirectAgregarControl(){
 }
 
 async function eliminarControl(id){
+    let datos = {};
     const url = new URL(document.URL);
     const searchParams = url.searchParams;
     formularioid = searchParams.get('formulario_id');
-    datos.id_formulario = Number(formularioid);
+    datos.formulario_id = Number(formularioid);
 
-    const request = await fetch("http://localhost:5000/pisos/registrar", {
+    const request = await fetch("http://localhost:5000/controles/"+ id +"/formulario", {
                method: 'DELETE',
+               body: JSON.stringify(datos),
                headers: {
                    'Accept': 'application/json',
                    'Content-Type': 'application/json'

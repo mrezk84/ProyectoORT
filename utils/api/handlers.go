@@ -84,7 +84,7 @@ func (a *API) RegisterControl(c echo.Context) error {
 
 	err = a.serv.RegisterControl(ctx, params.Descripcion, params.Tipo)
 	if err != nil {
-		if err == service.ErrFormAlreadyExists {
+		if err == service.ErrContAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El control ya existe"})
 		}
 
@@ -92,6 +92,33 @@ func (a *API) RegisterControl(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, responseMessage{Message: "Se a creado el control"})
+}
+
+func (a *API) DeleteControl(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarControl{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteControl(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Control no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
 }
 
 func (a *API) LoginUser(c echo.Context) error {
@@ -204,6 +231,33 @@ func (a *API) UpdateForm(c echo.Context) error {
 	return c.JSON(http.StatusCreated, nil)
 }
 
+func (a *API) DeleteFormulario(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteFormulario(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Formulario no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
+}
+
 func (a *API) GetForm(c echo.Context) error {
 
 	ctx := c.Request().Context()
@@ -309,7 +363,7 @@ func (a *API) GetContorls(c echo.Context) error {
 func (a *API) GetControlsSinForm(c echo.Context) error {
 
 	ctx := c.Request().Context()
-	params := dtos.RegisterControl{}
+	params := dtos.DocumentAudit{}
 
 	err := c.Bind(&params)
 	if err != nil {
@@ -322,13 +376,35 @@ func (a *API) GetControlsSinForm(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	control, err := a.serv.GetControlSinForm(ctx)
+	control, err := a.serv.GetControlsSinForm(ctx, int64(params.ID))
 	if err != nil {
 		log.Println(err)
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los controles"})
 	}
 	return c.JSON(http.StatusOK, control)
 
+}
+
+func (a *API) UpdateControl(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdateControl{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateControl(ctx, params.ControlID, params.Descripcion, params.Tipo)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
 }
 
 func (a *API) GetControlsByForm(c echo.Context) error {
@@ -550,7 +626,7 @@ func (a *API) RegisterPiso(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	piso, err := a.serv.RegisterPiso(ctx, int(params.Numero))
+	piso, err := a.serv.RegisterPiso(ctx, int(params.Numero), int64(params.Obra))
 	if err != nil {
 		if err == service.ErrPisoAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El piso ya existe"})
@@ -610,7 +686,7 @@ func (a *API) GetPisosByObra(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	pisos, err := a.serv.GetPisosByObra(ctx, int64(params.ID))
+	pisos, err := a.serv.GetPisosObra(ctx, int64(params.ID))
 	fmt.Println(err)
 	if err == nil {
 		return c.JSON(http.StatusOK, pisos)
@@ -690,6 +766,33 @@ func (a *API) UpdatePiso(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 	return c.JSON(http.StatusCreated, nil)
+}
+
+func (a *API) DeletePiso(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarPiso{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeletePiso(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Piso no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
 }
 
 func (a *API) RegisterCheck(c echo.Context) error {
@@ -970,6 +1073,33 @@ func (a *API) GetDocumentChecks(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 	return c.JSON(http.StatusOK, checks)
+}
+
+func (a *API) DeleteDocument(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarDoc{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteDocument(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Documento no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
 }
 
 func (a *API) DeleteControlForm(c echo.Context) error {

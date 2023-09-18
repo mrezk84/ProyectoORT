@@ -47,7 +47,7 @@ const (
 		p.numero
 		FROM PISO p
 		inner join OBRA_PISOS op on p.id = op.piso_id
-		WHERE op.obra_id = %v;`
+		WHERE op.obra_id = ?;`
 
 	qryUpdateObra = `
 		update OBRA
@@ -107,10 +107,10 @@ func (r *repo) GetobraP(ctx context.Context, pisoID int64) (*entity.Obra, error)
 
 }
 
-func (r *repo) GetPisosDeObra(ctx context.Context, pisoID int64) ([]entity.Piso, error) {
+func (r *repo) GetPisosDeObra(ctx context.Context, obraID int64) ([]entity.Piso, error) {
 	pp := []entity.Piso{}
 
-	err := r.db.SelectContext(ctx, &pp, qryGetPisosDeObra, pisoID)
+	err := r.db.SelectContext(ctx, &pp, qryGetPisosDeObra, obraID)
 	if err != nil {
 		return nil, err
 	}

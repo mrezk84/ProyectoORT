@@ -26,7 +26,13 @@ async function getFormulariosYpisos() {
     }
 
 
-    const request2 = await fetch("http://localhost:5000/pisos", {
+    let obraid = null;
+    const url = new URL(document.URL);
+    const searchParams = url.searchParams;
+    obraid = searchParams.get('obra_id');
+    obra_id = Number(obraid);
+
+    const request2 = await fetch("http://localhost:5000/pisos/" + obra_id, {
         method: 'GET',
     })
 

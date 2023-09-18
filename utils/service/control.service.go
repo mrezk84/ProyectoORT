@@ -16,9 +16,9 @@ var (
 
 func (s *serv) RegisterControl(ctx context.Context, descripcion, tipo string) error {
 
-	c, _ := s.repo.GetConByDes(ctx, descripcion)
+	c, _ := s.repo.GetConByDesAndTipo(ctx, descripcion, tipo)
 	if c != nil {
-		return ErrFormAlreadyExists
+		return ErrContAlreadyExists
 	}
 
 	return s.repo.SaveControl(ctx, descripcion, tipo)
@@ -95,6 +95,10 @@ func (s *serv) GetControlSinForm(ctx context.Context) ([]models.Control, error) 
 	return controles, nil
 }
 
+func (s *serv) UpdateControl(ctx context.Context, controlID int64, descripcion, tipo string) error {
+	return s.repo.UpdateControl(ctx, controlID, descripcion, tipo)
+}
+
 func (s *serv) GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error) {
 
 	cont, err := s.repo.GetControlForm(ctx, controlID)
@@ -121,4 +125,8 @@ func (s *serv) GetFormdeControl(ctx context.Context, controlID int64) (*models.F
 }
 func (s *serv) DeleteControlForm(ctx context.Context, controlID, formularioID int64) error {
 	return s.repo.DeleteControlForm(ctx, controlID, formularioID)
+}
+
+func (s *serv) DeleteControl(ctx context.Context, ControlID int64) error {
+	return s.repo.DeleteControl(ctx, ControlID)
 }

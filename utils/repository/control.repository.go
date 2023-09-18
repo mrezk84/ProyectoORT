@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"proyectoort/utils/entity"
 	"proyectoort/utils/models"
+
+	"github.com/labstack/gommon/log"
 )
 
 const (
@@ -12,13 +14,13 @@ const (
 		INSERT INTO CONTROL(descripcion, tipo)
 		VALUES (?, ?);`
 
-	qryGetContBydescripcion = `
+	qryGetContBydescripcionandTipo = `
 		SELECT
 		id,
-			descripcion,
-			tipo,
+		descripcion,
+		tipo
 		FROM CONTROL
-		WHERE descripcion = ?;`
+		WHERE descripcion = %v and tipo = %v;`
 
 	qryGetAllControls = `
 		SELECT 
@@ -44,9 +46,25 @@ const (
 		FROM CONTROL c
 		inner join CONTROL_FORMULARIO CF on c.id != CF.control_id`
 
+	qryUpdateControl = `
+		update CONTROL
+	set descripcion = '%v',
+	tipo = '%v'
+	where id = %v	
+	`
+
 	qryInsertControlForm = `INSERT INTO CONTROL_FORMULARIO (control_id, formulario_id) VALUES (:control_id, :formulario_id);`
 
 	qryDeleteControlForm = `Delete from CONTROL_FORMULARIO where control_id = %v and formulario_id = %v`
+
+	qryDeleteControlFormularios = `
+		DELETE FROM CONTROL_FORMULARIO where control_id = ?`
+
+	qryDeleteControlChecks = `
+		DELETE FROM CHECKS where control_id = ?`
+
+	qryDeleteControl = `
+		DELETE FROM CONTROL where id = ?`
 )
 
 func (r *repo) SaveControl(ctx context.Context, descripcion, tipo string) error {
@@ -88,9 +106,27 @@ func (r *repo) GetControlsSinForm(ctx context.Context) ([]entity.Control, error)
 	return cc, nil
 }
 
-func (r *repo) GetConByDes(ctx context.Context, des string) (*entity.Control, error) {
+func (r *repo) UpdateControl(ctx context.Context, ControlID int64, descripcion, tipo string) error {
+	tx, err := r.db.Beginx()
+	if err != nil {
+		fmt.Println(err)
+		log.Error(err.Error())
+		return err
+	}
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryUpdateControl, descripcion, tipo, ControlID))
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("qdas")
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return err
+}
+
+func (r *repo) GetConByDesAndTipo(ctx context.Context, des, tipo string) (*entity.Control, error) {
 	c := &entity.Control{}
-	err := r.db.GetContext(ctx, c, qryGetContBydescripcion, des)
+	err := r.db.GetContext(ctx, c, qryGetContBydescripcionandTipo, des, tipo)
 	if err != nil {
 		return nil, err
 	}
@@ -152,4 +188,17 @@ func (r *repo) SaveControlForm(ctx context.Context, controlID, formularioID int6
 	}
 	tx.Commit()
 	return err
+}
+
+func (r *repo) DeleteControl(ctx context.Context, controlID int64) error {
+	_, err := r.db.ExecContext(ctx, qryDeleteControlFormularios, controlID)
+	if err != nil {
+		return err
+	}
+	_, err2 := r.db.ExecContext(ctx, qryDeleteControlChecks, controlID)
+	if err2 != nil {
+		return err2
+	}
+	_, err3 := r.db.ExecContext(ctx, qryDeleteControl, controlID)
+	return err3
 }

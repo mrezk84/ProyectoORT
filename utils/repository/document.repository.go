@@ -28,7 +28,7 @@ where d.id = %v
 	getDocumentsByPiso = `
 		select * from document where piso_id = ?`
 
-	qryDeleteChecks = `
+	qryDeleteChecksOfDoc = `
 		DELETE FROM CHECKS where document_id = ?`
 
 	qryDeleteDocumento = `
@@ -194,7 +194,7 @@ func (r *repo) GetDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.D
 }
 
 func (r *repo) DeleteDocument(ctx context.Context, DocID int64) error {
-	_, err := r.db.ExecContext(ctx, qryDeleteChecks, DocID)
+	_, err := r.db.ExecContext(ctx, qryDeleteChecksOfDoc, DocID)
 	if err != nil {
 		return err
 	}
