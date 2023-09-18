@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- export documents by obra">
-      <change afterPath="$PROJECT_DIR$/utils/api/dtos/get_document_checks.go" afterDir="false" />
+    <list default="true" id="43d262a4-43d0-46b2-ab27-752a676671c8" name="Changes" comment="- fix save control form">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/api/handlers.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/handlers.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/api/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/api/routes.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +136,10 @@
     <MESSAGE value="- status &amp; udpate check" />
     <MESSAGE value="- export documents" />
     <MESSAGE value="- export documents by obra" />
-    <option name="LAST_COMMIT_MESSAGE" value="- export documents by obra" />
+    <MESSAGE value="- get document checks" />
+    <MESSAGE value="- delete document checks" />
+    <MESSAGE value="- fix save control form" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fix save control form" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

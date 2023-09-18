@@ -24,6 +24,7 @@ type Service interface {
 	GetUserOfForm(ctx context.Context, formID int64) (*models.Usuario, error)
 	GetControls(ctx context.Context) ([]models.Control, error)
 	AddControlForm(ctx context.Context, controlID, formularioID int64) error
+	DeleteControlForm(ctx context.Context, controlID, formularioID int64) error
 	GetFormdeControl(ctx context.Context, controlID int64) (*models.Formulario, error)
 	GetControlSinForm(ctx context.Context) ([]models.Control, error)
 	GetUsers(ctc context.Context) ([]models.Usuario, error)

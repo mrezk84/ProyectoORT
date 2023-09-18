@@ -33,6 +33,17 @@ where d.id = %v
 
 	qryDeleteDocumento = `
 		DELETE FROM document where id = ?`
+
+	qryGetWipOrTodoDocuments = `select d.id,d.formulario_id,d.obra_id,d.piso_id FROM document d
+LEFT JOIN CHECKS c ON d.id = c.document_id
+WHERE c.estado != 'CONFORME' OR c.estado IS NULL
+GROUP BY d.id`
+
+	qryGetWipOrTodoDocumentsByFormID = `select d.id,d.formulario_id,d.obra_id,d.piso_id FROM document d
+LEFT JOIN CHECKS c ON d.id = c.document_id
+WHERE c.estado != 'CONFORME' OR c.estado IS NULL
+and d.formulario_id = %v
+GROUP BY d.id`
 )
 
 func (r *repo) InsertDocument(ctx context.Context, formularioID int64, obraID int64, pisoID int64) (models.Document, error) {
@@ -312,4 +323,42 @@ func (r *repo) GetFormularioByDocumentID(documentID int64) (*models.Formulario, 
 		Version:     formulario.Version,
 		Nombre:      formulario.Nombre,
 	}, nil
+}
+
+func (r *repo) GetWipOrTodoDocuments(ctx context.Context) ([]models.Document, error) {
+	e := []entity.Document{}
+	err := r.db.SelectContext(ctx, &e, qryGetWipOrTodoDocuments)
+	if err != nil {
+		return nil, err
+	}
+	var documents []models.Document
+	for _, d := range e {
+		fmt.Println(d)
+		documents = append(documents, models.Document{
+			ID:         d.ID,
+			Formulario: models.Formulario{ID: int(d.FormularioID)},
+			Obra:       models.Obra{ID: int(d.ObraID)},
+			Piso:       models.Piso{ID: int(d.PisoID)},
+		})
+	}
+	return documents, nil
+}
+
+func (r *repo) GetWipOrTodoDocumentsByFormID(ctx context.Context, formID int64) ([]models.Document, error) {
+	e := []entity.Document{}
+	err := r.db.SelectContext(ctx, &e, fmt.Sprintf(qryGetWipOrTodoDocumentsByFormID, formID))
+	if err != nil {
+		return nil, err
+	}
+	var documents []models.Document
+	for _, d := range e {
+		fmt.Println(d)
+		documents = append(documents, models.Document{
+			ID:         d.ID,
+			Formulario: models.Formulario{ID: int(d.FormularioID)},
+			Obra:       models.Obra{ID: int(d.ObraID)},
+			Piso:       models.Piso{ID: int(d.PisoID)},
+		})
+	}
+	return documents, nil
 }

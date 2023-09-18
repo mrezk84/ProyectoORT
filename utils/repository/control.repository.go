@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"proyectoort/utils/entity"
+	"proyectoort/utils/models"
 )
 
 const (
@@ -44,6 +45,8 @@ const (
 		inner join CONTROL_FORMULARIO CF on c.id != CF.control_id`
 
 	qryInsertControlForm = `INSERT INTO CONTROL_FORMULARIO (control_id, formulario_id) VALUES (:control_id, :formulario_id);`
+
+	qryDeleteControlForm = `Delete from CONTROL_FORMULARIO where control_id = %v and formulario_id = %v`
 )
 
 func (r *repo) SaveControl(ctx context.Context, descripcion, tipo string) error {
@@ -107,12 +110,46 @@ func (r *repo) GetControlForm(ctx context.Context, controlID int64) ([]entity.Co
 
 }
 
-func (r *repo) SaveControlForm(ctx context.Context, controlID, formularioID int64) error {
+func (r *repo) DeleteControlForm(ctx context.Context, controlID, formularioID int64) error {
+	tx, err := r.db.Beginx()
 	data := entity.ControlForm{
 		ControlID:    controlID,
 		FormularioID: formularioID,
 	}
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryDeleteControlForm, data.ControlID, data.FormularioID))
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	documents, err := r.GetWipOrTodoDocumentsByFormID(ctx, formularioID)
+	err = r.DeleteChecks(ctx, formularioID, documents, int(controlID))
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return err
+}
 
-	_, err := r.db.NamedExecContext(ctx, qryInsertControlForm, data)
+func (r *repo) SaveControlForm(ctx context.Context, controlID, formularioID int64) error {
+	tx, err := r.db.Beginx()
+	data := entity.ControlForm{
+		ControlID:    controlID,
+		FormularioID: formularioID,
+	}
+	_, err = tx.NamedExecContext(ctx, qryInsertControlForm, data)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	documents, err := r.GetWipOrTodoDocumentsByFormID(ctx, formularioID)
+	for _, d := range documents {
+		err = r.InsertChecks(ctx, formularioID, d.ID, []models.Control{{ID: int(controlID)}})
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+	tx.Commit()
 	return err
 }
