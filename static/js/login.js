@@ -29,7 +29,6 @@ $(document).ready(function() {
          headers: {
           'Content-Type': 'application/json',
          },
-         credentials:"include",
          body: JSON.stringify(datos),
          
        });
@@ -40,11 +39,11 @@ $(document).ready(function() {
           'Se inicio correctamente la sesión',
           'success'
           )
-          window.location.href = 'inicio.html'
+          window.location.href = 'obras.html'
       }else{
         Swal.fire({
           title: 'Error!',
-          text: 'Error al Iniciar Sesion',
+          text: 'Credenciales invalidas',
           icon: 'error',
         
         })
