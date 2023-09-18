@@ -28,7 +28,7 @@ where d.id = %v
 	getDocumentsByPiso = `
 		select * from document where piso_id = ?`
 
-	qryDeleteChecksOfDoc = `
+	qryDeleteChecksFromDocument = `
 		DELETE FROM CHECKS where document_id = ?`
 
 	qryDeleteDocumento = `
@@ -194,7 +194,7 @@ func (r *repo) GetDocumentsByPiso(ctx context.Context, pisoID int64) ([]models.D
 }
 
 func (r *repo) DeleteDocument(ctx context.Context, DocID int64) error {
-	_, err := r.db.ExecContext(ctx, qryDeleteChecksOfDoc, DocID)
+	_, err := r.db.ExecContext(ctx, qryDeleteChecksFromDocument, DocID)
 	if err != nil {
 		return err
 	}
@@ -204,11 +204,9 @@ func (r *repo) DeleteDocument(ctx context.Context, DocID int64) error {
 
 func (r *repo) ExportDocument(ctx context.Context, documentID int64) ([]byte, error) {
 	checks, err := r.GetDocumentChecks(ctx, documentID)
-	fmt.Println("1")
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("2")
 	// Crear un nuevo documento PDF
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	// Configurar la fuente y el tamaño del texto
@@ -218,7 +216,6 @@ func (r *repo) ExportDocument(ctx context.Context, documentID int64) ([]byte, er
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("3")
 	pdf.AddPage()
 	pdf.Cell(100, 16, fmt.Sprintf("Formulario: %v", form.Nombre))
 	pdf.Ln(15)
@@ -233,16 +230,13 @@ func (r *repo) ExportDocument(ctx context.Context, documentID int64) ([]byte, er
 		pdf.Cell(100, 16, "Responsable: "+check.Responsable.Name)
 		pdf.Ln(30)
 	}
-	fmt.Println("4")
 
 	var buf bytes.Buffer
 	err = pdf.Output(&buf)
-	fmt.Printf(fmt.Sprintf("%v", buf.Bytes()))
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
-	fmt.Println("5")
 	return buf.Bytes(), err
 }
 
@@ -270,8 +264,10 @@ func (r *repo) ExportDocumentsByObra(ctx context.Context, obraID int64) ([]byte,
 			pdf.Ln(15)
 			pdf.Cell(100, 16, "Observaciones: "+check.Observaciones)
 			pdf.Ln(15)
-			pdf.Cell(100, 16, "Fecha control: "+check.FechaControl.String())
-			pdf.Ln(15)
+			if check.FechaControl != nil {
+				pdf.Cell(100, 16, "Fecha control: "+check.FechaControl.String())
+				pdf.Ln(15)
+			}
 			pdf.Cell(100, 16, "Responsable: "+check.Responsable.Name)
 			pdf.Ln(30)
 		}
@@ -279,12 +275,11 @@ func (r *repo) ExportDocumentsByObra(ctx context.Context, obraID int64) ([]byte,
 
 	var buf bytes.Buffer
 	err = pdf.Output(&buf)
-	fmt.Printf(fmt.Sprintf("%v", buf.Bytes()))
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
-	fmt.Println("5")
+
 	return buf.Bytes(), err
 }
 
@@ -333,7 +328,6 @@ func (r *repo) GetWipOrTodoDocuments(ctx context.Context) ([]models.Document, er
 	}
 	var documents []models.Document
 	for _, d := range e {
-		fmt.Println(d)
 		documents = append(documents, models.Document{
 			ID:         d.ID,
 			Formulario: models.Formulario{ID: int(d.FormularioID)},
@@ -352,7 +346,6 @@ func (r *repo) GetWipOrTodoDocumentsByFormID(ctx context.Context, formID int64) 
 	}
 	var documents []models.Document
 	for _, d := range e {
-		fmt.Println(d)
 		documents = append(documents, models.Document{
 			ID:         d.ID,
 			Formulario: models.Formulario{ID: int(d.FormularioID)},
