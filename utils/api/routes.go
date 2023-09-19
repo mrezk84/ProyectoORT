@@ -17,6 +17,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	users.GET("", a.GetUsers)
 	users.POST("/registrar", a.RegisterUser)
 	users.POST("/login", a.LoginUser)
+	users.POST("/rol", a.GetUserRol)
 	form.POST("/registrar", a.RegisterFrom)
 	form.GET("/getByid", a.GetForm)
 	form.POST("/addUser", a.RegisterUserForm)
@@ -50,6 +51,7 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 	check.GET("/document/:document_id", a.GetDocumentChecks)
 	document.POST("/addDocument", a.AddFormToPlanControl)
 	document.GET("/:id", a.GetDocumentsByObra)
+	document.POST("/:id/responsable", a.GetDocumentsByResponsable)
 	document.DELETE("/eliminar/:id", a.DeleteDocument)
 
 	document.GET("/export/:id", a.ExportDocument)

@@ -17,6 +17,21 @@ func (s *serv) GetObraDocuments(ctx context.Context, obraID int64) ([]models.Doc
 	return s.repo.GetDocumentsByObra(ctx, obraID)
 }
 
+func (s *serv) GetResponsableDocuments(ctx context.Context, obraID, usuarioID int64) ([]models.Document, error) {
+	do, _ := s.repo.GetDocumentsByObra(ctx, obraID)
+
+	documentos := []models.Document{}
+
+	for _, d := range do {
+		user, _ := s.repo.GetUserForm(ctx, int64(d.Formulario.ID))
+		if user.ID == usuarioID {
+			documentos = append(documentos, d)
+		}
+	}
+
+	return documentos, nil
+}
+
 func (s *serv) GetDocumentPDF(ctx context.Context, documentID int64) ([]byte, error) {
 	return s.repo.ExportDocument(ctx, documentID)
 }

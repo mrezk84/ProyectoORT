@@ -184,6 +184,27 @@ func (a *API) GetUsers(c echo.Context) error {
 	return c.JSON(http.StatusOK, u)
 }
 
+func (a *API) GetUserRol(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.Usuarios{}
+	err := c.Bind(&params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	r, err := a.serv.GetUserRol(ctx, params.ID)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los usuarios"})
+	}
+	return c.JSON(http.StatusOK, r)
+}
+
 func (a *API) GetForms(c echo.Context) error {
 
 	ctx := c.Request().Context()
@@ -928,6 +949,41 @@ func (a *API) GetDocumentsByObra(c echo.Context) error {
 	}
 
 	documents, err := a.serv.GetObraDocuments(ctx, params.ID)
+	fmt.Println(err)
+	if err == nil {
+		return c.JSON(http.StatusOK, documents)
+	}
+	return err
+}
+
+func (a *API) GetDocumentsByResponsable(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.GetDocumentsForm{}
+
+	//auth := c.Request().Header.Get("Authorization")
+	//if auth == "" {
+	//	c.JSON(http.StatusUnauthorized, responseMessage{"Authorization Header Not Found"})
+	//	return nil
+	//}
+	//splitToken := strings.Split(auth, "Bearer ")
+	//auth = splitToken[1]
+	//
+	//claims, err := encryption.ParseLoginJWT(auth)
+	//if err != nil {
+	//	return err
+	//}
+	//email := claims["email"]
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	documents, err := a.serv.GetResponsableDocuments(ctx, params.ID, params.UserID)
 	fmt.Println(err)
 	if err == nil {
 		return c.JSON(http.StatusOK, documents)

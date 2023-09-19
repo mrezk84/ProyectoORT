@@ -39,6 +39,7 @@ $(document).ready(function() {
           'Se inicio correctamente la sesión',
           'success'
           )
+          localStorage.setItem('email', datos.email);
           window.location.href = 'obras.html'
       }else{
         Swal.fire({

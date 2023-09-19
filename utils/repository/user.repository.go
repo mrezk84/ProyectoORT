@@ -44,7 +44,15 @@ const (
 		u.username
 		FROM USUARIOS u
 		inner join FORMULARIO_RESPONSABLE FR on u.id = FR.usuario_id
-		WHERE FR.formulario_id = %v;`
+		WHERE FR.formulario_id = ?;`
+
+	qryGetUserRol = `
+		SELECT
+		r.id,
+		r.nombre
+		FROM ROLES r
+		inner join USUARIOS_ROLES UR on r.id = UR.rol_id
+		WHERE UR.usuario_id = ?;`
 
 	qryInsertUserRole = `
 		INSERT INTO USUARIOS_ROLES (usuario_id, rol_id) VALUES (:usuario_id, :rol_id);`
@@ -110,6 +118,19 @@ func (r *repo) GetUserRoles(ctx context.Context, userID int64) ([]entity.Usuario
 	return roles, nil
 
 }
+
+func (r *repo) GetUserRol(ctx context.Context, userID int64) (*entity.Rol, error) {
+	rol := &entity.Rol{}
+
+	err := r.db.SelectContext(ctx, &rol, qryGetUserRol, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	return rol, nil
+
+}
+
 func (r *repo) GetUsers(ctx context.Context) ([]entity.Usuario, error) {
 	us := []entity.Usuario{}
 

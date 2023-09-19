@@ -8,12 +8,14 @@ $(document).ready(function() {
 
 
 async function getObrasByUser() {
+
+
     const request = await fetch("http://localhost:5000/obras", {
         method: 'GET',
     })
 
     const obras = await request.json();
-    console.log(obras)
+    console.log(localStorage.getItem('email'))
     if (request.ok) {
         let listadoHtml = '';
             for (let obra of obras) {

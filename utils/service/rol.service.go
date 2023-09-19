@@ -34,3 +34,17 @@ func (s *serv) GetAllRoles(ctx context.Context) ([]models.Rol, error) {
 	}
 	return roles, nil
 }
+
+func (s *serv) GetUserRol(ctx context.Context, userID int64) (*models.Rol, error) {
+	ro, err := s.repo.GetUserRol(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	rol := &models.Rol{
+		ID:     ro.ID,
+		Nombre: ro.Nombre,
+	}
+
+	return rol, nil
+}
