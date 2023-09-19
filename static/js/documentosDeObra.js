@@ -28,18 +28,39 @@ async function getExportBase64(){
 }
 async function getDocumentos() {
 
+
     let obraid = null;
     const url = new URL(document.URL);
     const searchParams = url.searchParams;
     obraid = searchParams.get('obra_id');
 
-    const request = await fetch("http://localhost:5000/document/" + obraid, {
+    const request = await fetch("http://localhost:5000/pisos/" + obraid, {
         method: 'GET',
     })
 
-    const documentos = await request.json();
-    console.log(documentos)
+    const pisos = await request.json();
+    console.log(pisos)
     if (request.ok) {
+        let listadoHtml = '';
+            for (let piso of pisos) {
+                listadoHtml +=
+                `
+                 <option value="${piso.id}">${piso.id}--${piso.numero}</option>
+                `
+        };
+
+        document.getElementById("piso").innerHTML = listadoHtml;
+
+    }
+
+
+    const request2 = await fetch("http://localhost:5000/document/" + obraid, {
+        method: 'GET',
+    })
+
+    const documentos = await request2.json();
+    console.log(documentos)
+    if (request2.ok) {
         let listadoHtml = '';
             for (let documento of documentos) {
 
