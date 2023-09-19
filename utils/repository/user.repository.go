@@ -122,7 +122,7 @@ func (r *repo) GetUserRoles(ctx context.Context, userID int64) ([]entity.Usuario
 func (r *repo) GetUserRol(ctx context.Context, userID int64) (*entity.Rol, error) {
 	rol := &entity.Rol{}
 
-	err := r.db.SelectContext(ctx, &rol, qryGetUserRol, userID)
+	err := r.db.GetContext(ctx, &rol, qryGetUserRol, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -145,7 +145,7 @@ func (r *repo) GetUsers(ctx context.Context) ([]entity.Usuario, error) {
 func (r *repo) GetUserForm(ctx context.Context, FormID int64) (*entity.Usuario, error) {
 	us := &entity.Usuario{}
 
-	err := r.db.SelectContext(ctx, &us, qryGetUserForm, FormID)
+	err := r.db.GetContext(ctx, &us, qryGetUserForm, FormID)
 	if err != nil {
 		return nil, err
 	}
