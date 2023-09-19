@@ -45,7 +45,7 @@ async function getDocumentos() {
             for (let piso of pisos) {
                 listadoHtml +=
                 `
-                 <option value="${piso.id}">${piso.id}--${piso.numero}</option>
+                 <option value="${piso.id}">${piso.numero}</option>
                 `
         };
 
