@@ -15,23 +15,15 @@ var (
 func (s *serv) RegisterPiso(ctx context.Context, number int, obraId int64) (models.Piso, error) {
 
 	op, _ := s.repo.GetObraPisos(ctx, obraId)
-	existe := false
+
 	for _, p := range op {
 
-		piso := models.Piso{
-			ID:     p.ID,
-			Numero: p.Numero,
-		}
-
-		if piso.Numero == number {
-			existe = true
+		if p.Numero == number {
+			return models.Piso{}, ErrPisoAlreadyExists
 		}
 	}
 
-	if !existe {
-		return s.repo.SavePiso(ctx, number)
-	}
-	return models.Piso{}, ErrPisoAlreadyExists
+	return s.repo.SavePiso(ctx, number)
 }
 
 func (s *serv) GetPisos(ctx context.Context) ([]models.Piso, error) {
