@@ -9,7 +9,13 @@ require (
 	gopkg.in/yaml.v3 v3.0.1
 )
 
-require github.com/jung-kurt/gofpdf v1.16.2 // indirect
+require (
+	github.com/jung-kurt/gofpdf v1.16.2 // indirect
+	github.com/lukasjarosch/go-docx v0.4.7 // indirect
+	github.com/mattn/go-runewidth v0.0.9 // indirect
+	github.com/nguyenthenguyen/docx v0.0.0-20230621112118-9c8e795a11db // indirect
+	github.com/olekukonko/tablewriter v0.0.5 // indirect
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -17,7 +23,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0
-	github.com/labstack/gommon v0.4.0 // indirect
+	github.com/labstack/gommon v0.4.0
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
