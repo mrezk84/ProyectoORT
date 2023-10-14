@@ -1,5 +1,6 @@
 package dtos
 
 type RegisterObra struct {
-	Nombre string `json:"name" validate:"required"`
+	ID     int    `json:"obra_id" param:"id"`
+	Nombre string `json:"nombre"`
 }

@@ -1,15 +1,14 @@
 package models
 
+import "time"
+
 type Check struct {
-	ID int
-	// todo estado deberia ser un enum
-	Estado        string
+	ID            int    `json:"id"`
+	Estado        string `json:"estado"`
+	FechaControl  *time.Time
 	Responsable   Usuario
-	Obra          Obra
-	Piso          Piso
-	Formulario    Formulario
-	Etapa         Etapa
 	Control       Control
-	Observaciones string
+	Document      Document
+	Observaciones string `json:"observaciones"`
 	Version       int
 }

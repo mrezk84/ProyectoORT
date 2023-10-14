@@ -1,7 +1,8 @@
 package models
 
 type Obra struct {
-	ID     int
-	Nombre string
-	Pisos  []Piso
+	ID      int    `json:"id"`
+	Nombre  string `json:"nombre"`
+	Capataz Usuario
+	Pisos   []Piso
 }

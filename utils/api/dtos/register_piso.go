@@ -1,6 +1,6 @@
 package dtos
 
 type RegisterPiso struct {
-	ID     int `json:"id"`
-	Numero int `json:"numero" validate:"required"`
+	Numero int `json:"numero"`
+	Obra   int `json:"obra_id"`
 }

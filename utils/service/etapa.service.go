@@ -11,7 +11,7 @@ var (
 
 func (s *serv) RegisterEtapa(ctx context.Context, nombre string) error {
 
-	e, _ := s.repo.GetEtapaByName(ctx, nombre)
+	e, _ := s.repo.GetEtapabyName(ctx, nombre)
 	if e != nil {
 		return ErrEtapaAlreadyExists
 	}

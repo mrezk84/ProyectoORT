@@ -1,12 +1,12 @@
 package api
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"proyectoort/encryption"
 	"proyectoort/utils/api/dtos"
-	"proyectoort/utils/models"
 	"proyectoort/utils/service"
 
 	"github.com/labstack/echo/v4"
@@ -40,14 +40,14 @@ func (a *API) RegisterUser(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, responseMessage{Message: "usuario creado"})
+	return c.JSON(http.StatusCreated, nil)
 }
 func (a *API) RegisterFrom(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.DocumentAudit{}
+
 	err := c.Bind(&params)
 	if err != nil {
-		log.Println(err)
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
 	}
 
@@ -56,10 +56,10 @@ func (a *API) RegisterFrom(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterFrom(ctx, params.Nombre, params.Informacion, params.Version, params.ControlID, params.UsuarioID)
+	err = a.serv.RegisterFrom(ctx, params.Informacion, params.Nombre)
 	if err != nil {
 		if err == service.ErrFormAlreadyExists {
-			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulario ya existe"})
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El formulairo ya existe"})
 		}
 
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
@@ -67,6 +67,7 @@ func (a *API) RegisterFrom(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo el formulario"})
 }
+
 func (a *API) RegisterControl(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.RegisterControl{}
@@ -83,7 +84,7 @@ func (a *API) RegisterControl(c echo.Context) error {
 
 	err = a.serv.RegisterControl(ctx, params.Descripcion, params.Tipo)
 	if err != nil {
-		if err == service.ErrFormAlreadyExists {
+		if err == service.ErrContAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El control ya existe"})
 		}
 
@@ -92,6 +93,34 @@ func (a *API) RegisterControl(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, responseMessage{Message: "Se a creado el control"})
 }
+
+func (a *API) DeleteControl(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarControl{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteControl(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Control no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
+}
+
 func (a *API) LoginUser(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.LoginUser{}
@@ -114,12 +143,6 @@ func (a *API) LoginUser(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	roles, err := a.serv.GetUsersRole(ctx, u.ID)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
-	}
-
 	token, err := encryption.SignedLoginToken(u)
 	if err != nil {
 		log.Println(err)
@@ -136,17 +159,10 @@ func (a *API) LoginUser(c echo.Context) error {
 	}
 
 	c.SetCookie(cookie)
-	for _, r := range roles {
-		if r.RoleID == 1 {
-			return c.JSON(http.StatusOK, map[string]string{"redirect": "/admin"})
-		} else if r.RoleID == 2 {
-			return c.JSON(http.StatusOK, map[string]string{"redirect": "/user"})
-		} else if r.RoleID == 3 {
-			return c.JSON(http.StatusOK, map[string]string{"redirect": "/manager"})
-		}
-	}
-	return c.JSON(http.StatusUnauthorized, responseMessage{Message: "No tiene permisos para iniciar sesión"})
+	return c.JSON(http.StatusOK, map[string]string{"usuario logueado": "true"})
+
 }
+
 func (a *API) GetUsers(c echo.Context) error {
 
 	ctx := c.Request().Context()
@@ -167,6 +183,28 @@ func (a *API) GetUsers(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, u)
 }
+
+func (a *API) GetUserRol(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.Usuarios{}
+	err := c.Bind(&params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	r, err := a.serv.GetUserRol(ctx, params.ID)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los usuarios"})
+	}
+	return c.JSON(http.StatusOK, r)
+}
+
 func (a *API) GetForms(c echo.Context) error {
 
 	ctx := c.Request().Context()
@@ -191,6 +229,133 @@ func (a *API) GetForms(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, forms)
 }
+
+func (a *API) UpdateForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdateForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateFormulario(ctx, params.FormID, params.Nombre, params.Informacion)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
+}
+
+func (a *API) DeleteFormulario(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteFormulario(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Formulario no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
+}
+
+func (a *API) GetForm(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.DocumentAudit{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	form, err := a.serv.GetFormdeControl(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})
+	}
+	return c.JSON(http.StatusOK, form)
+}
+
+func (a *API) GetFormUser(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.DocumentAudit{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	user, err := a.serv.GetUserOfForm(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener el usuario"})
+	}
+	return c.JSON(http.StatusOK, user)
+}
+
+func (a *API) RegisterUserForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.ConexionUsuarioForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.AddUserForm(ctx, int64(params.FormularioID), int64(params.UsuarioID))
+	if err != nil {
+		if err == service.ErrPisoObraAlreadyExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "La conexion ya existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusCreated, nil)
+}
+
 func (a *API) GetContorls(c echo.Context) error {
 
 	ctx := c.Request().Context()
@@ -213,7 +378,107 @@ func (a *API) GetContorls(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los controles"})
 	}
 	return c.JSON(http.StatusOK, control)
+
 }
+
+func (a *API) GetControlsSinForm(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.DocumentAudit{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	control, err := a.serv.GetControlsSinForm(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los controles"})
+	}
+	return c.JSON(http.StatusOK, control)
+
+}
+
+func (a *API) UpdateControl(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdateControl{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateControl(ctx, params.ControlID, params.Descripcion, params.Tipo)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
+}
+
+func (a *API) GetControlsByForm(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.DocumentAudit{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	control, err := a.serv.GetControlsByForm(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los controles del formualrio"})
+	}
+	return c.JSON(http.StatusOK, control)
+}
+
+func (a *API) AddControlForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.ConexionControlForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.AddControlForm(ctx, int64(params.ControlID), int64(params.FormularioID))
+	if err != nil {
+		if err == service.ErrContAlreadyAdded {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "La conexion ya existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusCreated, nil)
+}
+
 func (a *API) RegisterObra(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.RegisterObra{}
@@ -240,6 +505,106 @@ func (a *API) RegisterObra(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, nil)
 }
+
+func (a *API) GetObras(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.RegisterObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	obras, err := a.serv.GetObras(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener las obras"})
+	}
+	return c.JSON(http.StatusOK, obras)
+}
+
+func (a *API) GetObra(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.RegisterObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	obra, err := a.serv.GetObra(ctx, int64(params.ID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los formularios"})
+	}
+	return c.JSON(http.StatusOK, obra)
+}
+
+func (a *API) DeleteObra(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteObra(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "La Obra no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
+}
+
+func (a *API) UpdateObra(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdateObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateObra(ctx, params.ObraID, params.Nombre)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
+}
+
 func (a *API) RegisterEtapa(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.RegisterEtapa{}
@@ -266,6 +631,7 @@ func (a *API) RegisterEtapa(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, nil)
 }
+
 func (a *API) RegisterPiso(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.RegisterPiso{}
@@ -281,7 +647,7 @@ func (a *API) RegisterPiso(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterPiso(ctx, params.ID, params.Numero)
+	piso, err := a.serv.RegisterPiso(ctx, int(params.Numero), int64(params.Obra))
 	if err != nil {
 		if err == service.ErrPisoAlreadyExists {
 			return c.JSON(http.StatusConflict, responseMessage{Message: "El piso ya existe"})
@@ -290,8 +656,65 @@ func (a *API) RegisterPiso(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo el piso"})
+	err = a.serv.AddObraPiso(ctx, int64(params.Obra), int64(piso.ID))
+	if err != nil {
+		if err == service.ErrPisoObraAlreadyExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "La conexion ya existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusCreated, nil)
 }
+
+func (a *API) GetPisos(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.RegisterPiso{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	pisos, err := a.serv.GetPisos(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los pisos"})
+	}
+	return c.JSON(http.StatusOK, pisos)
+}
+
+func (a *API) GetPisosByObra(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.RegisterObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	pisos, err := a.serv.GetPisosObra(ctx, int64(params.ID))
+	fmt.Println(err)
+	if err == nil {
+		return c.JSON(http.StatusOK, pisos)
+	}
+	return err
+}
+
 func (a *API) RegisterObraPiso(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.ConexionObraPiso{}
@@ -318,6 +741,81 @@ func (a *API) RegisterObraPiso(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, nil)
 }
+
+func (a *API) GetObrasPiso(c echo.Context) error {
+
+	ctx := c.Request().Context()
+	params := dtos.ConexionObraPiso{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	pisos, err := a.serv.GetPisosObra(ctx, int64(params.ObraID))
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los pisos de la obra"})
+	}
+	return c.JSON(http.StatusOK, pisos)
+}
+
+func (a *API) UpdatePiso(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.UpdatePiso{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdatePiso(ctx, params.PisoID, params.Numero)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
+}
+
+func (a *API) DeletePiso(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarPiso{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeletePiso(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Piso no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
+}
+
 func (a *API) RegisterCheck(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.RegisterCheck{}
@@ -332,17 +830,18 @@ func (a *API) RegisterCheck(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.RegisterCheck(ctx, params.Estado, params.Observaciones, params.Version, params.Fecha)
+	err = a.serv.RegisterCheck(ctx, params.Estado, params.Fecha, params.Observaciones, params.Version)
 	if err != nil {
-		if err == service.ErrFormAlreadyExists {
-			return c.JSON(http.StatusConflict, responseMessage{Message: "El check ya existe"})
+		if err == service.ErrCheckAlreadyExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Check ya existe"})
 		}
 
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo el check"})
+	return c.JSON(http.StatusCreated, nil)
 }
+
 func (a *API) RegisterCheckForm(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.ConexionCheckForm{}
@@ -367,31 +866,12 @@ func (a *API) RegisterCheckForm(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
 
-	return c.JSON(http.StatusCreated, responseMessage{Message: "Se creo el checkqueo para el formulario"})
+	return c.JSON(http.StatusCreated, nil)
 }
-func (a *API) GetRoles(c echo.Context) error {
+
+func (a *API) AddFormToPlanControl(c echo.Context) error {
 	ctx := c.Request().Context()
-	params := dtos.Roles{}
-	err := c.Bind(&params)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
-	}
-	err = a.dataValidator.Struct(params)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
-	}
-	r, err := a.serv.GetAllRoles(ctx)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los roles"})
-	}
-	return c.JSON(http.StatusOK, r)
-}
-func (a *API) RegisterUserRol(c echo.Context) error {
-	ctx := c.Request().Context()
-	params := dtos.UsuarioRol{}
+	params := dtos.AddDocumentPlan{}
 
 	err := c.Bind(&params)
 	if err != nil {
@@ -404,87 +884,60 @@ func (a *API) RegisterUserRol(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
 
-	err = a.serv.AddUserRole(ctx, params.UserID, params.RoleID)
+	controles, err := a.serv.GetControlsByForm(ctx, params.FormularioID)
 	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al asignar el rol"})
-	}
-	return c.JSON(http.StatusOK, responseMessage{Message: "Se asigna el rol para el usuario selecionado"})
-}
-func (a *API) GetUserRoles(c echo.Context) error {
-	ctx := c.Request().Context()
-	params := dtos.UsuarioRol{}
-	err := c.Bind(&params)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
-	}
-	err = a.dataValidator.Struct(params)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
-	}
-	ru, err := a.serv.GetUsersRole(ctx, params.UserID)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los roles"})
-	}
-	return c.JSON(http.StatusOK, ru)
-}
-func (a *API) AddForm(c echo.Context) error {
-	cookie, err := c.Cookie("Authorization")
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "Unauthorized"})
-	}
-
-	claims, err := encryption.ParseLoginJWT(cookie.Value)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusUnauthorized, responseMessage{Message: "Unauthorized"})
-	}
-
-	email := claims["email"].(string)
-
-	ctx := c.Request().Context()
-	params := dtos.DocumentAudit{}
-
-	err = c.Bind(&params)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Invalid request"})
-	}
-
-	err = a.dataValidator.Struct(params)
-	if err != nil {
-		log.Println(err)
-		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
-	}
-
-	f := models.Formulario{
-		ID:          params.ID,
-		Informacion: params.Informacion,
-		Version:     params.Version,
-		Nombre:      params.Nombre,
-	}
-
-	err = a.serv.AddForm(ctx, email, f)
-	if err != nil {
-		log.Println(err)
-
-		if err == service.ErrInvalidPermissions {
-			return c.JSON(http.StatusForbidden, responseMessage{Message: "Error de permisos"})
-		}
-
 		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
 	}
-
-	return c.JSON(http.StatusOK, nil)
+	document, err := a.serv.InsertDocument(ctx, params.FormularioID, params.ObraID, params.PisoID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	err = a.serv.InsertChecks(ctx, controles, document, params.FormularioID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
 }
-func (a *API) GetPisos(c echo.Context) error {
 
+func (a *API) UpdateCheck(c echo.Context) error {
 	ctx := c.Request().Context()
-	params := dtos.RegisterPiso{}
+	params := dtos.UpdateCheck{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.UpdateCheck(ctx, params.CheckID, params.Estado, params.Observaciones)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+	return c.JSON(http.StatusCreated, nil)
+}
+
+func (a *API) GetDocumentsByObra(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.GetDocumentsForm{}
+
+	//auth := c.Request().Header.Get("Authorization")
+	//if auth == "" {
+	//	c.JSON(http.StatusUnauthorized, responseMessage{"Authorization Header Not Found"})
+	//	return nil
+	//}
+	//splitToken := strings.Split(auth, "Bearer ")
+	//auth = splitToken[1]
+	//
+	//claims, err := encryption.ParseLoginJWT(auth)
+	//if err != nil {
+	//	return err
+	//}
+	//email := claims["email"]
 	err := c.Bind(&params)
 	if err != nil {
 		log.Println(err)
@@ -492,16 +945,52 @@ func (a *API) GetPisos(c echo.Context) error {
 	}
 	err = a.dataValidator.Struct(params)
 	if err != nil {
-		log.Println(err)
 		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
 	}
-	p, err := a.serv.GetPisos(ctx)
+
+	documents, err := a.serv.GetObraDocuments(ctx, params.ID)
+	fmt.Println(err)
+	if err == nil {
+		return c.JSON(http.StatusOK, documents)
+	}
+	return err
+}
+
+func (a *API) GetDocumentsByResponsable(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.GetDocumentsForm{}
+
+	//auth := c.Request().Header.Get("Authorization")
+	//if auth == "" {
+	//	c.JSON(http.StatusUnauthorized, responseMessage{"Authorization Header Not Found"})
+	//	return nil
+	//}
+	//splitToken := strings.Split(auth, "Bearer ")
+	//auth = splitToken[1]
+	//
+	//claims, err := encryption.ParseLoginJWT(auth)
+	//if err != nil {
+	//	return err
+	//}
+	//email := claims["email"]
+	err := c.Bind(&params)
 	if err != nil {
 		log.Println(err)
-		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error al obtener los pisos"})
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
 	}
-	return c.JSON(http.StatusOK, p)
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	documents, err := a.serv.GetResponsableDocuments(ctx, params.ID, params.UserID)
+	fmt.Println(err)
+	if err == nil {
+		return c.JSON(http.StatusOK, documents)
+	}
+	return err
 }
+
 func (a *API) RegisterPhoto(c echo.Context) error {
 	ctx := c.Request().Context()
 	params := dtos.FotoDTO{}
@@ -571,4 +1060,121 @@ func (a *API) DownloadPhoto(c echo.Context) error {
 
 	// Enviar la foto como respuesta
 	return c.Blob(http.StatusOK, "image/jpeg", fotoBytes)
+
+}
+
+func (a *API) ExportDocument(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.ExportDocuments{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	fmt.Println(params.ID)
+	b, err := a.serv.GetDocumentPDF(ctx, params.ID)
+	if err == nil {
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"document": b,
+		})
+	}
+	return nil
+}
+
+func (a *API) ExportDocumentsByObra(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.ExportDocumentsByObra{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	b, err := a.serv.GetDocumentsPDFByObra(ctx, params.ID)
+	if err == nil {
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"document": b,
+		})
+	}
+	return nil
+}
+
+func (a *API) GetDocumentChecks(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.GetDocumentChecks{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	checks, err := a.serv.GetDocumentChecks(ctx, params.DocumentID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+	return c.JSON(http.StatusOK, checks)
+}
+
+func (a *API) DeleteDocument(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.EliminarDoc{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteDocument(ctx, params.ID)
+	if err != nil {
+		if err == service.ErrObraDoesntExists {
+			return c.JSON(http.StatusConflict, responseMessage{Message: "El Documento no existe"})
+		}
+
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: "Error interno del servidor"})
+	}
+
+	return c.JSON(http.StatusAccepted, nil)
+}
+
+func (a *API) DeleteControlForm(c echo.Context) error {
+	ctx := c.Request().Context()
+	params := dtos.DeleteControlForm{}
+
+	err := c.Bind(&params)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: "Solicitud no válida"})
+	}
+	err = a.dataValidator.Struct(params)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responseMessage{Message: err.Error()})
+	}
+
+	err = a.serv.DeleteControlForm(ctx, params.ControlID, params.FormularioID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responseMessage{Message: err.Error()})
+	}
+	return c.JSON(http.StatusOK, nil)
 }

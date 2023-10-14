@@ -1,6 +1,6 @@
 package entity
 
 type Obra struct {
-	ID     int    `db:"id_obra"`
-	Nombre string `db:"nombre"`
+	ID     int    `db:"ID"`
+	Nombre string `db:"Nombre"`
 }
