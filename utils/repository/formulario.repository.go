@@ -2,13 +2,16 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"proyectoort/utils/entity"
+
+	"github.com/labstack/gommon/log"
 )
 
 const (
 	qryInsertFrom = `
-		INSERT INTO  FORMULARIO (nombre,informacion, version, fecha)
-		VALUES (?, ?, ?, ?);`
+		INSERT INTO  FORMULARIO (nombre, informacion, version)
+		VALUES (?, ?, ?);`
 
 	qryGetFormByDate = `
 		SELECT
@@ -35,10 +38,18 @@ const (
 			id,
 			nombre,
 			informacion,
-			version,
-			fecha
+			version
 		FROM FORMULARIO
 		WHERE id = ?;`
+
+	qryGetFormByNombre = `
+		SELECT
+		id,
+		nombre,
+		informacion,
+		version
+		FROM FORMULARIO
+		WHERE nombre = ?;`
 
 	// qryGetNForm = `
 	// 	SELECT
@@ -54,6 +65,28 @@ const (
 		version
 		FROM FORMULARIO;`
 
+	qryUpdateForm = `
+	update FORMULARIO 
+set nombre = '%v',
+informacion = '%v'
+where id = %v	
+`
+
+	qryGetControlesSinF = `
+		SELECT
+		c.id,
+		c.descripcion,
+		c.tipo
+		FROM CONTROL c
+		inner join CONTROL_FORMULARIO cf on c.id = cf.control_id
+		WHERE cf.formulario_id != ?;`
+
+	qryDeleteFormularioControl = `
+		DELETE FROM CONTROL_FORMULARIO where formulario_id = ?`
+
+	qryDeleteFormulario = `
+		DELETE FROM FORMULARIO where id = ?`
+
 	qryGetFormCategories = `
 		SELECT f.id,f.nombre,f.informacion,f.fecha, c.descripcion as controles
 		FROM FORMULARIO f INNER JOIN CONTROLES c
@@ -64,8 +97,8 @@ const (
 		INSERT INTO FORMULARIO_RESPONSABLE (formulario_id, usuario_id) VALUES (:formulario_id, :usuario_id);`
 )
 
-func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string, version string, fecha string) error {
-	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, nombre, version, fecha)
+func (r *repo) SaveFrom(ctx context.Context, nombre, informacion string) error {
+	_, err := r.db.ExecContext(ctx, qryInsertFrom, informacion, nombre, 1)
 	return err
 }
 
@@ -108,6 +141,16 @@ func (r *repo) GetFormByVersion(ctx context.Context, version string) (*entity.Fo
 	return f, nil
 }
 
+func (r *repo) GetFormByNombre(ctx context.Context, nombre string) (*entity.Formulario, error) {
+	f := &entity.Formulario{}
+	err := r.db.GetContext(ctx, f, qryGetFormByNombre, nombre)
+	if err != nil {
+		return nil, err
+	}
+
+	return f, nil
+}
+
 func (r *repo) GetFromControles(ctx context.Context, controles string) (*entity.Formulario, error) {
 
 	f := &entity.Formulario{}
@@ -118,6 +161,17 @@ func (r *repo) GetFromControles(ctx context.Context, controles string) (*entity.
 
 	return f, nil
 
+}
+
+func (r *repo) GetControlSinF(ctx context.Context, FormID int64) ([]entity.Control, error) {
+	cc := []entity.Control{}
+
+	err := r.db.SelectContext(ctx, &cc, qryGetControlesSinF, FormID)
+	if err != nil {
+		return nil, err
+	}
+
+	return cc, nil
 }
 
 func (r *repo) GetUsuarioForm(ctx context.Context, usuarioID int64) ([]entity.UsuarioForm, error) {
@@ -152,4 +206,31 @@ func (r *repo) SaveUserForm(ctx context.Context, formID, usuarioID int64) error 
 
 	_, err := r.db.NamedExecContext(ctx, qryInsertUserForm, data)
 	return err
+}
+
+func (r *repo) UpdateFormulario(ctx context.Context, FormID int64, nombre, informacion string) error {
+	tx, err := r.db.Beginx()
+	if err != nil {
+		fmt.Println(err)
+		log.Error(err.Error())
+		return err
+	}
+	_, err = tx.ExecContext(ctx, fmt.Sprintf(qryUpdateForm, nombre, informacion, FormID))
+	if err != nil {
+		fmt.Println(err)
+		fmt.Println("qdas")
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
+	return err
+}
+
+func (r *repo) DeleteFormulario(ctx context.Context, FormID int64) error {
+	_, err := r.db.ExecContext(ctx, qryDeleteFormularioControl, FormID)
+	if err != nil {
+		return err
+	}
+	_, err2 := r.db.ExecContext(ctx, qryDeleteFormulario, FormID)
+	return err2
 }

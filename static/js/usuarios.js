@@ -11,7 +11,7 @@ function actualizarCedulaDelUsuario() {
   document.getElementById('txt-nombre-usuario').outerHTML = localStorage.nombre
 }
 async function cargarRoles() {
-  const request = await fetch('http://localhost:8080/usuarios', {
+  const request = await fetch('http://localhost:5000/usuarios', {
     method: 'GET',
     headers: getHeaders()
   });
@@ -22,7 +22,7 @@ async function cargarRoles() {
 }
 
 async function cargarUsuarios() {
-  const request = await fetch("http://localhost:8080/usuarios", {
+  const request = await fetch("http://localhost:5000/usuarios", {
     method: 'GET',
   })
 
@@ -63,7 +63,7 @@ if (!confirm('¿Desea eliminar este usuario?')) {
   return;
 }
 
-const request = await fetch('http://localhost:8080/usuarios' + id, {
+const request = await fetch('http://localhost:5000/usuarios' + id, {
   method: 'DELETE',
   headers: getHeaders()
 });
@@ -75,7 +75,7 @@ async function editarUsuario(id) {
     return;
   }
   
-  const request = await fetch('http://localhost:8080/usuarios' + id, {
+  const request = await fetch('http://localhost:5000/usuarios' + id, {
     method: 'POST',
     headers: getHeaders()
   });
@@ -87,7 +87,7 @@ async function asignaroRol(nombre) {
   if (!confirm('¿Desea asingar este rol al usuario?')) {
      return;
    }
- const request = await fetch('http://localhost:8080/usuarios' + nombre, {
+ const request = await fetch('http://localhost:5000/usuarios' + nombre, {
    method: 'POST',
    headers: getHeaders()
  });

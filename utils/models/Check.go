@@ -3,12 +3,12 @@ package models
 import "time"
 
 type Check struct {
-	ID            int
-	Estado        string
+	ID            int    `json:"id"`
+	Estado        string `json:"estado"`
 	FechaControl  *time.Time
 	Responsable   Usuario
 	Control       Control
 	Document      Document
-	Observaciones string
+	Observaciones string `json:"observaciones"`
 	Version       int
 }

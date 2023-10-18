@@ -24,12 +24,11 @@ $(document).ready(function() {
       });
     }
 
-    const response = await fetch("http://localhost:8080/usuarios/login", {
+    const response = await fetch("http://localhost:5000/usuarios/login", {
          method: 'POST',
          headers: {
           'Content-Type': 'application/json',
          },
-         credentials:"include",
          body: JSON.stringify(datos),
          
        });
@@ -40,11 +39,12 @@ $(document).ready(function() {
           'Se inicio correctamente la sesión',
           'success'
           )
-          window.location.href = 'inicio.html'
+          localStorage.setItem('email', datos.email);
+          window.location.href = 'obras.html'
       }else{
         Swal.fire({
           title: 'Error!',
-          text: 'Error al guardar el formulario',
+          text: 'Credenciales invalidas',
           icon: 'error',
         
         })

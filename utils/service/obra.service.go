@@ -55,39 +55,40 @@ func (s *serv) GetObra(ctx context.Context, obraID int64) (*models.Obra, error) 
 }
 
 func (s *serv) GetPisosObra(ctx context.Context, ObraID int64) ([]models.Piso, error) {
-	po, err := s.repo.GetObraPisos(ctx, ObraID)
+	po, err := s.repo.GetPisosDeObra(ctx, ObraID)
 	if err != nil {
 		return nil, err
 	}
 
-	PisosObra := []models.ObraPiso{}
-
-	for _, p := range po {
-		PisosObra = append(PisosObra, models.ObraPiso{
-			ObraID: p.ObraID,
-			PisoID: p.PisoID,
-		})
-	}
-
 	Pisos := []models.Piso{}
 
-	for _, P := range PisosObra {
-		piso, _ := s.repo.GetPisobyID(ctx, P.PisoID)
+	for _, P := range po {
 		Pisos = append(Pisos, models.Piso{
-			ID:     piso.ID,
-			Numero: piso.Number,
+			ID:     P.ID,
+			Numero: P.Numero,
 		})
 	}
 
 	return Pisos, nil
 }
 
-func (s *serv) DeleteObra(ctx context.Context, name string) error {
+func (s *serv) DeleteObra(ctx context.Context, ObraID int64) error {
 
-	o, _ := s.repo.GetObrabyName(ctx, name)
-	if o != nil {
-		return s.repo.DeleteObra(ctx, name)
+	dd, _ := s.repo.GetDocumentsByObra(ctx, ObraID)
+
+	for _, d := range dd {
+		s.repo.DeleteDocument(ctx, d.ID)
 	}
 
-	return ErrObraDoesNotExists
+	pp, _ := s.repo.GetPisosDeObra(ctx, ObraID)
+
+	for _, p := range pp {
+		s.repo.DeletePiso(ctx, int64(p.ID))
+	}
+
+	return s.repo.DeleteObra(ctx, ObraID)
+}
+
+func (s *serv) UpdateObra(ctx context.Context, obraID int64, nombre string) error {
+	return s.repo.UpdateObra(ctx, obraID, nombre)
 }

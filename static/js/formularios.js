@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 
 async function getFormularios() {
-  const request = await fetch("http://localhost:8080/formularios", {
+  const request = await fetch("http://localhost:5000/formularios", {
     method: 'GET',
   })
 
@@ -23,8 +23,10 @@ async function getFormularios() {
                         <th>${formulario.nombre}</th>
                         <th>${formulario.informacion}</th>
                         <th>${formulario.version}</th>
-                        <th>${formulario.fecha}</th>
-                        <th><button onclick="redirectControles('${encodeURIComponent(JSON.stringify(formulario))}')" class="btn btn-primary btn-user"> Editar Controles </button></th>
+                        <th><a onclick = "redirectResponsable('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Asignar Responsable</a></th>
+                        <th><button onclick="redirectControles('${formulario.id}')" class="btn btn-primary btn-user">Editar Controles</button>
+                        <a onclick = "redirectUpdate('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Actualizar</a>
+                        <a onclick = "eliminarFormulario('${formulario.id}')"  class="btn btn-success btn-icon-split"><span class="icon text-white-50"><i class="fas fa-check"></i></span>Eliminar</a></th>
                     </tr>
                     `
             });
@@ -37,6 +39,31 @@ function redirectAltaFormulario(){
     window.location.href = `altaFormulario.html`;
 }
 
+async function redirectUpdate(id) {
+  window.location.href = `formularioUpdate.html?formulario_id=${id}`;
+}
+
+function redirectResponsable(id) {
+  window.location.href = `asignarFormularioRes.html?formulario_id=${id}`;
+}
+
 function redirectControles(formulario){
-    window.location.href = `controlesFormulario.html?formulario=${formulario}`;
+    window.location.href = `controlesFormulario.html?formulario_id=${formulario}`;
+}
+
+async function eliminarFormulario(id){
+
+  const request = await fetch("http://localhost:5000/formularios/eliminar/"+ id, {
+             method: 'DELETE',
+             headers: {
+                 'Accept': 'application/json',
+                 'Content-Type': 'application/json'
+             },
+         })
+       if (request.ok) {
+           alert("Formulario Eliminado");
+       }else{
+           alert("Error eliminando el formulario");
+       }
+       window.location.href = `formularios.html`;
 }
