@@ -87,7 +87,7 @@ async function asignaroRol(nombre) {
   if (!confirm('¿Desea asingar este rol al usuario?')) {
      return;
    }
- const request = await fetch('http://34.192.187.56:5000/usuarios' + nombre, {
+ const request = await fetch('http://localhost:5000/usuarios' + nombre, {
    method: 'POST',
    headers: getHeaders()
  });

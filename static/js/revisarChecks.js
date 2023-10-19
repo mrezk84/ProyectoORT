@@ -15,7 +15,7 @@ async function getChecks() {
     documentoid = searchParams.get('documento_id');
 
 
-    const request = await fetch("http://34.192.187.56:5000/checks/document/" + documentoid, {
+    const request = await fetch("http://localhost:5000/checks/document/" + documentoid, {
         method: 'GET',
     })
 

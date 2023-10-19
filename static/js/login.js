@@ -24,7 +24,7 @@ $(document).ready(function() {
       });
     }
 
-    const response = await fetch("http://34.192.187.56:5000/usuarios/login", {
+    const response = await fetch("http://localhost:5000/usuarios/login", {
          method: 'POST',
          headers: {
           'Content-Type': 'application/json',

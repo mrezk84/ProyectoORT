@@ -10,7 +10,7 @@ async function getExportBase64(){
     const searchParams = url.searchParams;
     obraid = searchParams.get('obra_id');
 
-    const request = await fetch("http://34.192.187.56:5000/document/export/obra/" + obraid, {
+    const request = await fetch("http://localhost:5000/document/export/obra/" + obraid, {
         method: 'GET',
     })
     console.log(request.status)

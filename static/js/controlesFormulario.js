@@ -12,7 +12,7 @@ async function buildControles() {
     formularioid = searchParams.get('formulario_id');
     datos.id_formulario = Number(formularioid);
 
-    const request = await fetch("http://34.192.187.56:5000/controles/byForm", {
+    const request = await fetch("http://localhost:5000/controles/byForm", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {
