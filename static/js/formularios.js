@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 
 async function getFormularios() {
-  const request = await fetch("http://34.192.187.56:5000/formularios", {
+  const request = await fetch("http://3.83.152.157:5000/formularios", {
     method: 'GET',
   })
 
@@ -53,7 +53,7 @@ function redirectControles(formulario){
 
 async function eliminarFormulario(id){
 
-  const request = await fetch("http://34.192.187.56:5000/formularios/eliminar/"+ id, {
+  const request = await fetch("http://3.83.152.157:5000/formularios/eliminar/"+ id, {
              method: 'DELETE',
              headers: {
                  'Accept': 'application/json',

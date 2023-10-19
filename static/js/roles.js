@@ -44,7 +44,7 @@ function getHeaders() {
  if (!confirm('¿Desea asingar este rol al  usuario?')) {
     return;
   }
-const request = await fetch('api/roles' + id, {
+const request = await fetch('3.83.152.157/roles' + id, {
   method: 'POST',
   headers: getHeaders()
 });

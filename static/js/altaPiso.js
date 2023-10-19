@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 async function getObras() {
 
-    const request = await fetch("http://34.192.187.56:5000/obras", {
+    const request = await fetch("http://3.83.152.157:5000/obras", {
         method: 'GET',
     })
 
@@ -32,7 +32,7 @@ async function registrarPiso() {
       datos.numero = Number(numero);
       id = document.getElementById('obra').value;
       datos.obra_id = Number(id);
-           const request = await fetch("http://localhost:5000/pisos/registrar", {
+           const request = await fetch("http://3.83.152.157:5000/pisos/registrar", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {

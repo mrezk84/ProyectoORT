@@ -10,7 +10,7 @@ $(document).ready(function() {
 async function getObrasByUser() {
 
 
-    const request = await fetch("http://localhost:5000/obras", {
+    const request = await fetch("http://3.83.152.157:5000/obras", {
         method: 'GET',
     })
 
@@ -49,7 +49,7 @@ async function redirectUpdate(id) {
 
 async function eliminarObra(id){
 
-    const request = await fetch("http://34.192.187.56:5000/obras/eliminar/"+ id, {
+    const request = await fetch("http://3.83.152.157:5000/obras/eliminar/"+ id, {
                method: 'DELETE',
                headers: {
                    'Accept': 'application/json',

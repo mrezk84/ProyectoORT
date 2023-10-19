@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 
 async function getFormulariosYpisos() {
-    const request = await fetch("http://34.192.187.56:5000/formularios", {
+    const request = await fetch("http://3.83.152.157:5000/formularios", {
         method: 'GET',
     })
 
@@ -32,7 +32,7 @@ async function getFormulariosYpisos() {
     obraid = searchParams.get('obra_id');
     obra_id = Number(obraid);
 
-    const request2 = await fetch("http://34.192.187.56:5000/pisos/" + obra_id, {
+    const request2 = await fetch("http://3.83.152.157:5000/pisos/" + obra_id, {
         method: 'GET',
     })
 
@@ -65,7 +65,7 @@ async function registrarDocumento() {
     let Piso = document.getElementById('piso').value;
     datos.piso_id = Number(Piso);
     datos.obra_id = Number(obraid);
-           const request = await fetch("http://34.192.187.56:5000/document/addDocument", {
+           const request = await fetch("http://3.83.152.157:5000/document/addDocument", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {

@@ -10,7 +10,7 @@ async function updateControl(){
     datos.tipo = document.getElementById('selectTipo').value;
     
 
-    const request = await fetch("http://34.192.187.56:5000/controles/" + control_id, {
+    const request = await fetch("http://3.83.152.157:5000/controles/" + control_id, {
                method: 'PUT',
                body: JSON.stringify(datos),
                headers: {

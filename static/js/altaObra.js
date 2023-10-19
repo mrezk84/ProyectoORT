@@ -2,7 +2,7 @@
   async function registrarObra() {
    let datos = {};
      datos.nombre = document.getElementById('txtNombre').value;
-          const request = await fetch("http://34.192.187.56:5000/obras/registrar", {
+          const request = await fetch("http://3.83.152.157:5000/obras/registrar", {
               method: 'POST',
               body: JSON.stringify(datos),
               headers: {

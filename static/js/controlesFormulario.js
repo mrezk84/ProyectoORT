@@ -12,7 +12,7 @@ async function buildControles() {
     formularioid = searchParams.get('formulario_id');
     datos.id_formulario = Number(formularioid);
 
-    const request = await fetch("http://34.192.187.56:5000/controles/byForm", {
+    const request = await fetch("http://3.83.152.157:5000/controles/byForm", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {
@@ -52,7 +52,7 @@ async function eliminarControl(id){
     formularioid = searchParams.get('formulario_id');
     datos.formulario_id = Number(formularioid);
 
-    const request = await fetch("http://34.192.187.56:5000/controles/"+ id +"/formulario", {
+    const request = await fetch("http://3.83.152.157:5000/controles/"+ id +"/formulario", {
                method: 'DELETE',
                body: JSON.stringify(datos),
                headers: {

@@ -10,7 +10,7 @@ async function getExportBase64(){
     const searchParams = url.searchParams;
     obraid = searchParams.get('obra_id');
 
-    const request = await fetch("http://34.192.187.56:5000/document/export/obra/" + obraid, {
+    const request = await fetch("http://3.83.152.157:5000/document/export/obra/" + obraid, {
         method: 'GET',
     })
     console.log(request.status)
@@ -34,7 +34,7 @@ async function getDocumentos() {
     const searchParams = url.searchParams;
     obraid = searchParams.get('obra_id');
 
-    const request = await fetch("http://localhost:5000/pisos/" + obraid, {
+    const request = await fetch("http://3.83.152.157:5000/pisos/" + obraid, {
         method: 'GET',
     })
 
@@ -54,7 +54,7 @@ async function getDocumentos() {
     }
 
 
-    const request2 = await fetch("http://localhost:5000/document/" + obraid, {
+    const request2 = await fetch("http://3.83.152.157:5000/document/" + obraid, {
         method: 'GET',
     })
 
@@ -135,7 +135,7 @@ document.getElementById('botonDescargar').addEventListener('click', function() {
 
 async function eliminarDocumento(id){
 
-    const request = await fetch("http://localhost:5000/document/eliminar/"+ id, {
+    const request = await fetch("http://3.83.152.157:5000/document/eliminar/"+ id, {
                method: 'DELETE',
                headers: {
                    'Accept': 'application/json',
