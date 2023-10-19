@@ -18,7 +18,7 @@ async function registrarUsuario() {
     return;
   }
 
-    const request = await fetch("http://3.83.152.157:5000/usuarios/registrar", {
+    const request = await fetch("http://34.192.187.56:5000/usuarios/registrar", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -44,7 +44,7 @@ async function agregarControl(){
     console.log(formularioid)
     console.log(control)
 
-    const request = await fetch("http://3.83.152.157:5000/controles/addForm", {
+    const request = await fetch("http://34.192.187.56/controles/addForm", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {

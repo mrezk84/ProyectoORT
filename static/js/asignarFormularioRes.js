@@ -39,7 +39,7 @@ async function asignarResponsable(){
     console.log(formularioid)
     console.log(usuario)
 
-    const request = await fetch("http://3.83.152.157:5000/formularios/addUser", {
+    const request = await fetch("http://34.192.187.56:5000/formularios/addUser", {
                method: 'POST',
                body: JSON.stringify(datos),
                headers: {

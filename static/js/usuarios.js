@@ -63,7 +63,7 @@ if (!confirm('¿Desea eliminar este usuario?')) {
   return;
 }
 
-const request = await fetch('http://localhost:5000/usuarios' + id, {
+const request = await fetch('http://34.192.187.56:5000/usuarios' + id, {
   method: 'DELETE',
   headers: getHeaders()
 });

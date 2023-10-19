@@ -4,7 +4,7 @@
      datos.descripcion = document.getElementById('txtDescripcion').value;
      datos.tipo = document.getElementById('txtTipo').value;
 
-          const request = await fetch('http://3.83.152.157:5000/controles/registrar', {
+          const request = await fetch('http:/34.192.187.56:5000/controles/registrar', {
               method: 'POST',
               body: JSON.stringify(datos),
               headers: {
