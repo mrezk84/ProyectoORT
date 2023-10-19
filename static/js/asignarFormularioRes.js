@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 
 async function getUsuarios() {
-    const request = await fetch("http://localhost:5000/usuarios", {
+    const request = await fetch("http://34.192.187.56:5000/usuarios", {
         method: 'GET',
     })
 

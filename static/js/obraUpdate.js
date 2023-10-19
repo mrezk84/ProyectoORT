@@ -9,7 +9,7 @@ async function updateObra(){
     datos.nombre = document.getElementById('txtNombre').value;
     
 
-    const request = await fetch("http://localhost:5000/obras/" + obraid, {
+    const request = await fetch("http://34.192.187.56:5000/obras/" + obraid, {
                method: 'PUT',
                body: JSON.stringify(datos),
                headers: {

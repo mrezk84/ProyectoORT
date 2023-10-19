@@ -49,7 +49,7 @@ async function redirectUpdate(id) {
 
 async function eliminarObra(id){
 
-    const request = await fetch("http://localhost:5000/obras/eliminar/"+ id, {
+    const request = await fetch("http://34.192.187.56:5000/obras/eliminar/"+ id, {
                method: 'DELETE',
                headers: {
                    'Accept': 'application/json',

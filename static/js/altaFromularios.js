@@ -11,7 +11,7 @@ $(document).ready(function() {
     datos.informacion = document.getElementById('txtInformacion').value;
 
     // console.log(document.getElementById('image').value)
-    const request = await fetch("http://localhost:5000/formularios/registrar", {
+    const request = await fetch("http://34.192.187.56:5000/formularios/registrar", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

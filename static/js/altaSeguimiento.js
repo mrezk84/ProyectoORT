@@ -14,7 +14,7 @@ async function cargarObra(){
 
   id = searchParams.get('obra_id');
 
-  const request = await fetch("http://localhost:8080/obras/Byid", {
+  const request = await fetch("http://34.192.187.56:5000/obras/Byid", {
         method: 'GET',
         body: JSON.stringify(id),
     })
