@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const baseURL = "http://localhost:5000/fotos/formulario"; 
+    const baseURL = "http://34.192.187.56:5000/fotos/formulario"; 
     const photoTable = document.getElementById("fotosTBody");
 
     // Obtener la lista de fotos desde la API

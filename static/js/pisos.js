@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 
 async function getPisos() {
-    const request = await fetch("http://localhost:5000/pisos", {
+    const request = await fetch("http://34.192.187.56:5000/pisos", {
         method: 'GET',
     })
     let pisos = await request.json()
